@@ -7,7 +7,7 @@ Các ràng buộc:
 - Không được đặt lịch trong quá khứ và phải đặt trước thời điểm hiện tại ít nhất 1 giờ.
 - Một khung giờ chỉ nhận tối đa 3 lượt đặt lịch (không phân biệt Spa, Khám hay Trông hộ).
 - Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ thay đổi theo size thú cưng).
-- Một tài khoản khách hàng chỉ được đặt tối đa 2 lịch dịch vụ/ngày.
+- Một tài khoản khách hàng chỉ được đặt tối đa 3 lịch dịch vụ/ngày.
 ### 2. Huỷ lịch dịch vụ:
 Các ràng buộc:
 - Chỉ khách hàng tạo lịch đặt hoặc Admin mới có quyền huỷ.

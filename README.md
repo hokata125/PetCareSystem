@@ -23,8 +23,8 @@ Các ràng buộc:
 Các ràng buộc:
 - Chỉ Admin mới có quyền đăng tải hồ sơ thú cưng bị bỏ rơi (trạng thái mặc định là ĐANG TÌM CHỦ).
 - Người dùng phải đăng nhập mới được gửi đơn đăng ký nhận nuôi.
-- Ngay khi 1 khách hàng gửi đơn đăng ký thành công, trạng thái thú cưng lập tức chuyển sang ĐÃ ĐẶT GIỮ. Không được đăng ký nhận nuôi nếu thú cưng đang ở trạng thái ĐÃ ĐẶT GIỮ hoặc ĐÃ CÓ CHỦ.
-- Nếu khách hàng đã đăng ký nhưng không đến cửa hàng nhận thú cưng theo hẹn, admin có quyền hủy đặt giữ, trạng thái thú cưng trở về ĐANG TÌM CHỦ để các khách hàng khác tiếp tục đăng ký.
+- Khi 1 khách hàng gửi đơn đăng ký thành công, trạng thái thú cưng sẽ chuyển sang ĐÃ ĐẶT GIỮ. Không được đăng ký nhận nuôi nếu thú cưng đang ở trạng thái ĐÃ ĐẶT GIỮ hoặc ĐÃ CÓ CHỦ.
+- Nếu khách hàng đã đăng ký nhưng không đến cửa hàng nhận thú cưng theo hẹn, Admin có quyền hủy đặt giữ, trạng thái thú cưng trở về ĐANG TÌM CHỦ để các khách hàng khác tiếp tục đăng ký.
 ### 5. Chăm sóc khách hàng thông qua chat trực tiếp
 Các ràng buộc:
 - Cho phép khách hàng nhắn tin trực tiếp với nhân viên ngay trên giao diện website.

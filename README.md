@@ -6,7 +6,7 @@ Các ràng buộc:
 - Chỉ được đặt lịch trong giờ làm việc của trung tâm (8:00 – 20:00), theo các khung giờ cố định có sẵn.
 - Không được đặt lịch trong quá khứ và phải đặt trước thời điểm hiện tại ít nhất 1 giờ.
 - Một khung giờ chỉ nhận tối đa 3 lượt đặt lịch (không phân biệt Spa, Khám hay Trông hộ).
-- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ tự động tính theo 3 mức cân nặng: dưới 10kg, 10-20kg, trên 20kg).
+- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ tự động tính size thú cưng).
 - Một tài khoản khách hàng chỉ được đặt tối đa 2 lịch dịch vụ/ngày.
 ### 2. Huỷ lịch dịch vụ:
 Các ràng buộc:
@@ -21,7 +21,7 @@ Các ràng buộc:
 - Khi đơn đặt hàng được tạo và xác nhận thành công, số lượng tồn kho tự động trừ tương ứng.
 ### 4. Nhận nuôi thú cưng bị bỏ rơi
 Các ràng buộc:
-- Chỉ Admin mới có quyền đăng tải hồ sơ thú cưng bị bỏ rơi (trạng thái mặc định là ĐANG TÌM CHỦ).
+- Chỉ Admin mới có quyền thêm, sửa, xóa hồ sơ thú cưng bị bỏ rơi (trạng thái mặc định là ĐANG TÌM CHỦ).
 - Người dùng phải đăng nhập mới được gửi đơn đăng ký nhận nuôi.
 - Khi 1 khách hàng gửi đơn đăng ký thành công, trạng thái thú cưng sẽ chuyển sang ĐÃ ĐẶT GIỮ. Không được đăng ký nhận nuôi nếu thú cưng đang ở trạng thái ĐÃ ĐẶT GIỮ hoặc ĐÃ CÓ CHỦ.
 - Nếu khách hàng đã đăng ký nhưng không đến cửa hàng nhận thú cưng theo hẹn, Admin có quyền hủy đặt giữ, trạng thái thú cưng trở về ĐANG TÌM CHỦ để các khách hàng khác tiếp tục đăng ký.

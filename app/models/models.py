@@ -129,6 +129,9 @@ class Booking(Base):
     service_id = Column(Integer, ForeignKey("services.id"), nullable=False)
     booking_date = Column(DateTime, nullable=False)
 
+    start_at = Column(DateTime, nullable=False)
+    duration_minutes = Column(Integer, nullable=True)
+    end_at = Column(DateTime, nullable=True)
 
     pet_name = Column(String(100), nullable=False)
     pet_type = Column(String(50), nullable=False)

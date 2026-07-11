@@ -12,7 +12,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.db.base import Base 
 import cloudinary
 import enum
@@ -43,7 +43,7 @@ class OrderStatus(enum.Enum):
 
 
 class PaymentMethod(enum.Enum):
-    CASH = "CASH"
+    COD = "COD"
     TRANSFER = "TRANSFER"
 
 
@@ -59,6 +59,13 @@ class AdoptionStatus(enum.Enum):
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
 
+class TransactionStatus(enum.Enum):
+    PENDING = "PENDING"
+    WAITING_CONFIRM = "WAITING_CONFIRM"
+    SUCCESS = "SUCCESS"
+    CANCELLED = "CANCELLED"
+    EXPIRED = "EXPIRED"
+
 
 class User(Base):
     __tablename__ = "users"
@@ -73,9 +80,10 @@ class User(Base):
     address = Column(String(255), nullable=True)
     avatar = Column(String(255), nullable=True)
     role = Column(Enum(UserRole), default=UserRole.CUSTOMER, nullable=False)
+    is_active = Column(Boolean, default=True)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     bookings = relationship("Booking", foreign_keys="Booking.user_id")
     adoptions = relationship("Adoption", foreign_keys="Adoption.user_id")
@@ -91,12 +99,11 @@ class Product(Base):
     price = Column(Float, nullable=False)
     stock_quantity = Column(Integer, nullable=False)
     image = Column(String(255), nullable=True)
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, default=True)
 
-    order_details = relationship("OrderDetail", foreign_keys="OrderDetail.product_id")
-
+    orders = relationship("Order", foreign_keys="Order.product_id")
 
 class Service(Base):
     __tablename__ = "services"
@@ -107,8 +114,8 @@ class Service(Base):
     price = Column(Float, nullable=False)
     service_type = Column(Enum(ServiceType), nullable=False)
     image = Column(String(255), nullable=True)
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     is_active = Column(Boolean, default=True)
 
     bookings = relationship("Booking", foreign_keys="Booking.service_id")
@@ -125,9 +132,10 @@ class AbandonedPet(Base):
     health_status = Column(Text, nullable=True)
     image = Column(String(255), nullable=True)
     pet_status = Column(Enum(PetStatus), default=PetStatus.AVAILABLE, nullable=False)
+    is_active = Column(Boolean, default=True)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     adoptions = relationship("Adoption", foreign_keys="Adoption.abandoned_pet_id")
 
@@ -146,8 +154,8 @@ class Adoption(Base):
         nullable=False,
     )
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
@@ -170,17 +178,29 @@ class Booking(Base):
     pet_weight = Column(Float, nullable=False)
     note = Column(Text, nullable=True)
 
-    payment_method = Column(
-        Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
-    )
-
     final_price = Column(Float, nullable=False)
     booking_status = Column(Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False)
 
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+class BookingTransaction(Base):
+    __tablename__ = "booking_transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=False)
+
+    amount = Column(Float, nullable=False)
+    status = Column(Enum(TransactionStatus), default=TransactionStatus.PENDING, nullable=False)
+
+    transaction_code = Column(String(100), unique=True, nullable=False)
+
+    created_at = Column(DateTime, default=datetime.now)
+    expires_at = Column(DateTime, nullable=False)
+    paid_at = Column(DateTime, nullable=True)
 
 
 class Order(Base):
@@ -188,27 +208,37 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+
+    quantity = Column(Integer, nullable=False)
+    unit_price = Column(Float, nullable=False)
     total_price = Column(Float, nullable=False)
+
     order_status = Column(
         Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False
     )
     payment_method = Column(
-        Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
+        Enum(PaymentMethod), default=PaymentMethod.COD, nullable=False
     )
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
 
-    order_details = relationship(
-        "OrderDetail", cascade="all, delete-orphan", foreign_keys="OrderDetail.order_id"
-    )
-
-class OrderDetail(Base):
-    __tablename__ = "order_details"
+class OrderTransaction(Base):
+    __tablename__ = "order_transactions"
 
     id = Column(Integer, primary_key=True, index=True)
     order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
-    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
-    quantity = Column(Integer, nullable=False)
+
+    amount = Column(Float, nullable=False)
+    status = Column(Enum(TransactionStatus), default=TransactionStatus.PENDING, nullable=False)
+
+    transaction_code = Column(String(100), unique=True, nullable=False)
+
+    created_at = Column(DateTime, default=datetime.now)
+    expires_at = Column(DateTime, nullable=False)
+    paid_at = Column(DateTime, nullable=True)
 

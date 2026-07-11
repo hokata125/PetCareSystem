@@ -1,12 +1,13 @@
 # ĐỀ TÀI: HỆ THỐNG QUẢN LÝ & CHĂM SÓC THÚ CƯNG
 ## Các nghiệp vụ chính:
-### 1. Đặt lịch dịch vụ (Spa, Khám chữa bệnh, Trông hộ thú cưng):
+### 1. Đặt lịch dịch vụ (Spa, Khám bệnh, Trông hộ thú cưng):
 Các ràng buộc:
 - Người dùng phải đăng nhập mới được đặt lịch.
 - Chỉ được đặt lịch trong giờ làm việc của trung tâm (8:00 – 20:00)
 - Không được đặt lịch trong quá khứ và phải đặt cách thời điểm hiện tại ít nhất 1 giờ.
-- Một khung giờ chỉ nhận tối đa 3 lượt đặt lịch (đối với loại dịch vụ Spa và Khám bệnh).
-- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ thay đổi theo size/cân nặng thú cưng).
+- Với Spa và Khám bệnh, mỗi khoảng thời gian trùng nhau chỉ nhận tối đa 3 lịch cho từng loại dịch vụ.
+- Đối với Trông hộ thú cưng, trung tâm nhận tối đa 20 pet/ngày, không giới hạn theo khung giờ cụ thể. Khách hàng chọn giờ gửi và số giờ gửi để hệ thống tính tiền.
+- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá sẽ thay đổi tùy theo size/cân nặng thú cưng).
 - Một tài khoản khách hàng chỉ được đặt tối đa 3 lịch dịch vụ/ngày.
 ### 2. Huỷ lịch dịch vụ:
 Các ràng buộc:
@@ -27,6 +28,7 @@ Các ràng buộc:
 - Nếu khách hàng đã đăng ký nhưng không đến cửa hàng nhận thú cưng theo hẹn, Admin có quyền hủy đặt giữ, trạng thái thú cưng trở về ĐANG TÌM CHỦ để các khách hàng khác tiếp tục đăng ký.
 ### 5. Chăm sóc khách hàng thông qua chat trực tiếp
 Các ràng buộc:
+- Hệ thống tích hợp widget chat bên thứ ba (Tawk.to).
 - Cho phép khách hàng nhắn tin trực tiếp với nhân viên ngay trên giao diện website.
-- Bất kỳ người dùng nào truy cập website (kể cả chưa đăng nhập) đều có thể sử dụng khung chat để được tư vấn.
-- Chỉ Admin & Staff được cấp tài khoản quản trị mới có quyền truy cập hệ thống quản lý để trả lời tin nhắn của khách hàng.
+- Bất kỳ người dùng nào truy cập website đều có thể nhắn tin tư vấn.
+- Admin/Staff trả lời tin nhắn thông qua dashboard của nền tảng chat.

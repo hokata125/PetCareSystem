@@ -3,10 +3,10 @@
 ### 1. Đặt lịch dịch vụ (Spa, Khám chữa bệnh, Trông hộ thú cưng):
 Các ràng buộc:
 - Người dùng phải đăng nhập mới được đặt lịch.
-- Chỉ được đặt lịch trong giờ làm việc của trung tâm (8:00 – 20:00), theo các khung giờ cố định có sẵn.
-- Không được đặt lịch trong quá khứ và phải đặt cách thời điểm hiện tại ít nhất 2 giờ.
-- Một khung giờ chỉ nhận tối đa 3 lượt đặt lịch (không phân biệt Spa, Khám hay Trông hộ).
-- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ thay đổi theo size thú cưng).
+- Chỉ được đặt lịch trong giờ làm việc của trung tâm (8:00 – 20:00)
+- Không được đặt lịch trong quá khứ và phải đặt cách thời điểm hiện tại ít nhất 1 giờ.
+- Một khung giờ chỉ nhận tối đa 3 lượt đặt lịch (đối với loại dịch vụ Spa và Khám bệnh).
+- Người dùng bắt buộc phải nhập tên và cân nặng thú cưng (giá dịch vụ sẽ thay đổi theo size/cân nặng thú cưng).
 - Một tài khoản khách hàng chỉ được đặt tối đa 3 lịch dịch vụ/ngày.
 ### 2. Huỷ lịch dịch vụ:
 Các ràng buộc:

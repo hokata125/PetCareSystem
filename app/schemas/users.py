@@ -3,12 +3,13 @@ from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
-from app.models.models import UserRole
+from app.models.models import Gender, UserRole
 
 
 class UserBase(BaseModel):
     username: str
     full_name: str
+    gender: Gender
     email: EmailStr = Field(max_length=255)
     dob: date
     phone_number: str
@@ -108,6 +109,7 @@ class UserLogin(BaseModel):
 
 class UserUpdate(BaseModel):
     full_name: str | None = None
+    gender: Gender | None = None
     email: EmailStr | None = Field(default=None, max_length=255)
     dob: date | None = None
     phone_number: str | None = None

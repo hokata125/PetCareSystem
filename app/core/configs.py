@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     SEPAY_QR_BASE: str
     SEPAY_API_KEY: str
 
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+
     class Config:
         env_file = ".env"
 

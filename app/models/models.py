@@ -9,7 +9,6 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
-    func,
 )
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
@@ -22,6 +21,9 @@ class UserRole(enum.Enum):
     STAFF = "STAFF"
     CUSTOMER = "CUSTOMER"
 
+class Gender(enum.Enum):
+    MALE = "MALE"
+    FEMALE = "FEMALE"
 
 class ServiceType(enum.Enum):
     SPA = "SPA"
@@ -74,6 +76,7 @@ class User(Base):
     username = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=False)
+    gender = Column(Enum(Gender), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     dob = Column(Date, nullable=False)
     phone_number = Column(String(10), nullable=False)

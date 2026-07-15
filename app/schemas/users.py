@@ -14,7 +14,7 @@ class UserBase(BaseModel):
     dob: date
     phone_number: str
     address: str | None = Field(default=None, max_length=255)
-    avatar: str | None = Field(default=None, max_length=255)
+    avatar: str = Field(default="https://res.cloudinary.com/vgvqzopy/image/upload/v1784111514/avatar-default_bylut2.jpg", max_length=255)
 
     @field_validator("username")
     @classmethod

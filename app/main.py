@@ -2,7 +2,7 @@ import cloudinary
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from app.core.configs import settings
-from app.api.endpoints import abandoned_pets, services, products
+from app.api.endpoints import abandoned_pets, auth, products, services, users
 
 app = FastAPI(
     title="Pet Care System",
@@ -19,6 +19,8 @@ cloudinary.config(
 app.include_router(services.router, prefix="/services", tags=["Services"])
 app.include_router(products.router, prefix="/products", tags=["Products"])
 app.include_router(abandoned_pets.router, prefix="/rescue-pets", tags=["Rescue Pets"])
+app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+app.include_router(users.router, prefix="/users", tags=["Users"])
 
 @app.get("/")
 def read_root():

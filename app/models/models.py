@@ -11,9 +11,8 @@ from sqlalchemy import (
     Text,
 )
 from sqlalchemy.orm import relationship
-from datetime import datetime, timedelta
-from app.db.base import Base 
-import cloudinary
+from datetime import datetime
+from app.db.base import Base
 import enum
 
 class UserRole(enum.Enum):
@@ -79,7 +78,7 @@ class User(Base):
     gender = Column(Enum(Gender), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     dob = Column(Date, nullable=False)
-    phone_number = Column(String(10), nullable=False)
+    phone_number = Column(String(10), unique=True, nullable=False)
     address = Column(String(255), default=None, nullable=True)
     avatar = Column(String(255), default="https://res.cloudinary.com/vgvqzopy/image/upload/v1784111514/avatar-default_bylut2.jpg", nullable=False)
     role = Column(Enum(UserRole), default=UserRole.CUSTOMER, nullable=False)

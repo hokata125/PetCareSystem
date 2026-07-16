@@ -18,8 +18,7 @@ def get_current_user(
 ) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Token không hợp lệ hoặc đã hết hạn!",
-        headers={"WWW-Authenticate": "Bearer"},
+        detail="Không thể xác thực người dùng!",
     )
 
     if auth_credentials is None or auth_credentials.scheme.lower() != "bearer":

@@ -21,13 +21,13 @@ class UserBase(BaseModel):
     def validate_username(cls, username: str) -> str:
         clean_username = username.strip()
         if not clean_username:
-            raise ValueError("Username không được để trống!")
+            raise ValueError("Tên tài khoản không được để trống!")
         if len(clean_username) < 5:
-            raise ValueError("Username phải có ít nhất 5 ký tự!")
+            raise ValueError("Tên tài khoản phải có ít nhất 5 ký tự!")
         if len(clean_username) > 255:
-            raise ValueError("Username không được vượt quá 255 ký tự!")
+            raise ValueError("Tên tài khoản không được vượt quá 255 ký tự!")
         if not re.fullmatch(r"^[a-zA-Z0-9]+$", clean_username):
-            raise ValueError("Username không được chứa ký tự đặc biệt!")
+            raise ValueError("Tên tài khoản không được chứa ký tự đặc biệt!")
         return clean_username
 
     @field_validator("full_name")
@@ -49,7 +49,7 @@ class UserBase(BaseModel):
     def validate_phone_number(cls, phone_number: str) -> str:
         clean_phone_number = phone_number.strip()
         if not re.fullmatch(r"0[0-9]{9}", clean_phone_number):
-            raise ValueError("Số điện thoại phải chứa đúng 10 ký tự số!")
+            raise ValueError("Số điện thoại phải bắt đầu bằng 0 và chứa đúng 10 chữ số!")
         return clean_phone_number
     
     @field_validator("dob")
@@ -72,7 +72,7 @@ class UserCreate(UserBase):
         if len(password) > 255:
             raise ValueError("Mật khẩu không được vượt quá 255 ký tự!")
         if not (re.search(r"[0-9]", password) and re.search(r"[a-zA-Z]", password)):
-            raise ValueError("Password phải chứa cả ký tự chữ và ký tự số!")
+            raise ValueError("Mật khẩu phải chứa cả ký tự chữ và ký tự số!")
         return password
 
 
@@ -84,13 +84,13 @@ class UserLogin(BaseModel):
     def validate_username(cls, username: str) -> str:
         clean_username = username.strip()
         if not clean_username:
-            raise ValueError("Username không được để trống!")
+            raise ValueError("Tên tài khoản không được để trống!")
         if len(clean_username) < 5:
-            raise ValueError("Username phải có ít nhất 5 ký tự!")
+            raise ValueError("Tên tài khoản phải có ít nhất 5 ký tự!")
         if len(clean_username) > 255:
-            raise ValueError("Username không được vượt quá 255 ký tự!")
+            raise ValueError("Tên tài khoản không được vượt quá 255 ký tự!")
         if not re.fullmatch(r"^[a-zA-Z0-9]+$", clean_username):
-            raise ValueError("Username không được chứa ký tự đặc biệt!")
+            raise ValueError("Tên tài khoản không được chứa ký tự đặc biệt!")
         return clean_username
     
     @field_validator("password")
@@ -103,7 +103,7 @@ class UserLogin(BaseModel):
         if len(password) > 255:
             raise ValueError("Mật khẩu không được vượt quá 255 ký tự!")
         if not (re.search(r"[0-9]", password) and re.search(r"[a-zA-Z]", password)):
-            raise ValueError("Password phải chứa cả ký tự chữ và ký tự số!")
+            raise ValueError("Mật khẩu phải chứa cả ký tự chữ và ký tự số!")
         return password
 
 
@@ -115,6 +115,7 @@ class UserUpdate(BaseModel):
     phone_number: str | None = None
     address: str | None = Field(default=None, max_length=255)
     avatar: str | None = Field(default=None, max_length=255)
+    password: str | None = None
 
     @field_validator("full_name")
     @classmethod
@@ -150,6 +151,21 @@ class UserUpdate(BaseModel):
         if dob > date.today() or dob < date(1900, 1, 1):
             raise ValueError("Ngày sinh không hợp lệ!")
         return dob
+    
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, password: str | None) -> str | None:
+        if password is None:
+            return None
+        if not password.strip():
+            raise ValueError("Mật khẩu không được để trống!")
+        if len(password) < 8:
+            raise ValueError("Mật khẩu phải có ít nhất 8 ký tự!")
+        if len(password) > 255:
+            raise ValueError("Mật khẩu không được vượt quá 255 ký tự!")
+        if not (re.search(r"[0-9]", password) and re.search(r"[a-zA-Z]", password)):
+            raise ValueError("Mật khẩu phải chứa cả ký tự chữ và ký tự số!")
+        return password
 
 
 class UserResponse(UserBase):

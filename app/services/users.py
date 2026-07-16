@@ -1,4 +1,3 @@
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password
@@ -10,21 +9,27 @@ def get_user_by_id(
     db: Session,
     user_id: int,
 ) -> User | None:
-    return db.get(User, user_id)
+    return db.query(User).filter(User.id == user_id).first()
 
 
 def get_user_by_username(
     db: Session,
     input_username: str,
 ) -> User | None:
-    return db.scalar(select(User).where(User.username == input_username))
+    return db.query(User).filter(User.username == input_username).first()
 
 
 def get_user_by_email(
     db: Session,
     input_email: str,
 ) -> User | None:
-    return db.scalar(select(User).where(User.email == input_email))
+    return db.query(User).filter(User.email == input_email).first()
+
+def get_user_by_phone_number(
+    db: Session,
+    input_phone_number: str,
+) -> User | None:
+    return db.query(User).filter(User.phone_number == input_phone_number).first()
 
 
 def create_user(
@@ -33,10 +38,13 @@ def create_user(
 ) -> User:
     
     if get_user_by_username(db, user_input_data.username):
-        raise ValueError("Username đã tồn tại!")
+        raise ValueError("Tên tài khoản đã tồn tại!")
 
     if get_user_by_email(db, user_input_data.email):
         raise ValueError("Email đã tồn tại!")
+
+    if get_user_by_phone_number(db, user_input_data.phone_number):
+        raise ValueError("Số điện thoại đã tồn tại!")
 
     user = User(
         username=user_input_data.username,
@@ -69,9 +77,6 @@ def auth_user(
 
     if user is None:
         return None
-    
-    if not user.is_active:
-        return None
 
     if not verify_password(input_password, user.password):
         return None
@@ -90,10 +95,19 @@ def update_user(
     )
 
     new_email = update_data.get("email")
+    new_phone_number = update_data.get("phone_number")
+    new_password = update_data.pop("password", None)
 
     if new_email is not None and new_email != user.email:
         if get_user_by_email(db, new_email):
             raise ValueError("Email đã tồn tại!")
+
+    if new_phone_number is not None and new_phone_number != user.phone_number:
+        if get_user_by_phone_number(db, new_phone_number):
+            raise ValueError("Số điện thoại đã tồn tại!")
+        
+    if new_password is not None:
+        user.password = hash_password(new_password)
 
     for field, value in update_data.items():
         setattr(user, field, value)

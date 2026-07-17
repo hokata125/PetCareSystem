@@ -19,9 +19,7 @@ cloudinary.config(
     api_secret=settings.CLOUDINARY_API_SECRET
 )
 
-app.include_router(services.router, prefix="/services", tags=["Services"])
-app.include_router(products.router, prefix="/products", tags=["Products"])
-app.include_router(abandoned_pets.router, prefix="/rescue-pets", tags=["Rescue Pets"])
+
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
 

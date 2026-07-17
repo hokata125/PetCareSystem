@@ -1,6 +1,7 @@
 import cloudinary
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from app.admin.setup import setup_admin
 from app.core.configs import settings
 from app.api.endpoints import abandoned_pets, auth, products, services, users
 
@@ -9,6 +10,8 @@ app = FastAPI(
     description="Hệ thống chăm sóc thú cưng",
     version="1.0.0",
 )
+
+setup_admin(app)
 
 cloudinary.config(
     cloud_name=settings.CLOUDINARY_CLOUD_NAME,

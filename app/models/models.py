@@ -17,55 +17,78 @@ import enum
 
 class UserRole(enum.Enum):
     ADMIN = "ADMIN"
-    STAFF = "STAFF"
-    CUSTOMER = "CUSTOMER"
+    STAFF = "NHÂN VIÊN"
+    CUSTOMER = "KHÁCH HÀNG"
+
+    def __str__(self):
+        return self.value
 
 class Gender(enum.Enum):
-    MALE = "MALE"
-    FEMALE = "FEMALE"
+    MALE = "NAM"
+    FEMALE = "NỮ"
+
+    def __str__(self):
+        return self.value
 
 class ServiceType(enum.Enum):
     SPA = "SPA"
-    CLINIC = "CLINIC"
-    BOARDING = "BOARDING"
+    CLINIC = "KHÁM BỆNH"
+    BOARDING = "TRÔNG HỘ"
 
+    def __str__(self):
+        return self.value
 
 class BookingStatus(enum.Enum):
-    PENDING = "PENDING"
-    CONFIRMED = "CONFIRMED"
-    COMPLETED = "COMPLETED"
-    CANCELLED = "CANCELLED"
+    PENDING = "ĐANG CHỜ XÁC NHẬN"
+    CONFIRMED = "ĐÃ XÁC NHẬN"
+    COMPLETED = "ĐÃ HOÀN THÀNH"
+    CANCELLED = "ĐÃ HỦY"
 
+    def __str__(self):
+        return self.value
 
 class OrderStatus(enum.Enum):
-    PENDING = "PENDING"
-    COMPLETED = "COMPLETED"
-    CANCELLED = "CANCELLED"
+    PENDING = "ĐANG CHỜ XÁC NHẬN"
+    CONFIRMED = "ĐÃ XÁC NHẬN"
+    COMPLETED = "ĐÃ HOÀN THÀNH"
+    CANCELLED = "ĐÃ HỦY"
 
+    def __str__(self):
+        return self.value
 
 class PaymentMethod(enum.Enum):
     COD = "COD"
-    TRANSFER = "TRANSFER"
+    TRANSFER = "CHUYỂN KHOẢN"
 
+    def __str__(self):
+        return self.value
 
 class PetStatus(enum.Enum):
-    AVAILABLE = "AVAILABLE"
-    RESERVED = "RESERVED"
-    ADOPTED = "ADOPTED"
+    AVAILABLE = "ĐANG TÌM CHỦ"
+    RESERVED = "ĐÃ ĐƯỢC ĐẶT TRƯỚC"
+    ADOPTED = "ĐÃ CÓ CHỦ"
 
+    def __str__(self):
+        return self.value
 
 class AdoptionStatus(enum.Enum):
-    PENDING = "PENDING"
-    CANCELLED = "CANCELLED"
-    APPROVED = "APPROVED"
-    REJECTED = "REJECTED"
+    PENDING = "ĐANG CHỜ DUYỆT"
+    CANCELLED = "ĐÃ HỦY"
+    APPROVED = "ĐÃ DUYỆT"
+    REJECTED = "BỊ TỪ CHỐI"
+
+    def __str__(self):
+        return self.value
 
 class TransactionStatus(enum.Enum):
-    PENDING = "PENDING"
-    WAITING_CONFIRM = "WAITING_CONFIRM"
-    SUCCESS = "SUCCESS"
-    CANCELLED = "CANCELLED"
-    EXPIRED = "EXPIRED"
+    PENDING = "ĐANG CHỜ"
+    WAITING_CONFIRM = "ĐANG CHỜ XÁC NHẬN"
+    SUCCESS = "THÀNH CÔNG"
+    CANCELLED = "ĐÃ HỦY"
+    EXPIRED = "ĐÃ HẾT HẠN"
+
+    def __str__(self):
+        return self.value
 
 
 class User(Base):
@@ -91,6 +114,9 @@ class User(Base):
     adoptions = relationship("Adoption", foreign_keys="Adoption.user_id")
     orders = relationship("Order", foreign_keys="Order.user_id")
 
+    def __str__(self):
+        return f"#{self.id} - {self.full_name}"
+
 
 class Product(Base):
     __tablename__ = "products"
@@ -107,6 +133,9 @@ class Product(Base):
 
     orders = relationship("Order", foreign_keys="Order.product_id")
 
+    def __str__(self):
+        return f"#{self.id} - {self.name}"
+
 class Service(Base):
     __tablename__ = "services"
 
@@ -121,6 +150,9 @@ class Service(Base):
     is_active = Column(Boolean, default=True)
 
     bookings = relationship("Booking", foreign_keys="Booking.service_id")
+
+    def __str__(self):
+        return f"#{self.id} - {self.name}"
 
 
 class AbandonedPet(Base):
@@ -141,6 +173,9 @@ class AbandonedPet(Base):
 
     adoptions = relationship("Adoption", foreign_keys="Adoption.abandoned_pet_id")
 
+    def __str__(self):
+        return f"#{self.id} - {self.name}"
+
 
 class Adoption(Base):
     __tablename__ = "adoptions"
@@ -150,7 +185,7 @@ class Adoption(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     abandoned_pet_id = Column(Integer, ForeignKey("abandoned_pets.id"), nullable=False)
 
-    status = Column(
+    adoption_status = Column(
         Enum(AdoptionStatus),
         default=AdoptionStatus.PENDING,
         nullable=False,
@@ -161,6 +196,9 @@ class Adoption(Base):
 
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+    def __str__(self):
+        return f"#{self.id} - User: {self.user_id} - Pet: {self.abandoned_pet_id}"
 
 
 
@@ -188,6 +226,9 @@ class Booking(Base):
 
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+    def __str__(self):
+        return f"#{self.id} - User: {self.user_id} - Service: {self.service_id}"
 
 class BookingTransaction(Base):
     __tablename__ = "booking_transactions"
@@ -228,6 +269,9 @@ class Order(Base):
 
     cancelled_at = Column(DateTime, nullable=True)
     cancelled_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+    def __str__(self):
+        return f"#{self.id} - User: {self.user_id} - Product: {self.product_id}"
 
 class OrderTransaction(Base):
     __tablename__ = "order_transactions"

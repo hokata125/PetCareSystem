@@ -122,7 +122,7 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
     column_list = [
         AbandonedPet.id,
         AbandonedPet.name,
-        AbandonedPet.type,
+        AbandonedPet.pet_type,
         AbandonedPet.age,
         AbandonedPet.weight,
         AbandonedPet.pet_status,
@@ -130,12 +130,12 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
     ]
     column_searchable_list = [
         AbandonedPet.name,
-        AbandonedPet.type,
+        AbandonedPet.pet_type,
     ]
     column_sortable_list = [
         AbandonedPet.id,
         AbandonedPet.name,
-        AbandonedPet.type,
+        AbandonedPet.pet_type,
         AbandonedPet.age,
         AbandonedPet.weight,
         AbandonedPet.pet_status,
@@ -145,7 +145,7 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
     ]
     form_columns = [
         AbandonedPet.name,
-        AbandonedPet.type,
+        AbandonedPet.pet_type,
         AbandonedPet.age,
         AbandonedPet.weight,
         AbandonedPet.health_status,

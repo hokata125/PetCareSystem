@@ -16,20 +16,20 @@ def get_user_by_username(
     db: Session,
     input_username: str,
 ) -> User | None:
-    return db.query(User).filter(User.username == input_username).first()
+    return db.query(User).filter(User.username == input_username.strip()).first()
 
 
 def get_user_by_email(
     db: Session,
     input_email: str,
 ) -> User | None:
-    return db.query(User).filter(User.email == input_email).first()
+    return db.query(User).filter(User.email == input_email.strip()).first()
 
 def get_user_by_phone_number(
     db: Session,
     input_phone_number: str,
 ) -> User | None:
-    return db.query(User).filter(User.phone_number == input_phone_number).first()
+    return db.query(User).filter(User.phone_number == input_phone_number.strip()).first()
 
 
 def create_user(

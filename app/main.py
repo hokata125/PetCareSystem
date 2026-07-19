@@ -16,13 +16,24 @@ setup_admin(app)
 cloudinary.config(
     cloud_name=settings.CLOUDINARY_CLOUD_NAME,
     api_key=settings.CLOUDINARY_API_KEY,
-    api_secret=settings.CLOUDINARY_API_SECRET
+    api_secret=settings.CLOUDINARY_API_SECRET,
 )
 
 
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
+app.include_router(products.router, prefix="/products", tags=["Products"])
+app.include_router(services.router, prefix="/services", tags=["Services"])
+app.include_router(
+    abandoned_pets.router,
+    prefix="/abandoned-pets",
+    tags=["Abandoned Pets"],
+)
+
 
 @app.get("/")
 def read_root():
-    return {"status": "ok", "message": "Welcome to the Pet Care System! Chào mừng đến với hệ thống chăm sóc thú cưng!"}
+    return {
+        "status": "ok",
+        "message": "Welcome to the Pet Care System! Chào mừng đến với hệ thống chăm sóc thú cưng!",
+    }

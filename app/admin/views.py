@@ -127,6 +127,7 @@ class ServiceView(ModelView, model=Service):
         Service.id,
         Service.name,
         Service.service_type,
+        Service.description,
         Service.price,
         Service.is_active,
     ]

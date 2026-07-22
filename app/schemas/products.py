@@ -7,7 +7,7 @@ class ProductBase(BaseModel):
     name: str = Field(max_length=255)
     description: str | None = None
     price: float = Field(gt=0)
-    stock_quantity: int = Field(ge=0)
+    stock_quantity: int = Field(ge=0, le=10000)
     image: str | None = Field(default=None, max_length=255)
 
     @field_validator("name")

@@ -9,7 +9,7 @@ class AbandonedPetBase(BaseModel):
     name: str = Field(max_length=255)
     pet_type: str = Field(max_length=100)
     age: int = Field(gt=0)
-    weight: float = Field(gt=0)
+    weight: float = Field(ge=1, le=100)
     health_status: str
     image: str | None = Field(default=None, max_length=255)
     pet_status: PetStatus
@@ -29,7 +29,7 @@ class AbandonedPetBase(BaseModel):
         if not clean_pet_type:
             raise ValueError("Loại thú cưng không được để trống!")
         return clean_pet_type
-    
+
     @field_validator("health_status")
     @classmethod
     def validate_health_status(cls, health_status: str) -> str:

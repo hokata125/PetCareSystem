@@ -25,18 +25,21 @@ def get_user_by_email(
 ) -> User | None:
     return db.query(User).filter(User.email == input_email.strip()).first()
 
+
 def get_user_by_phone_number(
     db: Session,
     input_phone_number: str,
 ) -> User | None:
-    return db.query(User).filter(User.phone_number == input_phone_number.strip()).first()
+    return (
+        db.query(User).filter(User.phone_number == input_phone_number.strip()).first()
+    )
 
 
 def create_user(
     db: Session,
     user_input_data: UserCreate,
 ) -> User:
-    
+
     if get_user_by_username(db, user_input_data.username):
         raise ValueError("Tên tài khoản đã tồn tại!")
 
@@ -55,7 +58,6 @@ def create_user(
         dob=user_input_data.dob,
         phone_number=user_input_data.phone_number,
         address=user_input_data.address,
-        avatar=user_input_data.avatar,
     )
 
     try:
@@ -105,7 +107,7 @@ def update_user(
     if new_phone_number is not None and new_phone_number != user.phone_number:
         if get_user_by_phone_number(db, new_phone_number):
             raise ValueError("Số điện thoại đã tồn tại!")
-        
+
     if new_password is not None:
         user.password = hash_password(new_password)
 

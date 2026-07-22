@@ -14,7 +14,6 @@ class UserBase(BaseModel):
     dob: date
     phone_number: str
     address: str | None = Field(default=None, max_length=255)
-    avatar: str = Field(default="https://res.cloudinary.com/vgvqzopy/image/upload/v1784111514/avatar-default_bylut2.jpg", max_length=255)
 
     @field_validator("username")
     @classmethod
@@ -49,9 +48,11 @@ class UserBase(BaseModel):
     def validate_phone_number(cls, phone_number: str) -> str:
         clean_phone_number = phone_number.strip()
         if not re.fullmatch(r"0[0-9]{9}", clean_phone_number):
-            raise ValueError("Số điện thoại phải bắt đầu bằng 0 và chứa đúng 10 chữ số!")
+            raise ValueError(
+                "Số điện thoại phải bắt đầu bằng 0 và chứa đúng 10 chữ số!"
+            )
         return clean_phone_number
-    
+
     @field_validator("dob")
     @classmethod
     def validate_dob(cls, dob: date) -> date:
@@ -62,6 +63,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+
     @field_validator("password")
     @classmethod
     def validate_password(cls, password: str) -> str:
@@ -79,6 +81,7 @@ class UserCreate(UserBase):
 class UserLogin(BaseModel):
     username: str
     password: str
+
     @field_validator("username")
     @classmethod
     def validate_username(cls, username: str) -> str:
@@ -92,7 +95,7 @@ class UserLogin(BaseModel):
         if not re.fullmatch(r"^[a-zA-Z0-9]+$", clean_username):
             raise ValueError("Tên tài khoản không được chứa ký tự đặc biệt!")
         return clean_username
-    
+
     @field_validator("password")
     @classmethod
     def validate_password(cls, password: str) -> str:
@@ -114,7 +117,6 @@ class UserUpdate(BaseModel):
     dob: date | None = None
     phone_number: str | None = None
     address: str | None = Field(default=None, max_length=255)
-    avatar: str | None = Field(default=None, max_length=255)
     password: str | None = None
 
     @field_validator("full_name")
@@ -151,7 +153,7 @@ class UserUpdate(BaseModel):
         if dob > date.today() or dob < date(1900, 1, 1):
             raise ValueError("Ngày sinh không hợp lệ!")
         return dob
-    
+
     @field_validator("password")
     @classmethod
     def validate_password(cls, password: str | None) -> str | None:
@@ -171,6 +173,7 @@ class UserUpdate(BaseModel):
 class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
+    avatar: str
     role: UserRole
     is_active: bool
     created_at: datetime

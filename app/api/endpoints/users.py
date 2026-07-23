@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.api.depends import get_current_user
 from app.db.session import get_db
 from app.models.models import User
 from app.schemas.users import UserResponse, UserUpdate
-from app.services.users import update_user
-
+from app.services.users import update_user, update_user_avatar
 
 router = APIRouter()
 
@@ -33,5 +32,24 @@ def update_my_profile(
     except ValueError as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
+            detail=str(error),
+        )
+
+
+@router.patch("/profile/avatar", response_model=UserResponse)
+def update_my_avatar(
+    avatar_file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        return update_user_avatar(
+            db,
+            current_user,
+            avatar_file,
+        )
+    except ValueError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(error),
         )

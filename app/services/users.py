@@ -1,8 +1,10 @@
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password
 from app.models.models import User
 from app.schemas.users import UserCreate, UserUpdate
+from app.services.uploads import upload_image
 
 
 def get_user_by_id(
@@ -113,6 +115,28 @@ def update_user(
 
     for field, value in update_data.items():
         setattr(user, field, value)
+
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+
+    return user
+
+
+def update_user_avatar(
+    db: Session,
+    user: User,
+    avatar_file: UploadFile,
+) -> User:
+    avatar_url = upload_image(
+        image_file=avatar_file,
+        dir_name="users",
+        public_id=f"user_{user.id}_avatar",
+    )
+
+    user.avatar = avatar_url
 
     try:
         db.commit()

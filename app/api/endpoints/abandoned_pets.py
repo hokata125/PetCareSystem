@@ -1,6 +1,6 @@
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -19,14 +19,18 @@ def get_abandoned_pets(
     pet_type: str | None = None,
     sort_by: Literal["age", "weight"] | None = None,
     sort_order: Literal["asc", "desc"] = "asc",
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=10, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
     return get_all_abandoned_pets(
-        db,
-        search_name,
-        pet_type,
-        sort_by,
-        sort_order,
+        db=db,
+        search_name=search_name,
+        pet_type=pet_type,
+        sort_by=sort_by,
+        sort_order=sort_order,
+        skip=skip,
+        limit=limit,
     )
 
 

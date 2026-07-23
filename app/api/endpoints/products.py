@@ -1,6 +1,6 @@
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -14,12 +14,16 @@ router = APIRouter()
 def get_products(
     search_name: str | None = None,
     price_sort: Literal["asc", "desc"] | None = None,
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=10, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
     return get_all_products(
-        db,
-        search_name,
-        price_sort,
+        db=db,
+        search_name=search_name,
+        price_sort=price_sort,
+        skip=skip,
+        limit=limit,
     )
 
 

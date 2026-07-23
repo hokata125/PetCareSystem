@@ -9,6 +9,8 @@ def get_all_services(
     db: Session,
     search_name: str | None = None,
     price_sort: Literal["asc", "desc"] | None = None,
+    skip: int = 0,
+    limit: int = 10,
 ) -> list[Service]:
     query = db.query(Service).filter(Service.is_active == True)
 
@@ -16,13 +18,13 @@ def get_all_services(
         query = query.filter(Service.name.contains(search_name.strip()))
 
     if price_sort == "asc":
-        query = query.order_by(Service.price.asc())
+        query = query.order_by(Service.price.asc(), Service.id.asc())
     elif price_sort == "desc":
-        query = query.order_by(Service.price.desc())
+        query = query.order_by(Service.price.desc(), Service.id.asc())
     else:
         query = query.order_by(Service.id.asc())
 
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 
 def get_service_by_id(

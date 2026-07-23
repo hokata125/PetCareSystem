@@ -11,6 +11,8 @@ def get_all_abandoned_pets(
     pet_type: str | None = None,
     sort_by: Literal["age", "weight"] | None = None,
     sort_order: Literal["asc", "desc"] = "asc",
+    skip: int = 0,
+    limit: int = 10,
 ) -> list[AbandonedPet]:
     query = db.query(AbandonedPet).filter(AbandonedPet.is_active == True)
 
@@ -31,11 +33,11 @@ def get_all_abandoned_pets(
             raise ValueError("Chỉ được sắp xếp theo 'tuổi' hoặc 'cân nặng'.")
 
         if sort_order == "desc":
-            query = query.order_by(sort_column.desc())
+            query = query.order_by(sort_column.desc(), AbandonedPet.id.asc())
         else:
-            query = query.order_by(sort_column.asc())
+            query = query.order_by(sort_column.asc(), AbandonedPet.id.asc())
 
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 
 def get_abandoned_pet_by_id(

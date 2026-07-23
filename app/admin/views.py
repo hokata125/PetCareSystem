@@ -17,7 +17,6 @@ class UserView(ModelView, model=User):
     can_create = False
     can_edit = False
     can_delete = False
-    can_view_details = True
 
     column_list = [
         User.id,
@@ -51,10 +50,7 @@ class UserView(ModelView, model=User):
 
 
 class ProductView(ModelView, model=Product):
-    can_create = True
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         Product.id,
@@ -118,10 +114,7 @@ class ProductView(ModelView, model=Product):
 
 
 class ServiceView(ModelView, model=Service):
-    can_create = True
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         Service.id,
@@ -176,10 +169,7 @@ class ServiceView(ModelView, model=Service):
 
 
 class AbandonedPetView(ModelView, model=AbandonedPet):
-    can_create = True
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         AbandonedPet.id,
@@ -268,9 +258,7 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
 
 class BookingView(ModelView, model=Booking):
     can_create = False
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         Booking.id,
@@ -294,9 +282,7 @@ class BookingView(ModelView, model=Booking):
 
 class OrderView(ModelView, model=Order):
     can_create = False
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         Order.id,
@@ -319,9 +305,7 @@ class OrderView(ModelView, model=Order):
 
 class AdoptionView(ModelView, model=Adoption):
     can_create = False
-    can_edit = True
     can_delete = False
-    can_view_details = True
 
     column_list = [
         Adoption.id,

@@ -18,9 +18,9 @@ class AdminAuthentication(AuthenticationBackend):
 
         with SessionLocal() as db:
             user = auth_user(
-                db,
-                username,
-                password,
+                db=db,
+                input_username=username,
+                input_password=password,
             )
 
             if (

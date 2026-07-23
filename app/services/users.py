@@ -82,7 +82,10 @@ def auth_user(
     if user is None:
         return None
 
-    if not verify_password(input_password, user.password):
+    if not verify_password(
+        plain_password=input_password,
+        hashed_password=user.password,
+    ):
         return None
 
     return user

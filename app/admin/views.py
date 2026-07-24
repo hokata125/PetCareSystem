@@ -269,6 +269,7 @@ class BookingView(ModelView, model=Booking):
         Booking.pet_name,
         Booking.pet_type,
         Booking.final_price,
+        Booking.payment_method,
         Booking.booking_status,
     ]
     column_sortable_list = [

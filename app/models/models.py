@@ -64,7 +64,7 @@ class OrderStatus(enum.Enum):
 
 
 class PaymentMethod(enum.Enum):
-    COD = "COD"
+    CASH = "TIỀN MẶT"
     TRANSFER = "CHUYỂN KHOẢN"
 
     def __str__(self):
@@ -233,6 +233,9 @@ class Booking(Base):
     note = Column(Text, nullable=True)
 
     final_price = Column(Float, nullable=False)
+    payment_method = Column(
+        Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
+    )
     booking_status = Column(
         Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False
     )
@@ -280,7 +283,7 @@ class Order(Base):
         Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False
     )
     payment_method = Column(
-        Enum(PaymentMethod), default=PaymentMethod.COD, nullable=False
+        Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
     )
 
     created_at = Column(DateTime, default=datetime.now)

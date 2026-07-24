@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.models.models import BookingStatus, PaymentMethod
 
@@ -55,6 +55,13 @@ class BookingCreate(BookingBase):
             raise ValueError("Phút kết thúc chỉ được là 00, 15, 30 hoặc 45!")
 
         return end_at
+
+    @model_validator(mode="after")
+    def validate_booking_time(self):
+        if self.end_at is not None and self.end_at <= self.start_at:
+            raise ValueError("Thời gian kết thúc phải sau thời gian bắt đầu!")
+
+        return self
 
 
 class BookingResponse(BookingBase):

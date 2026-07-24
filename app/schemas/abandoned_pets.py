@@ -12,7 +12,7 @@ class AbandonedPetBase(BaseModel):
     weight: float = Field(ge=1, le=100)
     health_status: str
     image: str | None = Field(default=None, max_length=255)
-    pet_status: PetStatus
+    pet_status: PetStatus = PetStatus.AVAILABLE
 
     @field_validator("name")
     @classmethod

@@ -9,7 +9,7 @@ class BookingBase(BaseModel):
     service_id: int = Field(gt=0)
     pet_name: str = Field(max_length=100)
     pet_type: str = Field(max_length=50)
-    pet_weight: float = Field(gt=0)
+    pet_weight: float = Field(ge=1, le=50)
     note: str | None = None
     payment_method: PaymentMethod = PaymentMethod.CASH
 
@@ -43,6 +43,9 @@ class BookingCreate(BookingBase):
         if start_at.minute not in {0, 15, 30, 45}:
             raise ValueError("Phút đặt lịch chỉ được là 00, 15, 30 hoặc 45!")
 
+        if start_at.second or start_at.microsecond:
+            raise ValueError("Thời gian bắt đầu không được chứa giây!")
+
         return start_at
 
     @field_validator("end_at")
@@ -53,6 +56,9 @@ class BookingCreate(BookingBase):
 
         if end_at.minute not in {0, 15, 30, 45}:
             raise ValueError("Phút kết thúc chỉ được là 00, 15, 30 hoặc 45!")
+
+        if end_at.second or end_at.microsecond:
+            raise ValueError("Thời gian kết thúc không được chứa giây!")
 
         return end_at
 

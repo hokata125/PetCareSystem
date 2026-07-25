@@ -2,7 +2,14 @@ from datetime import datetime, time, timedelta
 
 from sqlalchemy.orm import Session
 
-from app.models.models import Booking, BookingStatus, Service, ServiceType
+from app.models.models import (
+    Booking,
+    BookingStatus,
+    Service,
+    ServiceType,
+    User,
+    UserRole,
+)
 from app.schemas.bookings import BookingCreate
 from app.services.services import get_service_by_id
 
@@ -172,6 +179,35 @@ def create_booking(
 
     try:
         db.add(booking)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+
+    return booking
+
+
+def cancel_booking(
+    db: Session,
+    booking_id: int,
+    user: User,
+) -> Booking:
+    booking = get_booking_by_id(db, booking_id)
+
+    if booking is None:
+        raise ValueError("Lịch đặt không tồn tại!")
+
+    if user.role != UserRole.ADMIN and booking.user_id != user.id:
+        raise ValueError("Bạn không có quyền hủy lịch đặt này!")
+
+    if booking.booking_status != BookingStatus.PENDING:
+        raise ValueError("Chỉ có thể hủy lịch đặt đang chờ xác nhận!")
+
+    booking.booking_status = BookingStatus.CANCELLED
+    booking.cancelled_at = datetime.now()
+    booking.cancelled_by = user.id
+
+    try:
         db.commit()
     except Exception:
         db.rollback()

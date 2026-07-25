@@ -7,8 +7,8 @@ from app.models.models import BookingStatus, PaymentMethod
 
 class BookingBase(BaseModel):
     service_id: int = Field(gt=0)
-    pet_name: str = Field(max_length=100)
-    pet_type: str = Field(max_length=50)
+    pet_name: str
+    pet_type: str
     pet_weight: float = Field(ge=1, le=50)
     note: str | None = None
     payment_method: PaymentMethod = PaymentMethod.CASH
@@ -19,6 +19,8 @@ class BookingBase(BaseModel):
         clean_pet_name = pet_name.strip()
         if not clean_pet_name:
             raise ValueError("Tên thú cưng không được để trống!")
+        if len(clean_pet_name) > 100:
+            raise ValueError("Tên thú cưng không được dài quá 100 ký tự!")
         return clean_pet_name
 
     @field_validator("pet_type")
@@ -27,6 +29,8 @@ class BookingBase(BaseModel):
         clean_pet_type = pet_type.strip()
         if not clean_pet_type:
             raise ValueError("Loại thú cưng không được để trống!")
+        if len(clean_pet_type) > 50:
+            raise ValueError("Loại thú cưng không được dài quá 50 ký tự!")
         return clean_pet_type
 
 

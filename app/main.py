@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from app.admin.setup import setup_admin
 from app.core.configs import settings
-from app.api.endpoints import abandoned_pets, auth, products, services, users
+from app.api.endpoints import abandoned_pets, auth, bookings, products, services, users
 
 app = FastAPI(
     title="Pet Care System",
@@ -24,6 +24,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(products.router, prefix="/products", tags=["Products"])
 app.include_router(services.router, prefix="/services", tags=["Services"])
+app.include_router(bookings.router, prefix="/bookings", tags=["Bookings"])
 app.include_router(
     abandoned_pets.router,
     prefix="/abandoned-pets",

@@ -200,6 +200,16 @@ class Adoption(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     abandoned_pet_id = Column(Integer, ForeignKey("abandoned_pets.id"), nullable=False)
 
+    owner_full_name = Column(String(255), nullable=False)
+    owner_phone_number = Column(String(10), nullable=False)
+    owner_address = Column(String(255), nullable=False)
+
+    pet_name = Column(String(255), nullable=False)
+    pet_type = Column(String(100), nullable=False)
+    pet_age = Column(Integer, nullable=False)
+    pet_weight = Column(Float, nullable=False)
+    pet_health_status = Column(Text, nullable=False)
+
     adoption_status = Column(
         Enum(AdoptionStatus),
         default=AdoptionStatus.PENDING,

@@ -1,10 +1,10 @@
 import cloudinary
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from app.admin.setup import setup_admin
 from app.core.configs import settings
 from app.api.endpoints import (
     abandoned_pets,
+    adoptions,
     auth,
     bookings,
     orders,
@@ -34,6 +34,7 @@ app.include_router(products.router, prefix="/products", tags=["Products"])
 app.include_router(services.router, prefix="/services", tags=["Services"])
 app.include_router(bookings.router, prefix="/bookings", tags=["Bookings"])
 app.include_router(orders.router, prefix="/orders", tags=["Orders"])
+app.include_router(adoptions.router, prefix="/adoptions", tags=["Adoptions"])
 app.include_router(
     abandoned_pets.router,
     prefix="/abandoned-pets",

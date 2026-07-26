@@ -8,22 +8,22 @@ from app.models.models import OrderStatus, PaymentMethod
 class OrderBase(BaseModel):
     product_id: int = Field(gt=0)
     quantity: int = Field(ge=1, le=10000)
-    receiver_address: str
     payment_method: PaymentMethod = PaymentMethod.CASH
-
-    @field_validator("receiver_address")
-    @classmethod
-    def validate_receiver_address(cls, receiver_address: str) -> str:
-        clean_receiver_address = receiver_address.strip()
-        if not clean_receiver_address:
-            raise ValueError("Địa chỉ giao hàng không được để trống!")
-        if len(clean_receiver_address) > 255:
-            raise ValueError("Địa chỉ giao hàng không được dài quá 255 ký tự!")
-        return clean_receiver_address
 
 
 class OrderCreate(OrderBase):
-    pass
+    receiver_address: str | None = Field(default=None, max_length=255)
+
+    @field_validator("receiver_address")
+    @classmethod
+    def validate_receiver_address(cls, receiver_address: str | None) -> str | None:
+        if receiver_address is None:
+            return None
+
+        clean_receiver_address = receiver_address.strip()
+        if not clean_receiver_address:
+            return None
+        return clean_receiver_address
 
 
 class OrderResponse(OrderBase):
@@ -33,6 +33,7 @@ class OrderResponse(OrderBase):
     user_id: int
     receiver_full_name: str
     receiver_phone_number: str
+    receiver_address: str
     unit_price: float
     total_price: float
     order_status: OrderStatus

@@ -198,12 +198,11 @@ class Adoption(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    abandoned_pet_id = Column(Integer, ForeignKey("abandoned_pets.id"), nullable=False)
-
     owner_full_name = Column(String(255), nullable=False)
     owner_phone_number = Column(String(10), nullable=False)
     owner_address = Column(String(255), nullable=False)
 
+    abandoned_pet_id = Column(Integer, ForeignKey("abandoned_pets.id"), nullable=False)
     pet_name = Column(String(255), nullable=False)
     pet_type = Column(String(100), nullable=False)
     pet_age = Column(Integer, nullable=False)
@@ -230,23 +229,24 @@ class Booking(Base):
     __tablename__ = "bookings"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     customer_full_name = Column(String(255), nullable=False)
     customer_phone_number = Column(String(10), nullable=False)
     customer_address = Column(String(255), nullable=False)
 
     service_id = Column(Integer, ForeignKey("services.id"), nullable=False)
-
-    start_at = Column(DateTime, nullable=False)
-    end_at = Column(DateTime, nullable=False)
+    service_name = Column(String(255), nullable=False)
 
     pet_name = Column(String(100), nullable=False)
     pet_type = Column(String(50), nullable=False)
     pet_weight = Column(Float, nullable=False)
     note = Column(Text, nullable=True)
 
+    start_at = Column(DateTime, nullable=False)
+    end_at = Column(DateTime, nullable=False)
     final_price = Column(Float, nullable=False)
+
     payment_method = Column(
         Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
     )
@@ -286,22 +286,24 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
 
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_full_name = Column(String(255), nullable=False)
     receiver_phone_number = Column(String(10), nullable=False)
     receiver_address = Column(String(255), nullable=False)
+
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+    product_name = Column(String(255), nullable=False)
 
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Float, nullable=False)
     total_price = Column(Float, nullable=False)
 
-    order_status = Column(
-        Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False
-    )
     payment_method = Column(
         Enum(PaymentMethod), default=PaymentMethod.CASH, nullable=False
+    )
+    order_status = Column(
+        Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False
     )
 
     created_at = Column(DateTime, default=datetime.now)

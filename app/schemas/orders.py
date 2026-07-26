@@ -34,6 +34,7 @@ class OrderResponse(OrderBase):
     receiver_full_name: str
     receiver_phone_number: str
     receiver_address: str
+    product_name: str
     unit_price: float
     total_price: float
     order_status: OrderStatus

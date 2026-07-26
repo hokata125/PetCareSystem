@@ -49,6 +49,7 @@ def create_order(
     order = Order(
         user_id=user.id,
         product_id=product.id,
+        product_name=product.name,
         receiver_full_name=user.full_name,
         receiver_phone_number=user.phone_number,
         receiver_address=order_input_data.receiver_address or user.address,

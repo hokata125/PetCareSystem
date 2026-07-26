@@ -170,6 +170,7 @@ def create_booking(
         customer_phone_number=user.phone_number,
         customer_address=user.address,
         service_id=service.id,
+        service_name=service.name,
         start_at=booking_input_data.start_at,
         end_at=calculated_end_at,
         pet_name=booking_input_data.pet_name,

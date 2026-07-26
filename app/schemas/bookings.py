@@ -79,6 +79,9 @@ class BookingResponse(BookingBase):
 
     id: int
     user_id: int
+    customer_full_name: str
+    customer_phone_number: str
+    customer_address: str
     start_at: datetime
     end_at: datetime
     final_price: float

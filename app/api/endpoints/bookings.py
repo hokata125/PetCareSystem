@@ -28,7 +28,7 @@ def create_my_booking(
     try:
         return create_booking(
             db,
-            current_user.id,
+            current_user,
             booking_input_data,
         )
     except ValueError as error:

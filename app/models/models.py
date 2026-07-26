@@ -112,7 +112,7 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False)
     dob = Column(Date, nullable=False)
     phone_number = Column(String(10), unique=True, nullable=False)
-    address = Column(String(255), default=None, nullable=True)
+    address = Column(String(255), nullable=False)
     avatar = Column(
         String(255),
         default="https://res.cloudinary.com/vgvqzopy/image/upload/v1784111514/avatar-default_bylut2.jpg",
@@ -221,6 +221,11 @@ class Booking(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    customer_full_name = Column(String(255), nullable=False)
+    customer_phone_number = Column(String(10), nullable=False)
+    customer_address = Column(String(255), nullable=False)
+
     service_id = Column(Integer, ForeignKey("services.id"), nullable=False)
 
     start_at = Column(DateTime, nullable=False)
@@ -273,6 +278,10 @@ class Order(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+
+    receiver_full_name = Column(String(255), nullable=False)
+    receiver_phone_number = Column(String(10), nullable=False)
+    receiver_address = Column(String(255), nullable=False)
 
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Float, nullable=False)

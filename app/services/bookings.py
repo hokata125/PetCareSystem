@@ -130,7 +130,7 @@ def calculate_final_price(
 
 def create_booking(
     db: Session,
-    user_id: int,
+    user: User,
     booking_input_data: BookingCreate,
 ) -> Booking:
     service = get_service_by_id(db, booking_input_data.service_id)
@@ -165,7 +165,10 @@ def create_booking(
     )
 
     booking = Booking(
-        user_id=user_id,
+        user_id=user.id,
+        customer_full_name=user.full_name,
+        customer_phone_number=user.phone_number,
+        customer_address=user.address,
         service_id=service.id,
         start_at=booking_input_data.start_at,
         end_at=calculated_end_at,

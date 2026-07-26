@@ -13,7 +13,7 @@ class UserBase(BaseModel):
     email: EmailStr = Field(max_length=255)
     dob: date
     phone_number: str
-    address: str | None = Field(default=None, max_length=255)
+    address: str = Field(max_length=255)
 
     @field_validator("username")
     @classmethod
@@ -52,6 +52,14 @@ class UserBase(BaseModel):
                 "Số điện thoại phải bắt đầu bằng 0 và chứa đúng 10 chữ số!"
             )
         return clean_phone_number
+
+    @field_validator("address")
+    @classmethod
+    def validate_address(cls, address: str) -> str:
+        clean_address = address.strip()
+        if not clean_address:
+            raise ValueError("Địa chỉ không được để trống!")
+        return clean_address
 
     @field_validator("dob")
     @classmethod
@@ -144,6 +152,16 @@ class UserUpdate(BaseModel):
         if not re.fullmatch(r"0[0-9]{9}", clean_phone_number):
             raise ValueError("Số điện thoại phải bắt đầu bằng 0 và có đúng 10 chữ số!")
         return clean_phone_number
+
+    @field_validator("address")
+    @classmethod
+    def validate_address(cls, address: str | None) -> str | None:
+        if address is None:
+            return None
+        clean_address = address.strip()
+        if not clean_address:
+            raise ValueError("Địa chỉ không được để trống!")
+        return clean_address
 
     @field_validator("dob")
     @classmethod

@@ -123,9 +123,6 @@ class BookingView(ModelView, model=Booking):
         request: Request,
         data: dict,
     ) -> Booking:
-        data["pet_name"] = data["pet_name"].strip()
-        data["pet_type"] = data["pet_type"].strip()
-
         with SessionLocal() as db:
             user = get_user_by_id(db=db, user_id=data["user_id"])
 

@@ -208,7 +208,6 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
         AbandonedPet.weight,
         AbandonedPet.health_status,
         AbandonedPet.image,
-        AbandonedPet.pet_status,
         AbandonedPet.is_active,
     ]
     form_args = {

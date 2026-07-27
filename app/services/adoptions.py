@@ -45,10 +45,7 @@ def create_adoption(
     abandoned_pet = get_abandoned_pet_by_id(db, adoption_input_data.abandoned_pet_id)
 
     if abandoned_pet is None:
-        raise ValueError("Thú cưng không tồn tại hoặc đã ngừng nhận nuôi!")
-
-    if abandoned_pet.pet_status != PetStatus.AVAILABLE:
-        raise ValueError("Thú cưng này đã được đăng ký nhận nuôi!")
+        raise ValueError("Thú cưng không tồn tại hoặc đã ngừng cho nhận nuôi!")
 
     adoption = Adoption(
         user_id=user.id,

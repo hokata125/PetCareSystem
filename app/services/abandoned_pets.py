@@ -2,7 +2,7 @@ from typing import Literal
 
 from sqlalchemy.orm import Session
 
-from app.models.models import AbandonedPet
+from app.models.models import AbandonedPet, PetStatus
 
 
 def get_all_abandoned_pets(
@@ -14,7 +14,10 @@ def get_all_abandoned_pets(
     skip: int = 0,
     limit: int = 10,
 ) -> list[AbandonedPet]:
-    query = db.query(AbandonedPet).filter(AbandonedPet.is_active == True)
+    query = db.query(AbandonedPet).filter(
+        AbandonedPet.pet_status == PetStatus.AVAILABLE,
+        AbandonedPet.is_active == True,
+    )
 
     if search_name is not None and search_name.strip():
         query = query.filter(AbandonedPet.name.contains(search_name.strip()))
@@ -46,6 +49,10 @@ def get_abandoned_pet_by_id(
 ) -> AbandonedPet | None:
     return (
         db.query(AbandonedPet)
-        .filter(AbandonedPet.id == abandoned_pet_id, AbandonedPet.is_active == True)
+        .filter(
+            AbandonedPet.id == abandoned_pet_id,
+            AbandonedPet.pet_status == PetStatus.AVAILABLE,
+            AbandonedPet.is_active == True,
+        )
         .first()
     )

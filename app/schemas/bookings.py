@@ -85,6 +85,7 @@ class BookingResponse(BookingBase):
     service_name: str
     start_at: datetime
     end_at: datetime
+    base_price: float
     final_price: float
     booking_status: BookingStatus
     created_at: datetime

@@ -28,9 +28,17 @@ class BookingView(ModelView, model=Booking):
         Booking.note,
         Booking.start_at,
         Booking.end_at,
+        Booking.base_price,
         Booking.final_price,
         Booking.payment_method,
         Booking.booking_status,
+    ]
+    column_searchable_list = [
+        Booking.customer_full_name,
+        Booking.customer_phone_number,
+        Booking.service_name,
+        Booking.pet_name,
+        Booking.pet_type,
     ]
     column_sortable_list = [
         Booking.id,

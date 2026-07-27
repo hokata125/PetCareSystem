@@ -245,6 +245,7 @@ class Booking(Base):
 
     start_at = Column(DateTime, nullable=False)
     end_at = Column(DateTime, nullable=False)
+    base_price = Column(Float, nullable=False)
     final_price = Column(Float, nullable=False)
 
     payment_method = Column(

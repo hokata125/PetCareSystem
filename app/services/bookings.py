@@ -177,6 +177,7 @@ def create_booking(
         pet_type=booking_input_data.pet_type,
         pet_weight=booking_input_data.pet_weight,
         note=booking_input_data.note,
+        base_price=service.price,
         final_price=calculated_final_price,
         payment_method=booking_input_data.payment_method,
     )

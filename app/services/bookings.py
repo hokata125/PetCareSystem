@@ -96,6 +96,7 @@ def validate_service_capacity(
                 [
                     BookingStatus.PENDING,
                     BookingStatus.CONFIRMED,
+                    BookingStatus.IN_PROGRESS,
                 ]
             ),
         )

@@ -46,6 +46,7 @@ class ServiceType(enum.Enum):
 class BookingStatus(enum.Enum):
     PENDING = "ĐANG CHỜ XÁC NHẬN"
     CONFIRMED = "ĐÃ XÁC NHẬN"
+    IN_PROGRESS = "ĐANG SỬ DỤNG DỊCH VỤ"
     COMPLETED = "ĐÃ HOÀN THÀNH"
     CANCELLED = "ĐÃ HỦY"
 
@@ -56,6 +57,7 @@ class BookingStatus(enum.Enum):
 class OrderStatus(enum.Enum):
     PENDING = "ĐANG CHỜ XÁC NHẬN"
     CONFIRMED = "ĐÃ XÁC NHẬN"
+    SHIPPING = "ĐANG GIAO HÀNG"
     COMPLETED = "ĐÃ HOÀN THÀNH"
     CANCELLED = "ĐÃ HỦY"
 
@@ -83,6 +85,8 @@ class PetStatus(enum.Enum):
 class AdoptionStatus(enum.Enum):
     PENDING = "ĐANG CHỜ DUYỆT"
     APPROVED = "ĐÃ DUYỆT"
+    WAITING_OWNER = "ĐANG CHỜ CHỦ ĐẾN ĐÓN"
+    COMPLETED = "ĐÃ HOÀN THÀNH"
     REJECTED = "BỊ TỪ CHỐI"
     CANCELLED = "ĐÃ HỦY"
 
@@ -91,9 +95,10 @@ class AdoptionStatus(enum.Enum):
 
 
 class TransactionStatus(enum.Enum):
-    PENDING = "ĐANG CHỜ"
-    WAITING_CONFIRM = "ĐANG CHỜ XÁC NHẬN"
+    PENDING = "ĐANG CHỜ THANH TOÁN"
+    WAITING_CONFIRM = "ĐANG CHỜ ADMIN XÁC NHẬN THANH TOÁN"
     SUCCESS = "THÀNH CÔNG"
+    FAILED = "THẤT BẠI"
     CANCELLED = "ĐÃ HỦY"
     EXPIRED = "ĐÃ HẾT HẠN"
 

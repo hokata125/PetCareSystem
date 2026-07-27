@@ -130,6 +130,10 @@ class OrderView(ModelView, model=Order):
                 OrderStatus.CANCELLED,
             ],
             OrderStatus.CONFIRMED: [
+                OrderStatus.SHIPPING,
+                OrderStatus.CANCELLED,
+            ],
+            OrderStatus.SHIPPING: [
                 OrderStatus.COMPLETED,
                 OrderStatus.CANCELLED,
             ],

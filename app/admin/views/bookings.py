@@ -164,8 +164,11 @@ class BookingView(ModelView, model=Booking):
                 BookingStatus.CANCELLED,
             ],
             BookingStatus.CONFIRMED: [
-                BookingStatus.COMPLETED,
+                BookingStatus.IN_PROGRESS,
                 BookingStatus.CANCELLED,
+            ],
+            BookingStatus.IN_PROGRESS: [
+                BookingStatus.COMPLETED,
             ],
             BookingStatus.COMPLETED: [],
             BookingStatus.CANCELLED: [],

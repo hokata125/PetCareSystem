@@ -175,7 +175,7 @@ class AbandonedPet(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
-    pet_type = Column(String(100), nullable=False)
+    pet_type = Column(String(255), nullable=False)
     age = Column(Integer, nullable=False)
     weight = Column(Float, nullable=False)
     health_status = Column(Text, nullable=False)
@@ -204,7 +204,7 @@ class Adoption(Base):
 
     abandoned_pet_id = Column(Integer, ForeignKey("abandoned_pets.id"), nullable=False)
     pet_name = Column(String(255), nullable=False)
-    pet_type = Column(String(100), nullable=False)
+    pet_type = Column(String(255), nullable=False)
     pet_age = Column(Integer, nullable=False)
     pet_weight = Column(Float, nullable=False)
     pet_health_status = Column(Text, nullable=False)
@@ -238,8 +238,8 @@ class Booking(Base):
     service_id = Column(Integer, ForeignKey("services.id"), nullable=False)
     service_name = Column(String(255), nullable=False)
 
-    pet_name = Column(String(100), nullable=False)
-    pet_type = Column(String(50), nullable=False)
+    pet_name = Column(String(255), nullable=False)
+    pet_type = Column(String(255), nullable=False)
     pet_weight = Column(Float, nullable=False)
     note = Column(Text, nullable=True)
 
@@ -275,7 +275,7 @@ class BookingTransaction(Base):
         Enum(TransactionStatus), default=TransactionStatus.PENDING, nullable=False
     )
 
-    transaction_code = Column(String(100), unique=True, nullable=False)
+    transaction_code = Column(String(255), unique=True, nullable=False)
 
     created_at = Column(DateTime, default=datetime.now)
     expires_at = Column(DateTime, nullable=False)
@@ -327,7 +327,7 @@ class OrderTransaction(Base):
         Enum(TransactionStatus), default=TransactionStatus.PENDING, nullable=False
     )
 
-    transaction_code = Column(String(100), unique=True, nullable=False)
+    transaction_code = Column(String(255), unique=True, nullable=False)
 
     created_at = Column(DateTime, default=datetime.now)
     expires_at = Column(DateTime, nullable=False)

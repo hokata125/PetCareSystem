@@ -7,7 +7,7 @@ from app.models.models import PetStatus
 
 class AbandonedPetBase(BaseModel):
     name: str = Field(max_length=255)
-    pet_type: str = Field(max_length=100)
+    pet_type: str = Field(max_length=255)
     age: int = Field(gt=0)
     weight: float = Field(ge=1, le=100)
     health_status: str

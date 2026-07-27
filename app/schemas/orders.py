@@ -12,17 +12,18 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(OrderBase):
-    receiver_address: str | None = Field(default=None, max_length=255)
+    receiver_address: str | None = None
 
     @field_validator("receiver_address")
     @classmethod
     def validate_receiver_address(cls, receiver_address: str | None) -> str | None:
         if receiver_address is None:
             return None
-
         clean_receiver_address = receiver_address.strip()
         if not clean_receiver_address:
             return None
+        if len(clean_receiver_address) > 255:
+            raise ValueError("Địa chỉ không được dài quá 255 ký tự!")
         return clean_receiver_address
 
 

@@ -19,8 +19,8 @@ class BookingBase(BaseModel):
         clean_pet_name = pet_name.strip()
         if not clean_pet_name:
             raise ValueError("Tên thú cưng không được để trống!")
-        if len(clean_pet_name) > 100:
-            raise ValueError("Tên thú cưng không được dài quá 100 ký tự!")
+        if len(clean_pet_name) > 255:
+            raise ValueError("Tên thú cưng không được dài quá 255 ký tự!")
         return clean_pet_name
 
     @field_validator("pet_type")
@@ -29,8 +29,8 @@ class BookingBase(BaseModel):
         clean_pet_type = pet_type.strip()
         if not clean_pet_type:
             raise ValueError("Loại thú cưng không được để trống!")
-        if len(clean_pet_type) > 50:
-            raise ValueError("Loại thú cưng không được dài quá 50 ký tự!")
+        if len(clean_pet_type) > 255:
+            raise ValueError("Loại thú cưng không được dài quá 255 ký tự!")
         return clean_pet_type
 
 

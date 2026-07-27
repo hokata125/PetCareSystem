@@ -32,6 +32,7 @@ class AdoptionView(ModelView, model=Adoption):
         Adoption.pet_age,
         Adoption.pet_weight,
         Adoption.pet_health_status,
+        Adoption.note,
         Adoption.adoption_status,
     ]
     column_sortable_list = [
@@ -42,13 +43,18 @@ class AdoptionView(ModelView, model=Adoption):
     form_columns = [
         Adoption.user_id,
         Adoption.abandoned_pet_id,
+        Adoption.note,
         Adoption.adoption_status,
     ]
     form_create_rules = [
         "user_id",
         "abandoned_pet_id",
+        "note",
     ]
-    form_edit_rules = ["adoption_status"]
+    form_edit_rules = [
+        "note",
+        "adoption_status",
+    ]
     form_args = {
         "user_id": {
             "validators": [
@@ -81,6 +87,7 @@ class AdoptionView(ModelView, model=Adoption):
 
             adoption_input_data = AdoptionCreate(
                 abandoned_pet_id=data["abandoned_pet_id"],
+                note=data.get("note"),
             )
 
             adoption = create_adoption(

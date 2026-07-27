@@ -213,6 +213,7 @@ class Adoption(Base):
     pet_age = Column(Integer, nullable=False)
     pet_weight = Column(Float, nullable=False)
     pet_health_status = Column(Text, nullable=False)
+    note = Column(Text, nullable=True)
 
     adoption_status = Column(
         Enum(AdoptionStatus),
@@ -300,6 +301,7 @@ class Order(Base):
 
     product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
     product_name = Column(String(255), nullable=False)
+    note = Column(Text, nullable=True)
 
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Float, nullable=False)

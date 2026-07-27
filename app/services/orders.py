@@ -53,6 +53,7 @@ def create_order(
         receiver_address=order_input_data.receiver_address or user.address,
         product_id=product.id,
         product_name=product.name,
+        note=order_input_data.note,
         quantity=order_input_data.quantity,
         unit_price=unit_price,
         total_price=total_price,

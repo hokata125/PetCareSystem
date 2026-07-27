@@ -70,7 +70,10 @@ class BookingView(ModelView, model=Booking):
         "note",
         "payment_method",
     ]
-    form_edit_rules = ["booking_status"]
+    form_edit_rules = [
+        "note",
+        "booking_status",
+    ]
     form_args = {
         "user_id": {
             "validators": [

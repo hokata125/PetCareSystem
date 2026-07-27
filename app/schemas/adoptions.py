@@ -7,6 +7,7 @@ from app.models.models import AdoptionStatus
 
 class AdoptionBase(BaseModel):
     abandoned_pet_id: int = Field(gt=0)
+    note: str | None = None
 
 
 class AdoptionCreate(AdoptionBase):

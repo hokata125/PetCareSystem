@@ -58,6 +58,7 @@ def create_adoption(
         pet_age=abandoned_pet.age,
         pet_weight=abandoned_pet.weight,
         pet_health_status=abandoned_pet.health_status,
+        note=adoption_input_data.note,
     )
 
     abandoned_pet.pet_status = PetStatus.RESERVED

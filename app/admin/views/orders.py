@@ -23,6 +23,7 @@ class OrderView(ModelView, model=Order):
         Order.receiver_address,
         Order.product_id,
         Order.product_name,
+        Order.note,
         Order.quantity,
         Order.unit_price,
         Order.total_price,
@@ -39,6 +40,7 @@ class OrderView(ModelView, model=Order):
     form_columns = [
         Order.user_id,
         Order.product_id,
+        Order.note,
         Order.quantity,
         Order.receiver_address,
         Order.payment_method,
@@ -47,11 +49,15 @@ class OrderView(ModelView, model=Order):
     form_create_rules = [
         "user_id",
         "product_id",
+        "note",
         "quantity",
         "receiver_address",
         "payment_method",
     ]
-    form_edit_rules = ["order_status"]
+    form_edit_rules = [
+        "note",
+        "order_status",
+    ]
     form_args = {
         "user_id": {
             "validators": [
@@ -98,6 +104,7 @@ class OrderView(ModelView, model=Order):
 
             order_input_data = OrderCreate(
                 product_id=data["product_id"],
+                note=data.get("note"),
                 quantity=data["quantity"],
                 receiver_address=data.get("receiver_address"),
                 payment_method=PaymentMethod[data["payment_method"]],

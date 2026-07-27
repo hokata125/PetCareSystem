@@ -7,6 +7,7 @@ from app.models.models import OrderStatus, PaymentMethod
 
 class OrderBase(BaseModel):
     product_id: int = Field(gt=0)
+    note: str | None = None
     quantity: int = Field(ge=1, le=10000)
     payment_method: PaymentMethod = PaymentMethod.CASH
 

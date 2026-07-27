@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import Request
 from sqladmin import ModelView
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, Length, NumberRange, Optional
 
 from app.models.models import (
     AbandonedPet,
@@ -315,12 +315,92 @@ class BookingView(ModelView, model=Booking):
         "payment_method",
     ]
     form_edit_rules = ["booking_status"]
+    form_args = {
+        "user_id": {
+            "validators": [
+                DataRequired(
+                    message="Vui lòng chọn khách hàng!",
+                ),
+                NumberRange(
+                    min=1,
+                    message="Khách hàng không hợp lệ!",
+                ),
+            ]
+        },
+        "service_id": {
+            "validators": [
+                DataRequired(
+                    message="Vui lòng chọn dịch vụ!",
+                ),
+                NumberRange(
+                    min=1,
+                    message="Dịch vụ không hợp lệ!",
+                ),
+            ]
+        },
+        "start_at": {
+            "validators": [
+                DataRequired(
+                    message="Thời gian bắt đầu không được để trống!",
+                )
+            ]
+        },
+        "end_at": {
+            "validators": [
+                Optional(),
+            ]
+        },
+        "pet_name": {
+            "validators": [
+                DataRequired(
+                    message="Tên thú cưng không được để trống!",
+                ),
+                Length(
+                    max=100,
+                    message="Tên thú cưng không được dài quá 100 ký tự!",
+                ),
+            ]
+        },
+        "pet_type": {
+            "validators": [
+                DataRequired(
+                    message="Loại thú cưng không được để trống!",
+                ),
+                Length(
+                    max=50,
+                    message="Loại thú cưng không được dài quá 50 ký tự!",
+                ),
+            ]
+        },
+        "pet_weight": {
+            "validators": [
+                DataRequired(
+                    message="Cân nặng thú cưng không được để trống!",
+                ),
+                NumberRange(
+                    min=1,
+                    max=50,
+                    message="Cân nặng thú cưng phải từ 1 - 50kg!",
+                ),
+            ]
+        },
+        "payment_method": {
+            "validators": [
+                DataRequired(
+                    message="Vui lòng chọn phương thức thanh toán!",
+                )
+            ]
+        },
+    }
 
     async def insert_model(
         self,
         request: Request,
         data: dict,
     ) -> Booking:
+        data["pet_name"] = data["pet_name"].strip()
+        data["pet_type"] = data["pet_type"].strip()
+
         with SessionLocal() as db:
             user = get_user_by_id(db=db, user_id=data["user_id"])
 

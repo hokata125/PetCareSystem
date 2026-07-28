@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.api.depends import get_current_user
 from app.db.session import get_db
-from app.models.models import User, UserRole
+from app.models.models import User
 from app.schemas.bookings import BookingCreate, BookingResponse
 from app.services.bookings import (
     cancel_booking,
@@ -15,11 +15,7 @@ from app.services.bookings import (
 router = APIRouter()
 
 
-@router.post(
-    "",
-    response_model=BookingResponse,
-    status_code=status.HTTP_201_CREATED,
-)
+@router.post("", response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
 def create_my_booking(
     booking_input_data: BookingCreate,
     db: Session = Depends(get_db),
@@ -67,7 +63,7 @@ def get_my_booking_detail(
             detail="Không tìm thấy lịch đặt!",
         )
 
-    if current_user.role != UserRole.ADMIN and booking.user_id != current_user.id:
+    if booking.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Bạn không có quyền xem lịch đặt này!",

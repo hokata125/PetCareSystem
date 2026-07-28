@@ -8,7 +8,6 @@ from app.models.models import (
     AdoptionStatus,
     PetStatus,
     User,
-    UserRole,
 )
 from app.schemas.adoptions import AdoptionCreate
 from app.services.abandoned_pets import get_abandoned_pet_by_id
@@ -83,7 +82,7 @@ def cancel_adoption(
     if adoption is None:
         raise ValueError("Đơn nhận nuôi không tồn tại!")
 
-    if user.role != UserRole.ADMIN and adoption.user_id != user.id:
+    if adoption.user_id != user.id:
         raise ValueError("Bạn không có quyền hủy đơn nhận nuôi này!")
 
     if adoption.adoption_status != AdoptionStatus.PENDING:

@@ -8,7 +8,6 @@ from app.models.models import (
     Service,
     ServiceType,
     User,
-    UserRole,
 )
 from app.schemas.bookings import BookingCreate
 from app.services.services import get_service_by_id
@@ -203,7 +202,7 @@ def cancel_booking(
     if booking is None:
         raise ValueError("Lịch đặt không tồn tại!")
 
-    if user.role != UserRole.ADMIN and booking.user_id != user.id:
+    if booking.user_id != user.id:
         raise ValueError("Bạn không có quyền hủy lịch đặt này!")
 
     if booking.booking_status != BookingStatus.PENDING:

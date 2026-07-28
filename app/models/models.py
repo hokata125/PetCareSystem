@@ -18,7 +18,6 @@ import enum
 
 class UserRole(enum.Enum):
     ADMIN = "ADMIN"
-    STAFF = "NHÂN VIÊN"
     CUSTOMER = "KHÁCH HÀNG"
 
     def __str__(self):

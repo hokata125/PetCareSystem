@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.api.depends import get_current_user
 from app.db.session import get_db
-from app.models.models import User, UserRole
+from app.models.models import User
 from app.schemas.adoptions import AdoptionCreate, AdoptionResponse
 from app.services.adoptions import (
     cancel_adoption,
@@ -15,11 +15,7 @@ from app.services.adoptions import (
 router = APIRouter()
 
 
-@router.post(
-    "",
-    response_model=AdoptionResponse,
-    status_code=status.HTTP_201_CREATED,
-)
+@router.post("", response_model=AdoptionResponse, status_code=status.HTTP_201_CREATED)
 def create_my_adoption(
     adoption_input_data: AdoptionCreate,
     db: Session = Depends(get_db),
@@ -67,7 +63,7 @@ def get_my_adoption_detail(
             detail="Không tìm thấy đơn nhận nuôi!",
         )
 
-    if current_user.role != UserRole.ADMIN and adoption.user_id != current_user.id:
+    if adoption.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Bạn không có quyền xem đơn nhận nuôi này!",

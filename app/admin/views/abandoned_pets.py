@@ -2,11 +2,18 @@ from fastapi import Request
 from sqladmin import ModelView
 from wtforms.validators import DataRequired, NumberRange
 
-from app.models.models import AbandonedPet
+from app.models.models import AbandonedPet, PetStatus
 
 
 class AbandonedPetView(ModelView, model=AbandonedPet):
     can_delete = False
+
+    async def check_can_edit(
+        self,
+        request: Request,
+        model: AbandonedPet | None,
+    ) -> bool:
+        return model is not None and model.pet_status == PetStatus.AVAILABLE
 
     column_list = [
         AbandonedPet.id,

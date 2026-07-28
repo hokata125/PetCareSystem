@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.api.depends import get_current_user
 from app.db.session import get_db
-from app.models.models import User, UserRole
+from app.models.models import User
 from app.schemas.orders import OrderCreate, OrderResponse
 from app.services.orders import (
     cancel_order,
@@ -15,11 +15,7 @@ from app.services.orders import (
 router = APIRouter()
 
 
-@router.post(
-    "",
-    response_model=OrderResponse,
-    status_code=status.HTTP_201_CREATED,
-)
+@router.post("", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
 def create_my_order(
     order_input_data: OrderCreate,
     db: Session = Depends(get_db),
@@ -67,7 +63,7 @@ def get_my_order_detail(
             detail="Không tìm thấy đơn hàng!",
         )
 
-    if current_user.role != UserRole.ADMIN and order.user_id != current_user.id:
+    if order.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Bạn không có quyền xem đơn hàng này!",

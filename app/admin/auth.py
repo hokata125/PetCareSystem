@@ -23,11 +23,7 @@ class AdminAuthentication(AuthenticationBackend):
                 input_password=password,
             )
 
-            if (
-                user is None
-                or not user.is_active
-                or user.role not in {UserRole.ADMIN, UserRole.STAFF}
-            ):
+            if user is None or not user.is_active or user.role != UserRole.ADMIN:
                 return False
 
             request.session.update(
@@ -52,11 +48,7 @@ class AdminAuthentication(AuthenticationBackend):
         with SessionLocal() as db:
             user = get_user_by_id(db, user_id)
 
-            if (
-                user is None
-                or not user.is_active
-                or user.role not in {UserRole.ADMIN, UserRole.STAFF}
-            ):
+            if user is None or not user.is_active or user.role != UserRole.ADMIN:
                 request.session.clear()
                 return False
 

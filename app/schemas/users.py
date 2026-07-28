@@ -1,7 +1,14 @@
 import re
 from datetime import date, datetime
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    EmailStr,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 from app.models.models import Gender, UserRole
 
@@ -125,7 +132,6 @@ class UserUpdate(BaseModel):
     dob: date | None = None
     phone_number: str | None = None
     address: str | None = Field(default=None, max_length=255)
-    password: str | None = None
 
     @field_validator("full_name")
     @classmethod
@@ -172,20 +178,46 @@ class UserUpdate(BaseModel):
             raise ValueError("Ngày sinh không hợp lệ!")
         return dob
 
-    @field_validator("password")
+
+class UserChangePassword(BaseModel):
+    current_password: str
+    new_password: str
+    confirm_new_password: str
+
+    @field_validator("current_password")
     @classmethod
-    def validate_password(cls, password: str | None) -> str | None:
-        if password is None:
-            return None
-        if not password.strip():
-            raise ValueError("Mật khẩu không được để trống!")
-        if len(password) < 8:
-            raise ValueError("Mật khẩu phải có ít nhất 8 ký tự!")
-        if len(password) > 255:
-            raise ValueError("Mật khẩu không được vượt quá 255 ký tự!")
-        if not (re.search(r"[0-9]", password) and re.search(r"[a-zA-Z]", password)):
-            raise ValueError("Mật khẩu phải chứa cả ký tự chữ và ký tự số!")
-        return password
+    def validate_current_password(cls, current_password: str) -> str:
+        if not current_password.strip():
+            raise ValueError("Mật khẩu hiện tại không được để trống!")
+        return current_password
+
+    @field_validator("new_password")
+    @classmethod
+    def validate_new_password(cls, new_password: str) -> str:
+        if not new_password.strip():
+            raise ValueError("Mật khẩu mới không được để trống!")
+        if len(new_password) < 8:
+            raise ValueError("Mật khẩu mới phải có ít nhất 8 ký tự!")
+        if len(new_password) > 255:
+            raise ValueError("Mật khẩu mới không được vượt quá 255 ký tự!")
+        if not (
+            re.search(r"[0-9]", new_password) and re.search(r"[a-zA-Z]", new_password)
+        ):
+            raise ValueError("Mật khẩu mới phải chứa cả ký tự chữ và ký tự số!")
+        return new_password
+
+    @field_validator("confirm_new_password")
+    @classmethod
+    def validate_confirm_new_password(cls, confirm_new_password: str) -> str:
+        if not confirm_new_password.strip():
+            raise ValueError("Xác nhận mật khẩu không được để trống!")
+        return confirm_new_password
+
+    @model_validator(mode="after")
+    def validate_password_confirmation(self):
+        if self.confirm_new_password != self.new_password:
+            raise ValueError("Xác nhận mật khẩu không khớp!")
+        return self
 
 
 class UserResponse(UserBase):

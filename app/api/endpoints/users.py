@@ -4,8 +4,12 @@ from sqlalchemy.orm import Session
 from app.api.depends import get_current_user
 from app.db.session import get_db
 from app.models.models import User
-from app.schemas.users import UserResponse, UserUpdate
-from app.services.users import update_user, update_user_avatar
+from app.schemas.users import UserChangePassword, UserResponse, UserUpdate
+from app.services.users import (
+    change_user_password,
+    update_user,
+    update_user_avatar,
+)
 
 router = APIRouter()
 
@@ -32,6 +36,25 @@ def update_my_profile(
     except ValueError as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
+            detail=str(error),
+        )
+
+
+@router.patch("/profile/password", response_model=UserResponse)
+def change_my_password(
+    password_input_data: UserChangePassword,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        return change_user_password(
+            db=db,
+            user=current_user,
+            password_input_data=password_input_data,
+        )
+    except ValueError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(error),
         )
 

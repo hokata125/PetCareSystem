@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password
 from app.models.models import User
-from app.schemas.users import UserCreate, UserUpdate
+from app.schemas.users import UserChangePassword, UserCreate, UserUpdate
 from app.services.uploads import upload_image
 
 
@@ -103,7 +103,6 @@ def update_user(
 
     new_email = update_data.get("email")
     new_phone_number = update_data.get("phone_number")
-    new_password = update_data.pop("password", None)
 
     if new_email is not None and new_email != user.email:
         if get_user_by_email(db, new_email):
@@ -113,11 +112,36 @@ def update_user(
         if get_user_by_phone_number(db, new_phone_number):
             raise ValueError("Số điện thoại đã tồn tại!")
 
-    if new_password is not None:
-        user.password = hash_password(new_password)
-
     for field, value in update_data.items():
         setattr(user, field, value)
+
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+
+    return user
+
+
+def change_user_password(
+    db: Session,
+    user: User,
+    password_input_data: UserChangePassword,
+) -> User:
+    if not verify_password(
+        plain_password=password_input_data.current_password,
+        hashed_password=user.password,
+    ):
+        raise ValueError("Mật khẩu hiện tại không chính xác!")
+
+    if verify_password(
+        plain_password=password_input_data.new_password,
+        hashed_password=user.password,
+    ):
+        raise ValueError("Mật khẩu mới phải khác mật khẩu hiện tại!")
+
+    user.password = hash_password(password_input_data.new_password)
 
     try:
         db.commit()

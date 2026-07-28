@@ -9,6 +9,7 @@ from app.api.endpoints import (
     adoptions,
     auth,
     bookings,
+    order_transactions,
     orders,
     products,
     services,
@@ -47,6 +48,11 @@ app.include_router(products.router, prefix="/products", tags=["Products"])
 app.include_router(services.router, prefix="/services", tags=["Services"])
 app.include_router(bookings.router, prefix="/bookings", tags=["Bookings"])
 app.include_router(orders.router, prefix="/orders", tags=["Orders"])
+app.include_router(
+    order_transactions.router,
+    prefix="/orders",
+    tags=["Order Payments"],
+)
 app.include_router(adoptions.router, prefix="/adoptions", tags=["Adoptions"])
 app.include_router(
     abandoned_pets.router,

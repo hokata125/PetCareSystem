@@ -2,8 +2,19 @@ from datetime import datetime
 
 from sqlalchemy.orm import Session
 
-from app.models.models import Order, OrderStatus, Product, User, UserRole
+from app.models.models import (
+    Order,
+    OrderStatus,
+    PaymentMethod,
+    Product,
+    TransactionStatus,
+    User,
+)
 from app.schemas.orders import OrderCreate
+from app.services.order_transactions import (
+    create_order_transaction,
+    get_order_transaction_by_order_id,
+)
 from app.services.products import get_product_by_id
 
 
@@ -64,6 +75,13 @@ def create_order(
 
     try:
         db.add(order)
+
+        if order.payment_method == PaymentMethod.TRANSFER:
+            create_order_transaction(
+                db=db,
+                order=order,
+            )
+
         db.commit()
     except Exception:
         db.rollback()
@@ -82,11 +100,24 @@ def cancel_order(
     if order is None:
         raise ValueError("Đơn hàng không tồn tại!")
 
-    if user.role != UserRole.ADMIN and order.user_id != user.id:
+    if order.user_id != user.id:
         raise ValueError("Bạn không có quyền hủy đơn hàng này!")
 
     if order.order_status != OrderStatus.PENDING:
         raise ValueError("Chỉ có thể hủy đơn hàng đang chờ xác nhận!")
+
+    transaction = get_order_transaction_by_order_id(
+        db=db,
+        order_id=order.id,
+    )
+
+    if (
+        transaction is not None
+        and transaction.status != TransactionStatus.PENDING
+    ):
+        raise ValueError(
+            "Đơn hàng đang được xử lý thanh toán, bạn không thể hủy!"
+        )
 
     product = db.query(Product).filter(Product.id == order.product_id).first()
 
@@ -97,6 +128,9 @@ def cancel_order(
     order.order_status = OrderStatus.CANCELLED
     order.cancelled_at = datetime.now()
     order.cancelled_by = user.id
+
+    if transaction is not None:
+        transaction.status = TransactionStatus.CANCELLED
 
     try:
         db.commit()

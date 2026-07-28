@@ -131,6 +131,12 @@ class OrderView(ModelView, model=Order):
         if new_status == current_status:
             return
 
+        if (
+            current_status == OrderStatus.PENDING
+            and model.payment_method == PaymentMethod.TRANSFER
+        ):
+            raise ValueError("Hãy xử lý đơn chuyển khoản trong mục giao dịch đơn hàng!")
+
         allowed_transitions = {
             OrderStatus.PENDING: [
                 OrderStatus.CONFIRMED,

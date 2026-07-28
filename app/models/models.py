@@ -328,7 +328,7 @@ class OrderTransaction(Base):
     __tablename__ = "order_transactions"
 
     id = Column(Integer, primary_key=True, index=True)
-    order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
+    order_id = Column(Integer, ForeignKey("orders.id"), unique=True, nullable=False)
 
     amount = Column(Float, nullable=False)
     status = Column(

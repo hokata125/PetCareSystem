@@ -82,7 +82,18 @@ def get_user_order_transaction(
     return transaction
 
 
-def expire_order_transaction(db: Session, transaction: OrderTransaction) -> None:
+def expire_order_payment(db: Session, order_id: int, user: User) -> OrderTransaction:
+    transaction = get_user_order_transaction(db=db, order_id=order_id, user=user)
+
+    if transaction.status == TransactionStatus.EXPIRED:
+        raise ValueError("Giao dịch đã hết hạn thanh toán!")
+
+    if transaction.status != TransactionStatus.PENDING:
+        raise ValueError("Giao dịch không còn ở trạng thái chờ thanh toán!")
+
+    if datetime.now() < transaction.expires_at:
+        raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
+
     order = db.query(Order).filter(Order.id == transaction.order_id).first()
 
     if order is None:
@@ -102,21 +113,6 @@ def expire_order_transaction(db: Session, transaction: OrderTransaction) -> None
     order.cancelled_at = datetime.now()
     order.cancelled_by = order.user_id
     transaction.status = TransactionStatus.EXPIRED
-
-
-def expire_order_payment(db: Session, order_id: int, user: User) -> OrderTransaction:
-    transaction = get_user_order_transaction(db=db, order_id=order_id, user=user)
-
-    if transaction.status == TransactionStatus.EXPIRED:
-        raise ValueError("Giao dịch đã hết hạn thanh toán!")
-
-    if transaction.status != TransactionStatus.PENDING:
-        raise ValueError("Giao dịch không còn ở trạng thái chờ thanh toán!")
-
-    if datetime.now() < transaction.expires_at:
-        raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
-
-    expire_order_transaction(db=db, transaction=transaction)
 
     try:
         db.commit()

@@ -83,23 +83,6 @@ def get_user_booking_transaction(
     return transaction
 
 
-def expire_booking_transaction(db: Session, transaction: BookingTransaction) -> None:
-    booking = db.query(Booking).filter(Booking.id == transaction.booking_id).first()
-
-    if booking is None:
-        raise ValueError("Lịch đặt của giao dịch không còn tồn tại!")
-
-    if booking.booking_status != BookingStatus.PENDING:
-        raise ValueError(
-            "Chỉ có thể xử lý hết hạn thanh toán cho lịch đặt đang chờ xác nhận!"
-        )
-
-    booking.booking_status = BookingStatus.CANCELLED
-    booking.cancelled_at = datetime.now()
-    booking.cancelled_by = booking.user_id
-    transaction.status = TransactionStatus.EXPIRED
-
-
 def expire_booking_payment(
     db: Session, booking_id: int, user: User
 ) -> BookingTransaction:
@@ -114,7 +97,20 @@ def expire_booking_payment(
     if datetime.now() < transaction.expires_at:
         raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
 
-    expire_booking_transaction(db=db, transaction=transaction)
+    booking = db.query(Booking).filter(Booking.id == transaction.booking_id).first()
+
+    if booking is None:
+        raise ValueError("Lịch đặt của giao dịch không còn tồn tại!")
+
+    if booking.booking_status != BookingStatus.PENDING:
+        raise ValueError(
+            "Chỉ có thể xử lý hết hạn thanh toán cho lịch đặt đang chờ xác nhận!"
+        )
+
+    booking.booking_status = BookingStatus.CANCELLED
+    booking.cancelled_at = datetime.now()
+    booking.cancelled_by = booking.user_id
+    transaction.status = TransactionStatus.EXPIRED
 
     try:
         db.commit()

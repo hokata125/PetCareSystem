@@ -67,6 +67,7 @@ class OrderStatus(enum.Enum):
 class PaymentMethod(enum.Enum):
     CASH = "TIỀN MẶT"
     TRANSFER = "CHUYỂN KHOẢN"
+    ONLINE = "ONLINE"
 
     def __str__(self):
         return self.value

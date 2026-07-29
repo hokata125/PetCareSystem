@@ -18,20 +18,16 @@ PAYMENT_EXPIRE_MINUTES = 10
 
 
 def get_order_transaction_by_order_id(
-    db: Session,
-    order_id: int,
+    db: Session, order_id: int
 ) -> OrderTransaction | None:
     return (
         db.query(OrderTransaction).filter(OrderTransaction.order_id == order_id).first()
     )
 
 
-def create_order_transaction(
-    db: Session,
-    order: Order,
-) -> OrderTransaction:
-    if order.payment_method != PaymentMethod.TRANSFER:
-        raise ValueError("Chỉ tạo giao dịch cho đơn hàng thanh toán chuyển khoản!")
+def create_order_transaction(db: Session, order: Order) -> OrderTransaction:
+    if order.payment_method != PaymentMethod.ONLINE:
+        raise ValueError("Chỉ tạo giao dịch cho đơn hàng thanh toán online!")
 
     if order.id is None:
         db.flush()
@@ -51,9 +47,7 @@ def create_order_transaction(
     return transaction
 
 
-def generate_order_qr_url(
-    transaction: OrderTransaction,
-) -> str:
+def generate_order_qr_url(transaction: OrderTransaction) -> str:
     amount = format(transaction.amount, "f").rstrip("0").rstrip(".")
     query_params = urlencode(
         {
@@ -67,9 +61,7 @@ def generate_order_qr_url(
 
 
 def get_user_order_transaction(
-    db: Session,
-    order_id: int,
-    user: User,
+    db: Session, order_id: int, user: User
 ) -> OrderTransaction:
     order = db.query(Order).filter(Order.id == order_id).first()
 
@@ -85,15 +77,12 @@ def get_user_order_transaction(
     )
 
     if transaction is None:
-        raise ValueError("Đơn hàng này không có giao dịch chuyển khoản!")
+        raise ValueError("Đơn hàng này không có giao dịch thanh toán online!")
 
     return transaction
 
 
-def expire_order_transaction(
-    db: Session,
-    transaction: OrderTransaction,
-) -> None:
+def expire_order_transaction(db: Session, transaction: OrderTransaction) -> None:
     order = db.query(Order).filter(Order.id == transaction.order_id).first()
 
     if order is None:
@@ -116,11 +105,7 @@ def expire_order_transaction(
     transaction.status = TransactionStatus.EXPIRED
 
 
-def expire_order_payment(
-    db: Session,
-    order_id: int,
-    user: User,
-) -> OrderTransaction:
+def expire_order_payment(db: Session, order_id: int, user: User) -> OrderTransaction:
     transaction = get_user_order_transaction(
         db=db,
         order_id=order_id,
@@ -151,9 +136,7 @@ def expire_order_payment(
 
 
 def get_order_payment(
-    db: Session,
-    order_id: int,
-    user: User,
+    db: Session, order_id: int, user: User
 ) -> tuple[OrderTransaction, str | None]:
     transaction = get_user_order_transaction(
         db=db,
@@ -173,9 +156,7 @@ def get_order_payment(
 
 
 def request_order_payment_confirmation(
-    db: Session,
-    order_id: int,
-    user: User,
+    db: Session, order_id: int, user: User
 ) -> OrderTransaction:
     transaction = get_user_order_transaction(
         db=db,

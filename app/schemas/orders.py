@@ -9,7 +9,6 @@ class OrderBase(BaseModel):
     product_id: int = Field(gt=0)
     note: str | None = None
     quantity: int = Field(ge=1, le=10000)
-    payment_method: PaymentMethod = PaymentMethod.CASH
 
 
 class OrderCreate(OrderBase):
@@ -39,6 +38,7 @@ class OrderResponse(OrderBase):
     product_name: str
     unit_price: float
     total_price: float
+    payment_method: PaymentMethod
     order_status: OrderStatus
     created_at: datetime
     updated_at: datetime

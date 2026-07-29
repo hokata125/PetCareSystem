@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import Request
 from sqlalchemy.orm import object_session
 from sqladmin import ModelView
+from wtforms import SelectField
 from wtforms.validators import NumberRange, Optional
 
 from app.db.session import SessionLocal
@@ -58,7 +59,17 @@ class OrderView(ModelView, model=Order):
         "note",
         "order_status",
     ]
+    form_overrides = {
+        "payment_method": SelectField,
+    }
     form_args = {
+        "payment_method": {
+            "choices": [
+                (PaymentMethod.CASH.name, "CASH"),
+                (PaymentMethod.TRANSFER.name, "TRANSFER"),
+            ],
+            "default": PaymentMethod.CASH.name,
+        },
         "user_id": {
             "validators": [
                 NumberRange(
@@ -90,6 +101,11 @@ class OrderView(ModelView, model=Order):
             ]
         },
     }
+    form_widget_args = {
+        "receiver_address": {
+            "required": False,
+        },
+    }
 
     async def insert_model(
         self,
@@ -107,13 +123,13 @@ class OrderView(ModelView, model=Order):
                 note=data.get("note"),
                 quantity=data["quantity"],
                 receiver_address=data.get("receiver_address"),
-                payment_method=PaymentMethod[data["payment_method"]],
             )
 
             order = create_order(
                 db=db,
                 user=user,
                 order_input_data=order_input_data,
+                payment_method=PaymentMethod[data["payment_method"]],
             )
 
             db.refresh(order)
@@ -133,9 +149,11 @@ class OrderView(ModelView, model=Order):
 
         if (
             current_status == OrderStatus.PENDING
-            and model.payment_method == PaymentMethod.TRANSFER
+            and model.payment_method == PaymentMethod.ONLINE
         ):
-            raise ValueError("Hãy xử lý đơn chuyển khoản trong mục giao dịch đơn hàng!")
+            raise ValueError(
+                "Hãy xử lý đơn thanh toán online trong mục giao dịch đơn hàng!"
+            )
 
         allowed_transitions = {
             OrderStatus.PENDING: [

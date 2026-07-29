@@ -26,10 +26,7 @@ def get_order_by_id(
 
 
 def get_user_orders(
-    db: Session,
-    user_id: int,
-    skip: int = 0,
-    limit: int = 10,
+    db: Session, user_id: int, skip: int = 0, limit: int = 10
 ) -> list[Order]:
     return (
         db.query(Order)
@@ -45,6 +42,7 @@ def create_order(
     db: Session,
     user: User,
     order_input_data: OrderCreate,
+    payment_method: PaymentMethod = PaymentMethod.ONLINE,
 ) -> Order:
     product = get_product_by_id(db, order_input_data.product_id)
 
@@ -68,7 +66,7 @@ def create_order(
         quantity=order_input_data.quantity,
         unit_price=unit_price,
         total_price=total_price,
-        payment_method=order_input_data.payment_method,
+        payment_method=payment_method,
     )
 
     product.stock_quantity -= order_input_data.quantity
@@ -76,11 +74,8 @@ def create_order(
     try:
         db.add(order)
 
-        if order.payment_method == PaymentMethod.TRANSFER:
-            create_order_transaction(
-                db=db,
-                order=order,
-            )
+        if order.payment_method == PaymentMethod.ONLINE:
+            create_order_transaction(db=db, order=order)
 
         db.commit()
     except Exception:
@@ -90,11 +85,7 @@ def create_order(
     return order
 
 
-def cancel_order(
-    db: Session,
-    order_id: int,
-    user: User,
-) -> Order:
+def cancel_order(db: Session, order_id: int, user: User) -> Order:
     order = get_order_by_id(db, order_id)
 
     if order is None:
@@ -111,13 +102,8 @@ def cancel_order(
         order_id=order.id,
     )
 
-    if (
-        transaction is not None
-        and transaction.status != TransactionStatus.PENDING
-    ):
-        raise ValueError(
-            "Đơn hàng đang được xử lý thanh toán, bạn không thể hủy!"
-        )
+    if transaction is not None and transaction.status != TransactionStatus.PENDING:
+        raise ValueError("Đơn hàng đang được xử lý thanh toán, bạn không thể hủy!")
 
     product = db.query(Product).filter(Product.id == order.product_id).first()
 

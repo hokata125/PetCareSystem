@@ -43,10 +43,7 @@ class OrderTransactionView(ModelView, model=OrderTransaction):
     ]
 
     def change_transaction_status(
-        self,
-        data: dict,
-        model: OrderTransaction,
-        request: Request,
+        self, data: dict, model: OrderTransaction, request: Request
     ) -> None:
         current_status = model.status
         new_status = TransactionStatus[data["status"]]

@@ -5,6 +5,7 @@ from app.admin.auth import admin_authentication
 from app.admin.views import (
     AbandonedPetView,
     AdoptionView,
+    BookingTransactionView,
     BookingView,
     OrderView,
     OrderTransactionView,
@@ -27,6 +28,7 @@ def setup_admin(app: FastAPI) -> Admin:
     admin.add_view(ServiceView)
     admin.add_view(AbandonedPetView)
     admin.add_view(BookingView)
+    admin.add_view(BookingTransactionView)
     admin.add_view(OrderView)
     admin.add_view(OrderTransactionView)
     admin.add_view(AdoptionView)

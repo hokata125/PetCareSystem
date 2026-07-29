@@ -2,6 +2,7 @@ from datetime import datetime
 
 from fastapi import Request
 from sqladmin import ModelView
+from wtforms import SelectField
 from wtforms.validators import DataRequired, NumberRange, Optional
 
 from app.db.session import SessionLocal
@@ -74,7 +75,17 @@ class BookingView(ModelView, model=Booking):
         "note",
         "booking_status",
     ]
+    form_overrides = {
+        "payment_method": SelectField,
+    }
     form_args = {
+        "payment_method": {
+            "choices": [
+                (PaymentMethod.CASH.name, "CASH"),
+                (PaymentMethod.TRANSFER.name, "TRANSFER"),
+            ],
+            "default": PaymentMethod.CASH.name,
+        },
         "user_id": {
             "validators": [
                 NumberRange(
@@ -140,13 +151,13 @@ class BookingView(ModelView, model=Booking):
                 pet_type=data["pet_type"],
                 pet_weight=data["pet_weight"],
                 note=data.get("note"),
-                payment_method=PaymentMethod[data["payment_method"]],
             )
 
             booking = create_booking(
                 db=db,
                 user=user,
                 booking_input_data=booking_input_data,
+                payment_method=PaymentMethod[data["payment_method"]],
             )
 
             db.refresh(booking)
@@ -160,6 +171,14 @@ class BookingView(ModelView, model=Booking):
 
         if new_status == current_status:
             return
+
+        if (
+            current_status == BookingStatus.PENDING
+            and model.payment_method == PaymentMethod.ONLINE
+        ):
+            raise ValueError(
+                "Hãy xử lý lịch đặt thanh toán online trong mục giao dịch lịch đặt!"
+            )
 
         allowed_transitions = {
             BookingStatus.PENDING: [

@@ -275,7 +275,7 @@ class BookingTransaction(Base):
     __tablename__ = "booking_transactions"
 
     id = Column(Integer, primary_key=True, index=True)
-    booking_id = Column(Integer, ForeignKey("bookings.id"), nullable=False)
+    booking_id = Column(Integer, ForeignKey("bookings.id"), unique=True, nullable=False)
 
     amount = Column(Float, nullable=False)
     status = Column(

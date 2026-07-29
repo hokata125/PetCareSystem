@@ -187,10 +187,9 @@ class OrderView(ModelView, model=Order):
 
             product = db.query(Product).filter(Product.id == model.product_id).first()
 
-            if product is None:
-                raise ValueError("Sản phẩm trong đơn hàng không còn tồn tại!")
+            if product is not None:
+                product.stock_quantity += model.quantity
 
-            product.stock_quantity += model.quantity
             admin_id = request.session.get("admin_id")
             data["cancelled_at"] = datetime.now()
             data["cancelled_by"] = admin_id

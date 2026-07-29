@@ -95,10 +95,9 @@ def expire_order_transaction(db: Session, transaction: OrderTransaction) -> None
 
     product = db.query(Product).filter(Product.id == order.product_id).first()
 
-    if product is None:
-        raise ValueError("Sản phẩm của đơn hàng không còn tồn tại!")
+    if product is not None:
+        product.stock_quantity += order.quantity
 
-    product.stock_quantity += order.quantity
     order.order_status = OrderStatus.CANCELLED
     order.cancelled_at = datetime.now()
     order.cancelled_by = order.user_id
@@ -106,14 +105,10 @@ def expire_order_transaction(db: Session, transaction: OrderTransaction) -> None
 
 
 def expire_order_payment(db: Session, order_id: int, user: User) -> OrderTransaction:
-    transaction = get_user_order_transaction(
-        db=db,
-        order_id=order_id,
-        user=user,
-    )
+    transaction = get_user_order_transaction(db=db, order_id=order_id, user=user)
 
     if transaction.status == TransactionStatus.EXPIRED:
-        return transaction
+        raise ValueError("Giao dịch đã hết hạn thanh toán!")
 
     if transaction.status != TransactionStatus.PENDING:
         raise ValueError("Giao dịch không còn ở trạng thái chờ thanh toán!")
@@ -121,10 +116,7 @@ def expire_order_payment(db: Session, order_id: int, user: User) -> OrderTransac
     if datetime.now() < transaction.expires_at:
         raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
 
-    expire_order_transaction(
-        db=db,
-        transaction=transaction,
-    )
+    expire_order_transaction(db=db, transaction=transaction)
 
     try:
         db.commit()
@@ -165,17 +157,13 @@ def request_order_payment_confirmation(
     )
 
     if transaction.status == TransactionStatus.WAITING_CONFIRM:
-        return transaction
+        raise ValueError("Giao dịch đã được gửi đến admin để chờ xác nhận!")
 
     if transaction.status != TransactionStatus.PENDING:
         raise ValueError("Giao dịch không còn ở trạng thái chờ thanh toán!")
 
     if datetime.now() >= transaction.expires_at:
-        expire_order_payment(
-            db=db,
-            order_id=order_id,
-            user=user,
-        )
+        expire_order_payment(db=db, order_id=order_id, user=user)
 
         raise ValueError("Giao dịch đã quá hạn thanh toán!")
 

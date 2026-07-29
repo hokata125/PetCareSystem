@@ -23,9 +23,9 @@ def create_my_booking(
 ):
     try:
         return create_booking(
-            db,
-            current_user,
-            booking_input_data,
+            db=db,
+            user=current_user,
+            booking_input_data=booking_input_data,
         )
     except ValueError as error:
         raise HTTPException(
@@ -80,9 +80,9 @@ def cancel_my_booking(
 ):
     try:
         return cancel_booking(
-            db,
-            booking_id,
-            current_user,
+            db=db,
+            booking_id=booking_id,
+            user=current_user,
         )
     except ValueError as error:
         raise HTTPException(

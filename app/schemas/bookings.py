@@ -11,7 +11,6 @@ class BookingBase(BaseModel):
     pet_type: str
     pet_weight: float = Field(ge=1, le=50)
     note: str | None = None
-    payment_method: PaymentMethod = PaymentMethod.CASH
 
     @field_validator("pet_name")
     @classmethod
@@ -87,6 +86,7 @@ class BookingResponse(BookingBase):
     end_at: datetime
     base_price: float
     final_price: float
+    payment_method: PaymentMethod
     booking_status: BookingStatus
     created_at: datetime
     updated_at: datetime

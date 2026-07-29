@@ -5,11 +5,17 @@ from sqlalchemy.orm import Session
 from app.models.models import (
     Booking,
     BookingStatus,
+    PaymentMethod,
     Service,
     ServiceType,
+    TransactionStatus,
     User,
 )
 from app.schemas.bookings import BookingCreate
+from app.services.booking_transactions import (
+    create_booking_transaction,
+    get_booking_transaction_by_booking_id,
+)
 from app.services.services import get_service_by_id
 
 FIXED_SERVICE_DURATION = timedelta(hours=2)
@@ -132,6 +138,7 @@ def create_booking(
     db: Session,
     user: User,
     booking_input_data: BookingCreate,
+    payment_method: PaymentMethod = PaymentMethod.ONLINE,
 ) -> Booking:
     service = get_service_by_id(db, booking_input_data.service_id)
 
@@ -179,11 +186,18 @@ def create_booking(
         note=booking_input_data.note,
         base_price=service.price,
         final_price=calculated_final_price,
-        payment_method=booking_input_data.payment_method,
+        payment_method=payment_method,
     )
 
     try:
         db.add(booking)
+
+        if booking.payment_method == PaymentMethod.ONLINE:
+            create_booking_transaction(
+                db=db,
+                booking=booking,
+            )
+
         db.commit()
     except Exception:
         db.rollback()
@@ -192,11 +206,7 @@ def create_booking(
     return booking
 
 
-def cancel_booking(
-    db: Session,
-    booking_id: int,
-    user: User,
-) -> Booking:
+def cancel_booking(db: Session, booking_id: int, user: User) -> Booking:
     booking = get_booking_by_id(db, booking_id)
 
     if booking is None:
@@ -208,9 +218,20 @@ def cancel_booking(
     if booking.booking_status != BookingStatus.PENDING:
         raise ValueError("Chỉ có thể hủy lịch đặt đang chờ xác nhận!")
 
+    transaction = get_booking_transaction_by_booking_id(
+        db=db,
+        booking_id=booking.id,
+    )
+
+    if transaction is not None and transaction.status != TransactionStatus.PENDING:
+        raise ValueError("Lịch đặt đang được xử lý thanh toán, bạn không thể hủy!")
+
     booking.booking_status = BookingStatus.CANCELLED
     booking.cancelled_at = datetime.now()
     booking.cancelled_by = user.id
+
+    if transaction is not None:
+        transaction.status = TransactionStatus.CANCELLED
 
     try:
         db.commit()

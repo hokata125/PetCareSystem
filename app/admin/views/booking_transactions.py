@@ -5,45 +5,44 @@ from sqlalchemy.orm import object_session
 from sqladmin import ModelView
 
 from app.models.models import (
-    Order,
-    OrderStatus,
-    OrderTransaction,
-    Product,
+    Booking,
+    BookingStatus,
+    BookingTransaction,
     TransactionStatus,
 )
 
 
-class OrderTransactionView(ModelView, model=OrderTransaction):
+class BookingTransactionView(ModelView, model=BookingTransaction):
     can_create = False
     can_delete = False
 
     column_list = [
-        OrderTransaction.id,
-        OrderTransaction.order_id,
-        OrderTransaction.amount,
-        OrderTransaction.status,
-        OrderTransaction.transaction_code,
-        OrderTransaction.created_at,
-        OrderTransaction.expires_at,
-        OrderTransaction.paid_at,
+        BookingTransaction.id,
+        BookingTransaction.booking_id,
+        BookingTransaction.amount,
+        BookingTransaction.status,
+        BookingTransaction.transaction_code,
+        BookingTransaction.created_at,
+        BookingTransaction.expires_at,
+        BookingTransaction.paid_at,
     ]
     column_sortable_list = [
-        OrderTransaction.id,
-        OrderTransaction.amount,
-        OrderTransaction.status,
-        OrderTransaction.created_at,
-        OrderTransaction.expires_at,
-        OrderTransaction.paid_at,
+        BookingTransaction.id,
+        BookingTransaction.amount,
+        BookingTransaction.status,
+        BookingTransaction.created_at,
+        BookingTransaction.expires_at,
+        BookingTransaction.paid_at,
     ]
     form_columns = [
-        OrderTransaction.status,
+        BookingTransaction.status,
     ]
     form_edit_rules = [
         "status",
     ]
 
     def change_transaction_status(
-        self, data: dict, model: OrderTransaction, request: Request
+        self, data: dict, model: BookingTransaction, request: Request
     ) -> None:
         current_status = model.status
         new_status = TransactionStatus[data["status"]]
@@ -64,37 +63,32 @@ class OrderTransactionView(ModelView, model=OrderTransaction):
         if db is None:
             raise ValueError("Lỗi cập nhật giao dịch trong cơ sở dữ liệu!")
 
-        order = db.query(Order).filter(Order.id == model.order_id).first()
+        booking = db.query(Booking).filter(Booking.id == model.booking_id).first()
 
-        if order is None:
-            raise ValueError("Đơn hàng của giao dịch không còn tồn tại!")
+        if booking is None:
+            raise ValueError("Lịch đặt của giao dịch không còn tồn tại!")
 
-        if order.order_status != OrderStatus.PENDING:
+        if booking.booking_status != BookingStatus.PENDING:
             raise ValueError(
-                "Chỉ có thể xác nhận giao dịch của đơn hàng đang chờ xác nhận!"
+                "Chỉ có thể xác nhận giao dịch của lịch đặt đang chờ xác nhận!"
             )
 
         data["status"] = new_status
 
         if new_status == TransactionStatus.SUCCESS:
             data["paid_at"] = datetime.now()
-            order.order_status = OrderStatus.CONFIRMED
+            booking.booking_status = BookingStatus.CONFIRMED
             return
 
-        product = db.query(Product).filter(Product.id == order.product_id).first()
-
-        if product is not None:
-            product.stock_quantity += order.quantity
-
-        order.order_status = OrderStatus.CANCELLED
+        booking.booking_status = BookingStatus.CANCELLED
         admin_id = request.session.get("admin_id")
-        order.cancelled_at = datetime.now()
-        order.cancelled_by = admin_id
+        booking.cancelled_at = datetime.now()
+        booking.cancelled_by = admin_id
 
     async def on_model_change(
         self,
         data: dict,
-        model: OrderTransaction,
+        model: BookingTransaction,
         is_created: bool,
         request: Request,
     ) -> None:

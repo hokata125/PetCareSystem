@@ -107,10 +107,9 @@ def cancel_order(db: Session, order_id: int, user: User) -> Order:
 
     product = db.query(Product).filter(Product.id == order.product_id).first()
 
-    if product is None:
-        raise ValueError("Sản phẩm của đơn hàng không còn tồn tại!")
+    if product is not None:
+        product.stock_quantity += order.quantity
 
-    product.stock_quantity += order.quantity
     order.order_status = OrderStatus.CANCELLED
     order.cancelled_at = datetime.now()
     order.cancelled_by = user.id

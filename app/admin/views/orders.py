@@ -31,6 +31,11 @@ class OrderView(ModelView, model=Order):
         Order.payment_method,
         Order.order_status,
     ]
+    column_searchable_list = [
+        Order.receiver_full_name,
+        Order.receiver_phone_number,
+        Order.product_name,
+    ]
     column_sortable_list = [
         Order.id,
         Order.quantity,

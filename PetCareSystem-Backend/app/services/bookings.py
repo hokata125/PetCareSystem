@@ -193,10 +193,7 @@ def create_booking(
         db.add(booking)
 
         if booking.payment_method == PaymentMethod.ONLINE:
-            create_booking_transaction(
-                db=db,
-                booking=booking,
-            )
+            create_booking_transaction(db=db, booking=booking)
 
         db.commit()
     except Exception:

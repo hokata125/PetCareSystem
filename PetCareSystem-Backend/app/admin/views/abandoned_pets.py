@@ -21,6 +21,7 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
         AbandonedPet.pet_type,
         AbandonedPet.age,
         AbandonedPet.weight,
+        AbandonedPet.health_status,
         AbandonedPet.pet_status,
         AbandonedPet.is_active,
     ]

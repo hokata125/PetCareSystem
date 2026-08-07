@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
 import { login } from "../../services/authService";
 
@@ -79,9 +80,12 @@ const LoginPage = () => {
               disabled={isSubmitting}
             />
 
-            <span className="text-ui block cursor-pointer leading-tight font-bold text-white transition-colors duration-200 hover:text-brand-primary">
+            <NavLink
+              to="/register"
+              className="text-ui block cursor-pointer leading-tight font-bold text-white no-underline transition-colors duration-200 hover:text-brand-primary"
+            >
               Bạn chưa có tài khoản? Hãy đăng ký ngay!
-            </span>
+            </NavLink>
 
             <button
               type="submit"

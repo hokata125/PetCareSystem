@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import petCareLogo from "../../assets/images/pet-care-logo.png";
 
 const Header = () => {
@@ -14,9 +15,12 @@ const Header = () => {
         className="ml-12 flex flex-1 items-center xl:ml-14 2xl:ml-16 3xl:ml-20"
       >
         <div className="mr-6 grid flex-1 grid-cols-5 items-center xl:mr-7 2xl:mr-8 3xl:mr-10">
-          <span className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline">
+          <NavLink
+            to="/"
+            className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary no-underline decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline"
+          >
             TRANG CHỦ
-          </span>
+          </NavLink>
           <span className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline">
             DỊCH VỤ
           </span>
@@ -32,19 +36,18 @@ const Header = () => {
         </div>
 
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">
-          <button
-            type="button"
-            aria-current="page"
+          <NavLink
+            to="/login"
             className={`${authButtonClasses} bg-brand-primary text-white hover:bg-brand-primary-hover`}
           >
             <span className="font-bold">ĐĂNG NHẬP</span>
-          </button>
-          <button
-            type="button"
+          </NavLink>
+          <NavLink
+            to="/register"
             className={`${authButtonClasses} bg-brand-secondary text-brand-primary hover:bg-brand-secondary-hover`}
           >
             <span className="font-bold">ĐĂNG KÝ</span>
-          </button>
+          </NavLink>
         </div>
       </nav>
     </header>
@@ -52,6 +55,6 @@ const Header = () => {
 };
 
 const authButtonClasses =
-  "text-navigation h-12 w-36 shrink-0 cursor-pointer whitespace-nowrap rounded-lg transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-40 3xl:h-16 3xl:w-48";
+  "text-navigation inline-flex h-12 w-36 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg no-underline transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-40 3xl:h-16 3xl:w-48";
 
 export default Header;

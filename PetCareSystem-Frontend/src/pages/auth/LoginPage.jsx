@@ -42,24 +42,24 @@ const LoginPage = () => {
   return (
     <section
       aria-labelledby="login-title"
-      className="relative aspect-[2048/2112] w-full bg-cover bg-center bg-no-repeat"
+      className="relative aspect-32/33 w-full bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${authBackground})` }}
     >
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[20.9%] left-1/2 h-[58%] w-[57.2%] -translate-x-1/2 overflow-hidden rounded-[clamp(20px,1.56vw,30px)] border-4 border-[#111111] bg-white"
+        className="absolute top-[20.9%] left-1/2 flex h-[58%] w-[57.2%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
       >
-        <div className="flex h-[17.45%] items-center justify-center bg-white">
+        <div className="flex h-1/6 items-center justify-center bg-white">
           <h1
             id="login-title"
-            className="m-0 text-[clamp(36px,3.02vw,58px)] leading-none font-[800] text-[#155383]"
+            className="text-auth-title m-0 leading-none font-extrabold text-brand-primary"
           >
             ĐĂNG NHẬP TÀI KHOẢN
           </h1>
         </div>
 
-        <div className="flex h-[82.55%] justify-center bg-[#91d0df]">
-          <div className="flex w-[73%] flex-col gap-[clamp(24px,2.34vw,45px)] pt-[8.2%]">
+        <div className="flex flex-1 justify-center bg-brand-secondary">
+          <div className="flex w-3/4 flex-col gap-6 pt-12 xl:gap-8 xl:pt-14 2xl:gap-9 2xl:pt-16 3xl:gap-12 3xl:pt-20">
             <LoginInput
               id="username"
               label="Tên đăng nhập"
@@ -81,34 +81,33 @@ const LoginPage = () => {
               disabled={isSubmitting}
             />
 
-            <p className="m-0 text-[clamp(18px,1.45vw,28px)] leading-[1.2] font-[700] text-white">
-              Bạn chưa có tài khoản? Hãy{" "}
-              <span className="font-[800] text-[#155383]">đăng ký ngay!</span>
-            </p>
+            <span className="text-ui block cursor-pointer leading-tight font-bold text-white transition-colors duration-200 hover:text-brand-primary">
+              Bạn chưa có tài khoản? Hãy đăng ký ngay!
+            </span>
 
             <button
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="flex h-[clamp(48px,3.65vw,70px)] cursor-pointer items-center justify-center rounded-[clamp(8px,0.73vw,14px)] bg-[#155383] text-[clamp(20px,1.56vw,30px)] leading-none font-[800] text-white enabled:hover:bg-[#10466f] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#155383] disabled:cursor-not-allowed disabled:opacity-70"
+              className="text-action flex h-12 cursor-pointer items-center justify-center rounded-lg bg-brand-primary leading-none font-extrabold text-white enabled:hover:bg-brand-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70 xl:h-14 2xl:rounded-xl 3xl:h-16"
             >
               {isSubmitting ? (
                 <>
                   <span
                     aria-hidden="true"
-                    className="size-[1.1em] animate-spin rounded-full border-[0.13em] border-white/40 border-t-white"
+                    className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8"
                   />
                   <span className="sr-only">Đang đăng nhập...</span>
                 </>
               ) : (
-                "ĐĂNG NHẬP"
+                <span className="font-bold">ĐĂNG NHẬP</span>
               )}
             </button>
 
             {errorMessage && (
               <div
                 role="alert"
-                className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-[clamp(14px,1vw,18px)] leading-snug font-[600] text-red-800"
+                className="text-feedback rounded-lg border border-red-300 bg-red-50 px-4 py-3 leading-snug font-semibold text-red-800"
               >
                 {errorMessage}
               </div>
@@ -116,7 +115,7 @@ const LoginPage = () => {
             {successMessage && (
               <div
                 role="status"
-                className="rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-[clamp(14px,1vw,18px)] leading-snug font-[600] text-green-800"
+                className="text-feedback rounded-lg border border-green-300 bg-green-50 px-4 py-3 leading-snug font-semibold text-green-800"
               >
                 {successMessage}
               </div>
@@ -139,10 +138,10 @@ const LoginInput = ({
   disabled,
 }) => {
   return (
-    <div className="flex min-h-[clamp(96px,7.81vw,150px)] flex-col justify-center rounded-[clamp(8px,0.52vw,10px)] bg-white px-[clamp(14px,1.04vw,20px)] py-[clamp(12px,0.83vw,16px)]">
+    <div className="flex min-h-24 flex-col justify-center rounded-lg bg-white px-4 py-3 xl:min-h-28 2xl:min-h-32 2xl:px-5 2xl:py-4 3xl:min-h-36">
       <label
         htmlFor={id}
-        className="text-[clamp(18px,1.45vw,28px)] leading-[1.15] font-[800] text-[#155383]"
+        className="text-ui leading-tight font-extrabold text-brand-primary"
       >
         {label}
       </label>
@@ -156,7 +155,7 @@ const LoginInput = ({
         autoComplete={autoComplete}
         disabled={disabled}
         required
-        className="mt-[clamp(5px,0.47vw,9px)] w-full border-0 bg-transparent p-0 text-[clamp(18px,1.45vw,28px)] leading-[1.2] text-[#4a4a4a] outline-none placeholder:text-[#555555] placeholder:opacity-100 disabled:cursor-not-allowed disabled:opacity-70"
+        className="text-ui mt-1.5 w-full border-0 bg-transparent p-0 leading-tight text-neutral-700 outline-none placeholder:text-neutral-600 placeholder:opacity-100 disabled:cursor-not-allowed disabled:opacity-70 2xl:mt-2"
       />
     </div>
   );

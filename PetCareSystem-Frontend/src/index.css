@@ -1,12 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-3xl: 120rem;
+
+  --color-brand-primary: #155383;
+  --color-brand-primary-hover: #0b3d61;
+  --color-brand-secondary: #91d0df;
+  --color-brand-secondary-hover: #68b8cb;
+
+  --font-sans: Inter, sans-serif;
+
+  --text-auth-title: clamp(2.25rem, 3.02vw, 3.625rem);
+  --text-navigation: clamp(1rem, 1.25vw, 1.5rem);
+  --text-ui: clamp(1.125rem, 1.45vw, 1.75rem);
+  --text-action: clamp(1.25rem, 1.56vw, 1.875rem);
+  --text-feedback: clamp(0.875rem, 1vw, 1.125rem);
+}
+
 :root {
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter,
-    'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
   color: #155383;
   background: #ffffff;
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

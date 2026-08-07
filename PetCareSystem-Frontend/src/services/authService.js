@@ -4,3 +4,8 @@ export const login = async (loginData) => {
   const response = await httpClient.post("/auth/login", loginData);
   return response.data;
 };
+
+export const registerUser = async (registerData) => {
+  const response = await httpClient.post("/auth/register", registerData);
+  return response.data;
+};

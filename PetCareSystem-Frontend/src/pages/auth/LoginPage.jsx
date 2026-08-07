@@ -66,7 +66,6 @@ const LoginPage = () => {
               placeholder="Nhập vào tài khoản của bạn..."
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              autoComplete="username"
               disabled={isSubmitting}
             />
 
@@ -77,7 +76,6 @@ const LoginPage = () => {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              autoComplete="current-password"
               disabled={isSubmitting}
             />
 
@@ -134,7 +132,6 @@ const LoginInput = ({
   type = "text",
   value,
   onChange,
-  autoComplete,
   disabled,
 }) => {
   return (
@@ -152,7 +149,6 @@ const LoginInput = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        autoComplete={autoComplete}
         disabled={disabled}
         required
         className="text-ui mt-1.5 w-full border-0 bg-transparent p-0 leading-tight text-neutral-700 outline-none placeholder:text-neutral-600 placeholder:opacity-100 disabled:cursor-not-allowed disabled:opacity-70 2xl:mt-2"

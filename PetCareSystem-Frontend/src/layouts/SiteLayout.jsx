@@ -1,12 +1,12 @@
-import SiteFooter from "../components/layout/SiteFooter";
-import SiteHeader from "../components/layout/SiteHeader";
+import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
 
 const SiteLayout = ({ children }) => {
   return (
     <>
-      <SiteHeader />
+      <Header />
       <main>{children}</main>
-      <SiteFooter />
+      <Footer />
     </>
   );
 };

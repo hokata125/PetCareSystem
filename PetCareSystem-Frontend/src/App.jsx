@@ -1,5 +1,5 @@
 import SiteLayout from './layouts/SiteLayout'
-import LoginPage from './features/auth/pages/LoginPage'
+import LoginPage from './pages/auth/LoginPage'
 
 const App = () => {
   return (

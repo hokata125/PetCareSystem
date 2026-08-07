@@ -1,4 +1,4 @@
-import httpClient from "../../../api/httpClient";
+import httpClient from "../configs/httpClient";
 
 export const login = async (loginData) => {
   const response = await httpClient.post("/auth/login", loginData);

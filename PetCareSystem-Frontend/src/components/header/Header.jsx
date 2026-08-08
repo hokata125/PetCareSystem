@@ -1,7 +1,8 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { NavLink } from "react-router";
 import petCareLogo from "../../assets/images/pet-care-logo.png";
 
-const Header = () => {
+const Header = ({ currentUser, onLogout }) => {
   return (
     <header className="flex h-32 items-center bg-white px-10 font-sans xl:h-36 xl:px-12 2xl:h-40 2xl:px-14 3xl:h-48 3xl:px-16">
       <img
@@ -10,10 +11,7 @@ const Header = () => {
         className="block h-auto w-52 shrink-0 xl:w-56 2xl:w-64 3xl:w-72"
       />
 
-      <nav
-        aria-label="Điều hướng chính"
-        className="ml-12 flex flex-1 items-center xl:ml-14 2xl:ml-16 3xl:ml-20"
-      >
+      <nav className="ml-12 flex flex-1 items-center xl:ml-14 2xl:ml-16 3xl:ml-20">
         <div className="mr-6 grid flex-1 grid-cols-5 items-center xl:mr-7 2xl:mr-8 3xl:mr-10">
           <NavLink
             to="/"
@@ -36,18 +34,66 @@ const Header = () => {
         </div>
 
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">
-          <NavLink
-            to="/login"
-            className={`${authButtonClasses} bg-brand-primary text-white hover:bg-brand-primary-hover`}
-          >
-            <span className="font-bold">ĐĂNG NHẬP</span>
-          </NavLink>
-          <NavLink
-            to="/register"
-            className={`${authButtonClasses} bg-brand-secondary text-brand-primary hover:bg-brand-secondary-hover`}
-          >
-            <span className="font-bold">ĐĂNG KÝ</span>
-          </NavLink>
+          {currentUser ? (
+            <Menu>
+              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-secondary px-4 font-bold text-brand-primary outline-none data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
+                <span className="truncate font-extrabold">
+                  Xin chào, {currentUser.full_name}!
+                </span>
+                <span>▼</span>
+              </MenuButton>
+
+              <MenuItems
+                anchor="bottom end"
+                className="z-50 w-(--button-width) overflow-hidden font-extrabold rounded-b-lg bg-brand-secondary py-1 text-brand-primary shadow-lg outline-none [--anchor-gap:0px]"
+              >
+                <MenuItem>
+                  <button type="button" className={userMenuItemClasses}>
+                    Hồ sơ
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button type="button" className={userMenuItemClasses}>
+                    Lịch sử đặt lịch
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button type="button" className={userMenuItemClasses}>
+                    Lịch sử đặt hàng
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button type="button" className={userMenuItemClasses}>
+                    Lịch sử nhận nuôi
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button
+                    type="button"
+                    onClick={onLogout}
+                    className={userMenuItemClasses}
+                  >
+                    Đăng xuất
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className={`${authButtonClasses} bg-brand-primary text-white hover:bg-brand-primary-hover`}
+              >
+                <span className="font-bold">ĐĂNG NHẬP</span>
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={`${authButtonClasses} bg-brand-secondary text-brand-primary hover:bg-brand-secondary-hover`}
+              >
+                <span className="font-bold">ĐĂNG KÝ</span>
+              </NavLink>
+            </>
+          )}
         </div>
       </nav>
     </header>
@@ -56,5 +102,8 @@ const Header = () => {
 
 const authButtonClasses =
   "text-navigation inline-flex h-12 w-36 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg no-underline transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-40 3xl:h-16 3xl:w-48";
+
+const userMenuItemClasses =
+  "text-navigation block w-full cursor-pointer border-0 bg-brand-secondary px-4 py-3 text-left font-medium text-brand-primary outline-none data-focus:bg-brand-primary data-focus:text-white";
 
 export default Header;

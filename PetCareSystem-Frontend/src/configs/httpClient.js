@@ -8,4 +8,14 @@ if (!apiBaseUrl) {
 
 const httpClient = axios.create({ baseURL: apiBaseUrl });
 
+httpClient.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return config;
+});
+
 export default httpClient;

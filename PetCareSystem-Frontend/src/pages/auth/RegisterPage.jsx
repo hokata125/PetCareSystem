@@ -56,7 +56,6 @@ const RegisterPage = () => {
 
   return (
     <section
-      aria-labelledby="register-title"
       className="relative aspect-32/33 w-full bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${authBackground})` }}
     >
@@ -65,10 +64,7 @@ const RegisterPage = () => {
         className="absolute top-[20.9%] left-1/2 flex h-[58%] w-[57.2%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
       >
         <div className="flex h-1/6 items-center justify-center bg-white">
-          <h1
-            id="register-title"
-            className="text-auth-title m-0 leading-none font-extrabold text-brand-primary"
-          >
+          <h1 className="text-auth-title m-0 leading-none font-extrabold text-brand-primary">
             ĐĂNG KÝ TÀI KHOẢN
           </h1>
         </div>
@@ -158,36 +154,23 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              aria-busy={isSubmitting}
               className="text-action col-span-3 flex h-12 cursor-pointer items-center justify-center rounded-lg bg-brand-primary leading-none text-white enabled:hover:bg-brand-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70 xl:h-14 2xl:rounded-xl 3xl:h-16"
             >
               {isSubmitting ? (
-                <>
-                  <span
-                    aria-hidden="true"
-                    className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8"
-                  />
-                  <span className="sr-only">Đang đăng ký...</span>
-                </>
+                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
               ) : (
                 <span className="font-bold">ĐĂNG KÝ</span>
               )}
             </button>
 
             {errorMessage && (
-              <div
-                role="alert"
-                className="text-feedback col-span-3 rounded-lg border border-red-300 bg-red-50 px-4 py-3 leading-snug font-semibold text-red-800"
-              >
+              <div className="text-feedback col-span-3 rounded-lg border border-red-300 bg-red-50 px-4 py-3 leading-snug font-semibold text-red-800">
                 {errorMessage}
               </div>
             )}
 
             {successMessage && (
-              <div
-                role="status"
-                className="text-feedback col-span-3 rounded-lg border border-green-300 bg-green-50 px-4 py-3 leading-snug font-semibold text-green-800"
-              >
+              <div className="text-feedback col-span-3 rounded-lg border border-green-300 bg-green-50 px-4 py-3 leading-snug font-semibold text-green-800">
                 {successMessage}
               </div>
             )}
@@ -210,10 +193,7 @@ const RegisterInput = ({
 }) => {
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
-      <label
-        htmlFor={id}
-        className="text-ui leading-none font-bold text-white"
-      >
+      <label htmlFor={id} className="text-ui leading-none font-bold text-white">
         {label}
       </label>
       <input
@@ -234,10 +214,7 @@ const RegisterInput = ({
 const RegisterSelect = ({ id, label, value, onChange, disabled }) => {
   return (
     <div className="flex flex-col gap-1">
-      <label
-        htmlFor={id}
-        className="text-ui leading-none font-bold text-white"
-      >
+      <label htmlFor={id} className="text-ui leading-none font-bold text-white">
         {label}
       </label>
       <select

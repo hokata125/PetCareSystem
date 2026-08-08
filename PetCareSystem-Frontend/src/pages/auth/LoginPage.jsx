@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
-import { login } from "../../services/authService";
+import { getCurrentUser, login } from "../../services/authService";
 
-const LoginPage = () => {
+const LoginPage = ({ onLoginSuccess }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,9 +18,20 @@ const LoginPage = () => {
     setIsSubmitting(true);
 
     try {
-      await login({ username, password });
+      const loginResponse = await login({ username, password });
+
+      localStorage.setItem("accessToken", loginResponse.access_token);
+
+      const user = await getCurrentUser();
+      onLoginSuccess(user);
+
       setSuccessMessage("Đăng nhập thành công!");
+
+      await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      navigate("/", { replace: true });
     } catch (error) {
+      localStorage.removeItem("accessToken");
+
       const detail = error.response?.data?.detail;
       const validationMessage = Array.isArray(detail)
         ? detail
@@ -42,7 +54,6 @@ const LoginPage = () => {
 
   return (
     <section
-      aria-labelledby="login-title"
       className="relative aspect-32/33 w-full bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${authBackground})` }}
     >
@@ -51,10 +62,7 @@ const LoginPage = () => {
         className="absolute top-[20.9%] left-1/2 flex h-[58%] w-[57.2%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
       >
         <div className="flex h-1/6 items-center justify-center bg-white">
-          <h1
-            id="login-title"
-            className="text-auth-title m-0 leading-none font-extrabold text-brand-primary"
-          >
+          <h1 className="text-auth-title m-0 leading-none font-extrabold text-brand-primary">
             ĐĂNG NHẬP TÀI KHOẢN
           </h1>
         </div>
@@ -90,35 +98,22 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              aria-busy={isSubmitting}
               className="text-action flex h-12 cursor-pointer items-center justify-center rounded-lg bg-brand-primary leading-none font-extrabold text-white enabled:hover:bg-brand-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70 xl:h-14 2xl:rounded-xl 3xl:h-16"
             >
               {isSubmitting ? (
-                <>
-                  <span
-                    aria-hidden="true"
-                    className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8"
-                  />
-                  <span className="sr-only">Đang đăng nhập...</span>
-                </>
+                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
               ) : (
                 <span className="font-bold">ĐĂNG NHẬP</span>
               )}
             </button>
 
             {errorMessage && (
-              <div
-                role="alert"
-                className="text-feedback rounded-lg border border-red-300 bg-red-50 px-4 py-3 leading-snug font-semibold text-red-800"
-              >
+              <div className="text-feedback rounded-lg border border-red-300 bg-red-50 px-4 py-3 leading-snug font-semibold text-red-800">
                 {errorMessage}
               </div>
             )}
             {successMessage && (
-              <div
-                role="status"
-                className="text-feedback rounded-lg border border-green-300 bg-green-50 px-4 py-3 leading-snug font-semibold text-green-800"
-              >
+              <div className="text-feedback rounded-lg border border-green-300 bg-green-50 px-4 py-3 leading-snug font-semibold text-green-800">
                 {successMessage}
               </div>
             )}

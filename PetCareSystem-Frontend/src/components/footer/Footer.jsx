@@ -12,17 +12,24 @@ const Footer = () => {
           />
         </div>
 
-        <address className="text-ui leading-tight font-semibold whitespace-nowrap text-brand-primary not-italic">
-          <span className="font-extrabold">Địa chỉ:</span>
+        <address className="text-ui leading-tight whitespace-nowrap text-brand-primary not-italic">
+          <span className="font-bold">Địa chỉ:</span>
           <br />
-          CS1: ABC
+          CS1: 123 Đường ABC, Phường DEF, TP. HCM
           <br />
-          CS2: DEF
+          CS2: 456 Đường DEF, Phường GHI, TP. HCM
           <br />
-          <span className="font-extrabold">Hotline liên hệ:</span>
+          <span className="font-bold">Hotline liên hệ:</span>
           <br />
           0123456789&nbsp;&nbsp; - &nbsp;&nbsp;0987654321&nbsp;&nbsp; -
           &nbsp;&nbsp;0135791113
+          <br />
+          <span className="font-bold">Email liên hệ: </span>
+          ou-petcenter@ou.edu.vn
+          <br />
+          <span className="font-black">
+            &copy; 2026 OU-PET CENTER. All rights reserved.
+          </span>
         </address>
       </div>
     </footer>

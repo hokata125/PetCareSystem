@@ -2,9 +2,9 @@ import petCareLogo from "../../assets/images/pet-care-logo.png";
 
 const Footer = () => {
   return (
-    <footer className="flex min-h-64 items-center justify-center bg-white px-10 xl:min-h-72 2xl:min-h-80 3xl:min-h-96">
+    <footer className="flex min-h-64 items-center justify-center bg-[#eeeeee] px-10 xl:min-h-72 2xl:min-h-80 3xl:min-h-96">
       <div className="flex w-full max-w-screen-2xl items-center justify-center gap-14 xl:gap-16 3xl:gap-20">
-        <div className="w-2/5 max-w-2xl shrink-0 rounded-xl border-4 border-neutral-950 px-5 py-4 2xl:px-6 2xl:py-5 3xl:px-7 3xl:py-6">
+        <div className="w-2/5 max-w-2xl shrink-0 overflow-hidden rounded-xl border-4 border-neutral-950">
           <img
             src={petCareLogo}
             alt="OU-Pet Center"

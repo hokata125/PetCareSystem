@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
 import heroBanner from "../../assets/images/hero-banner.png";
-import petBoarding from "../../assets/images/pet-boarding.png";
-import petClinic from "../../assets/images/pet-clinic.png";
-import petSpa from "../../assets/images/pet-spa.png";
-import petTraining from "../../assets/images/pet-training.png";
 import { getProducts } from "../../services/productService";
+import { getServices } from "../../services/serviceService";
 
 const HomePage = () => {
+  const [services, setServices] = useState([]);
+  const [serviceError, setServiceError] = useState("");
   const [products, setProducts] = useState([]);
   const [productError, setProductError] = useState("");
 
   useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const serviceData = await getServices({
+          skip: 0,
+          limit: 4,
+        });
+        setServices(serviceData);
+      } catch {
+        setServiceError("Không thể tải danh sách dịch vụ.");
+      }
+    };
+
     const loadProducts = async () => {
       try {
         const productData = await getProducts({
@@ -23,6 +34,7 @@ const HomePage = () => {
       }
     };
 
+    loadServices();
     loadProducts();
   }, []);
 
@@ -42,10 +54,19 @@ const HomePage = () => {
         </h2>
 
         <div className="grid grid-cols-4 gap-12 xl:gap-14 2xl:gap-16 3xl:gap-20">
-          <ServiceCard image={petSpa} name="SPA THÚ CƯNG" />
-          <ServiceCard image={petClinic} name="KHÁM BỆNH" />
-          <ServiceCard image={petTraining} name="HUẤN LUYỆN" />
-          <ServiceCard image={petBoarding} name="TRÔNG HỘ" />
+          {services.map((service) => (
+            <ServiceCard
+              key={service.id}
+              image={service.image}
+              name={service.name}
+            />
+          ))}
+
+          {serviceError && (
+            <p className="col-span-4 m-0 text-xl font-semibold text-red-700">
+              {serviceError}
+            </p>
+          )}
         </div>
       </section>
 
@@ -92,7 +113,7 @@ const ServiceCard = ({ image, name }) => {
         alt={name}
         className="size-28 object-contain xl:size-32 2xl:size-36 3xl:size-40"
       />
-      <span className="text-2xl leading-none font-extrabold text-brand-primary 2xl:text-3xl">
+      <span className="text-ui leading-none font-extrabold whitespace-nowrap text-brand-primary">
         {name}
       </span>
     </div>

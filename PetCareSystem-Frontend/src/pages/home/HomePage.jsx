@@ -124,7 +124,7 @@ const ProductCard = ({ image, name, price }) => {
         type="button"
         className="h-12 cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl leading-none text-white hover:bg-brand-primary-hover 2xl:h-14 2xl:text-3xl"
       >
-        <span className="font-bold">MUA NGAY</span>
+        <span className="font-bold">Xem chi tiết</span>
       </button>
     </div>
   );

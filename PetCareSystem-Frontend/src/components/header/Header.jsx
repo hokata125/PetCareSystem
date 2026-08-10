@@ -4,7 +4,7 @@ import petCareLogo from "../../assets/images/pet-care-logo.png";
 
 const Header = ({ currentUser, onLogout }) => {
   return (
-    <header className="flex h-32 items-center bg-white px-10 font-sans xl:h-36 xl:px-12 2xl:h-40 2xl:px-14 3xl:h-48 3xl:px-16">
+    <header className="sticky top-0 z-50 flex h-20 items-center bg-white px-10 font-sans xl:h-24 xl:px-12 2xl:h-28 2xl:px-14 3xl:h-36 3xl:px-16">
       <img
         src={petCareLogo}
         alt="OU-Pet Center"

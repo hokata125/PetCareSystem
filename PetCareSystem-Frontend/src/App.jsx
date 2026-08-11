@@ -11,9 +11,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      return;
-    }
+    if (!localStorage.getItem("accessToken")) return;
 
     const loadCurrentUser = async () => {
       try {
@@ -43,7 +41,12 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={<ProfilePage currentUser={currentUser} />}
+          element={
+            <ProfilePage
+              currentUser={currentUser}
+              onProfileUpdate={setCurrentUser}
+            />
+          }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,6 +1,70 @@
+import { useState } from "react";
 import profileBackground from "../../assets/images/profile-bg.jpg";
+import { updateProfile } from "../../services/profile";
 
-const ProfilePage = ({ currentUser }) => {
+const ProfilePage = ({ currentUser, onProfileUpdate }) => {
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isSubmittingProfile, setIsSubmittingProfile] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [gender, setGender] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [dob, setDob] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [profileErrorMessage, setProfileErrorMessage] = useState("");
+  const [profileSuccessMessage, setProfileSuccessMessage] = useState("");
+
+  const handleEditProfile = () => {
+    if (!currentUser || isEditingProfile) return;
+
+    setFullName(currentUser.full_name);
+    setGender(currentUser.gender);
+    setPhoneNumber(currentUser.phone_number);
+    setDob(currentUser.dob);
+    setEmail(currentUser.email);
+    setAddress(currentUser.address);
+    setProfileSuccessMessage("");
+    setIsEditingProfile(true);
+  };
+
+  const handleSaveProfile = async () => {
+    setProfileErrorMessage("");
+    setIsSubmittingProfile(true);
+
+    try {
+      const profileData = {
+        full_name: fullName,
+        gender: gender,
+        phone_number: phoneNumber,
+        dob: dob,
+        email: email,
+        address: address,
+      };
+
+      const updatedUser = await updateProfile(profileData);
+
+      onProfileUpdate(updatedUser);
+      setProfileSuccessMessage("Cập nhật thông tin cá nhân thành công!");
+      setIsEditingProfile(false);
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      const validationMessage = Array.isArray(detail)
+        ? detail
+            .map((validationError) =>
+              validationError.msg?.replace(/^Value error,\s*/, ""),
+            )
+            .filter(Boolean)
+            .join(" ")
+        : "Không thể cập nhật thông tin. Vui lòng thử lại.";
+
+      setProfileErrorMessage(
+        typeof detail === "string" ? detail : validationMessage,
+      );
+    } finally {
+      setIsSubmittingProfile(false);
+    }
+  };
+
   return (
     <section
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
@@ -14,6 +78,7 @@ const ProfilePage = ({ currentUser }) => {
 
           <button
             type="button"
+            disabled={!currentUser}
             className={`${editButtonClasses} absolute top-4 right-4`}
           >
             <span className="font-bold">SỬA</span>
@@ -46,9 +111,17 @@ const ProfilePage = ({ currentUser }) => {
 
             <button
               type="button"
+              disabled={!currentUser || isSubmittingProfile}
+              onClick={isEditingProfile ? handleSaveProfile : handleEditProfile}
               className={`${editButtonClasses} absolute top-4 right-4`}
             >
-              <span className="font-bold">SỬA</span>
+              {isSubmittingProfile ? (
+                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
+              ) : (
+                <span className="font-bold">
+                  {isEditingProfile ? "LƯU" : "SỬA"}
+                </span>
+              )}
             </button>
           </div>
 
@@ -56,40 +129,64 @@ const ProfilePage = ({ currentUser }) => {
             <ProfileInput
               id="profile_full_name"
               label="Họ tên"
-              value={currentUser?.full_name}
+              value={isEditingProfile ? fullName : currentUser?.full_name}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setFullName(event.target.value)}
             />
 
             <ProfileSelect
               id="profile_gender"
               label="Giới tính"
-              value={currentUser?.gender}
+              value={isEditingProfile ? gender : currentUser?.gender}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setGender(event.target.value)}
             />
 
             <ProfileInput
               id="profile_phone_number"
               label="Số điện thoại"
-              value={currentUser?.phone_number}
+              value={isEditingProfile ? phoneNumber : currentUser?.phone_number}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setPhoneNumber(event.target.value)}
             />
 
             <ProfileInput
               id="profile_dob"
               label="Ngày sinh"
               type="date"
-              value={currentUser?.dob}
+              value={isEditingProfile ? dob : currentUser?.dob}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setDob(event.target.value)}
             />
 
             <ProfileInput
               id="profile_email"
               label="Email"
               type="email"
-              value={currentUser?.email}
+              value={isEditingProfile ? email : currentUser?.email}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setEmail(event.target.value)}
             />
 
             <ProfileInput
               id="profile_address"
               label="Địa chỉ"
-              value={currentUser?.address}
+              value={isEditingProfile ? address : currentUser?.address}
+              disabled={!isEditingProfile || isSubmittingProfile}
+              onChange={(event) => setAddress(event.target.value)}
             />
+
+            {profileErrorMessage && (
+              <span className="col-span-2 rounded-xl bg-red-100 px-4 py-3 text-lg font-medium text-red-700 2xl:text-xl">
+                {profileErrorMessage}
+              </span>
+            )}
+
+            {profileSuccessMessage && (
+              <span className="col-span-2 rounded-xl bg-green-100 px-4 py-3 text-lg font-medium text-green-700 2xl:text-xl">
+                {profileSuccessMessage}
+              </span>
+            )}
           </div>
         </form>
       </div>
@@ -97,7 +194,14 @@ const ProfilePage = ({ currentUser }) => {
   );
 };
 
-const ProfileInput = ({ id, label, type = "text", value }) => {
+const ProfileInput = ({
+  id,
+  label,
+  type = "text",
+  value,
+  disabled,
+  onChange,
+}) => {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={id} className="text-xl font-medium text-neutral-950">
@@ -109,14 +213,15 @@ const ProfileInput = ({ id, label, type = "text", value }) => {
         name={id}
         type={type}
         value={value || ""}
-        disabled
-        className="h-12 w-full rounded-xl border border-neutral-700 bg-neutral-100 px-4 text-xl text-neutral-700 outline-none disabled:opacity-100 2xl:h-14 2xl:text-2xl"
+        disabled={disabled}
+        onChange={onChange}
+        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:bg-neutral-100 disabled:opacity-100 2xl:h-14 2xl:text-2xl"
       />
     </div>
   );
 };
 
-const ProfileSelect = ({ id, label, value }) => {
+const ProfileSelect = ({ id, label, value, disabled, onChange }) => {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={id} className="text-xl font-medium text-neutral-950">
@@ -127,8 +232,9 @@ const ProfileSelect = ({ id, label, value }) => {
         id={id}
         name={id}
         value={value || ""}
-        disabled
-        className="h-12 w-full rounded-xl border border-neutral-700 bg-neutral-100 px-4 text-lg text-neutral-700 outline-none disabled:opacity-100 2xl:h-14 2xl:text-xl"
+        disabled={disabled}
+        onChange={onChange}
+        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-lg text-neutral-700 outline-none disabled:bg-neutral-100 disabled:opacity-100 2xl:h-14 2xl:text-xl"
       >
         <option value="NAM">NAM</option>
         <option value="NỮ">NỮ</option>
@@ -138,6 +244,6 @@ const ProfileSelect = ({ id, label, value }) => {
 };
 
 const editButtonClasses =
-  "h-12 cursor-pointer rounded-xl border-0 bg-brand-primary px-7 text-xl font-bold text-white hover:bg-brand-primary-hover 2xl:h-14 2xl:px-9 2xl:text-2xl";
+  "flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary px-7 text-xl font-bold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:px-9 2xl:text-2xl";
 
 export default ProfilePage;

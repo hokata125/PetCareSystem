@@ -40,13 +40,9 @@ const LoginPage = ({ onLoginSuccess }) => {
             )
             .filter(Boolean)
             .join(" ")
-        : "";
+        : "Không thể đăng nhập. Vui lòng thử lại.";
 
-      setErrorMessage(
-        typeof detail === "string"
-          ? detail
-          : validationMessage || "Không thể đăng nhập. Vui lòng thử lại.",
-      );
+      setErrorMessage(typeof detail === "string" ? detail : validationMessage);
     } finally {
       setIsSubmitting(false);
     }

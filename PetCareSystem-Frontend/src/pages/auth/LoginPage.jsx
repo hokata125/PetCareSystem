@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
-import { getCurrentUser, login } from "../../services/authService";
+import { getCurrentUser, login } from "../../services/auth";
 
 const LoginPage = ({ onLoginSuccess }) => {
   const navigate = useNavigate();

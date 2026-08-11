@@ -4,7 +4,8 @@ import SiteLayout from "./layouts/SiteLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import HomePage from "./pages/home/HomePage";
-import { getCurrentUser } from "./services/authService";
+import ProfilePage from "./pages/profile/ProfilePage";
+import { getCurrentUser } from "./services/auth";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -40,6 +41,10 @@ const App = () => {
           element={<LoginPage onLoginSuccess={setCurrentUser} />}
         />
         <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/profile"
+          element={<ProfilePage currentUser={currentUser} />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </SiteLayout>

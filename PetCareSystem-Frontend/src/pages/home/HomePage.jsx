@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import heroBanner from "../../assets/images/hero-banner.png";
-import { getProducts } from "../../services/productService";
-import { getServices } from "../../services/serviceService";
+import { getProducts } from "../../services/products";
+import { getServices } from "../../services/services";
 
 const HomePage = () => {
   const [services, setServices] = useState([]);

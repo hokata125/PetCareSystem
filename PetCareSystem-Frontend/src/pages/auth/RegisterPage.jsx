@@ -1,6 +1,6 @@
 import { useState } from "react";
 import authBackground from "../../assets/images/auth-background.png";
-import { registerUser } from "../../services/authService";
+import { registerUser } from "../../services/auth";
 
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");

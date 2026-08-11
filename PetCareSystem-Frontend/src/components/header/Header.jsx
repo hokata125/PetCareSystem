@@ -48,9 +48,12 @@ const Header = ({ currentUser, onLogout }) => {
                 className="z-50 w-(--button-width) overflow-hidden rounded-b-lg bg-brand-primary py-1 font-extrabold text-white shadow-lg outline-none [--anchor-gap:0px]"
               >
                 <MenuItem>
-                  <button type="button" className={userMenuItemClasses}>
+                  <NavLink
+                    to="/profile"
+                    className={`${userMenuItemClasses} no-underline`}
+                  >
                     Hồ sơ
-                  </button>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem>
                   <button type="button" className={userMenuItemClasses}>
@@ -109,6 +112,6 @@ const authButtonClasses =
   "text-navigation inline-flex h-12 w-36 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg no-underline transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-40 3xl:h-16 3xl:w-48";
 
 const userMenuItemClasses =
-  "text-navigation block w-full cursor-pointer border-0 bg-brand-primary px-4 py-3 text-left font-medium text-white outline-none data-focus:bg-brand-secondary data-focus:text-brand-primary";
+  "block w-full cursor-pointer border-0 bg-brand-primary px-4 py-3 text-left text-white outline-none data-focus:bg-brand-secondary data-focus:text-brand-primary";
 
 export default Header;

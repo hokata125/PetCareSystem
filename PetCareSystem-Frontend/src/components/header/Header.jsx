@@ -36,7 +36,7 @@ const Header = ({ currentUser, onLogout }) => {
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">
           {currentUser ? (
             <Menu>
-              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-secondary px-4 font-bold text-brand-primary outline-none data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
+              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-primary px-4 font-bold text-white outline-none transition-colors duration-200 hover:bg-brand-secondary hover:text-brand-primary data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
                 <span className="truncate font-extrabold">
                   Xin chào, {currentUser.full_name}!
                 </span>
@@ -45,7 +45,7 @@ const Header = ({ currentUser, onLogout }) => {
 
               <MenuItems
                 anchor="bottom end"
-                className="z-50 w-(--button-width) overflow-hidden font-extrabold rounded-b-lg bg-brand-secondary py-1 text-brand-primary shadow-lg outline-none [--anchor-gap:0px]"
+                className="z-50 w-(--button-width) overflow-hidden rounded-b-lg bg-brand-primary py-1 font-extrabold text-white shadow-lg outline-none [--anchor-gap:0px]"
               >
                 <MenuItem>
                   <button type="button" className={userMenuItemClasses}>
@@ -65,6 +65,11 @@ const Header = ({ currentUser, onLogout }) => {
                 <MenuItem>
                   <button type="button" className={userMenuItemClasses}>
                     Lịch sử nhận nuôi
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button type="button" className={userMenuItemClasses}>
+                    Thay đổi mật khẩu
                   </button>
                 </MenuItem>
                 <MenuItem>
@@ -104,6 +109,6 @@ const authButtonClasses =
   "text-navigation inline-flex h-12 w-36 shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg no-underline transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-40 3xl:h-16 3xl:w-48";
 
 const userMenuItemClasses =
-  "text-navigation block w-full cursor-pointer border-0 bg-brand-secondary px-4 py-3 text-left font-medium text-brand-primary outline-none data-focus:bg-brand-primary data-focus:text-white";
+  "text-navigation block w-full cursor-pointer border-0 bg-brand-primary px-4 py-3 text-left font-medium text-white outline-none data-focus:bg-brand-secondary data-focus:text-brand-primary";
 
 export default Header;

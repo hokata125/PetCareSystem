@@ -23,6 +23,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
     setDob(currentUser.dob);
     setEmail(currentUser.email);
     setAddress(currentUser.address);
+
     setProfileSuccessMessage("");
     setIsEditingProfile(true);
   };
@@ -65,13 +66,27 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
     }
   };
 
+  const handleCancelProfile = () => {
+    if (!currentUser || isSubmittingProfile) return;
+
+    setFullName(currentUser.full_name);
+    setGender(currentUser.gender);
+    setPhoneNumber(currentUser.phone_number);
+    setDob(currentUser.dob);
+    setEmail(currentUser.email);
+    setAddress(currentUser.address);
+
+    setProfileErrorMessage("");
+    setIsEditingProfile(false);
+  };
+
   return (
     <section
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
       style={{ backgroundImage: `url(${profileBackground})` }}
     >
       <div className="grid w-full max-w-screen-2xl grid-cols-3 gap-12">
-        <form className="relative flex aspect-3/4 flex-col items-center rounded-2xl border-4 border-brand-primary bg-white px-8">
+        <form className="relative flex aspect-3/4 flex-col items-center rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-8">
           <h1 className="absolute top-7 left-8 m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
             ẢNH ĐẠI DIỆN
           </h1>
@@ -103,26 +118,41 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
           </span>
         </form>
 
-        <form className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-white px-10 pt-8">
+        <form className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-10 pt-8">
           <div>
             <h1 className="m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
               THÔNG TIN CÁ NHÂN
             </h1>
 
-            <button
-              type="button"
-              disabled={!currentUser || isSubmittingProfile}
-              onClick={isEditingProfile ? handleSaveProfile : handleEditProfile}
-              className={`${editButtonClasses} absolute top-4 right-4`}
-            >
-              {isSubmittingProfile ? (
-                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
-              ) : (
-                <span className="font-bold">
-                  {isEditingProfile ? "LƯU" : "SỬA"}
-                </span>
+            <div className="absolute top-4 right-4 flex gap-3">
+              {isEditingProfile && (
+                <button
+                  type="button"
+                  disabled={isSubmittingProfile}
+                  onClick={handleCancelProfile}
+                  className={cancelButtonClasses}
+                >
+                  <span className="font-bold">HỦY</span>
+                </button>
               )}
-            </button>
+
+              <button
+                type="button"
+                disabled={!currentUser || isSubmittingProfile}
+                onClick={
+                  isEditingProfile ? handleSaveProfile : handleEditProfile
+                }
+                className={editButtonClasses}
+              >
+                {isSubmittingProfile ? (
+                  <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
+                ) : (
+                  <span className="font-bold">
+                    {isEditingProfile ? "LƯU" : "SỬA"}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-7">
@@ -215,7 +245,7 @@ const ProfileInput = ({
         value={value || ""}
         disabled={disabled}
         onChange={onChange}
-        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:bg-neutral-100 disabled:opacity-100 2xl:h-14 2xl:text-2xl"
+        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:bg-neutral-200 2xl:h-14 2xl:text-2xl"
       />
     </div>
   );
@@ -234,7 +264,7 @@ const ProfileSelect = ({ id, label, value, disabled, onChange }) => {
         value={value || ""}
         disabled={disabled}
         onChange={onChange}
-        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-lg text-neutral-700 outline-none disabled:bg-neutral-100 disabled:opacity-100 2xl:h-14 2xl:text-xl"
+        className="h-12 w-full rounded-xl border border-neutral-700 bg-white px-4 text-lg text-neutral-700 outline-none disabled:bg-neutral-200 2xl:h-14 2xl:text-xl"
       >
         <option value="NAM">NAM</option>
         <option value="NỮ">NỮ</option>
@@ -245,5 +275,8 @@ const ProfileSelect = ({ id, label, value, disabled, onChange }) => {
 
 const editButtonClasses =
   "flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary px-7 text-xl font-bold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:px-9 2xl:text-2xl";
+
+const cancelButtonClasses =
+  "flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-neutral-500 px-7 text-xl font-bold text-white enabled:hover:bg-neutral-600 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:px-9 2xl:text-2xl";
 
 export default ProfilePage;

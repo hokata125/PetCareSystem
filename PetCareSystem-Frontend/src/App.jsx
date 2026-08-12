@@ -5,10 +5,14 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import HomePage from "./pages/home/HomePage";
 import ProfilePage from "./pages/profile/ProfilePage";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import { getCurrentUser } from "./services/auth";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isCheckingCurrentUser, setIsCheckingCurrentUser] = useState(
+    Boolean(localStorage.getItem("accessToken")),
+  );
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) return;
@@ -19,6 +23,8 @@ const App = () => {
         setCurrentUser(user);
       } catch {
         localStorage.removeItem("accessToken");
+      } finally {
+        setIsCheckingCurrentUser(false);
       }
     };
 
@@ -42,10 +48,15 @@ const App = () => {
         <Route
           path="/profile"
           element={
-            <ProfilePage
+            <ProtectedRoute
               currentUser={currentUser}
-              onProfileUpdate={setCurrentUser}
-            />
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <ProfilePage
+                currentUser={currentUser}
+                onProfileUpdate={setCurrentUser}
+              />
+            </ProtectedRoute>
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />

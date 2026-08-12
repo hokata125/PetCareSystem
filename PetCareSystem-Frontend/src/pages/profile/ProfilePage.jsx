@@ -1,8 +1,15 @@
 import { useState } from "react";
 import profileBackground from "../../assets/images/profile-bg.jpg";
-import { updateProfile } from "../../services/profile";
+import { updateAvatar, updateProfile } from "../../services/profile";
 
 const ProfilePage = ({ currentUser, onProfileUpdate }) => {
+  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  const [isSubmittingAvatar, setIsSubmittingAvatar] = useState(false);
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const [avatarErrorMessage, setAvatarErrorMessage] = useState("");
+  const [avatarSuccessMessage, setAvatarSuccessMessage] = useState("");
+
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isSubmittingProfile, setIsSubmittingProfile] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -13,6 +20,60 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
   const [address, setAddress] = useState("");
   const [profileErrorMessage, setProfileErrorMessage] = useState("");
   const [profileSuccessMessage, setProfileSuccessMessage] = useState("");
+
+  const handleEditAvatar = () => {
+    if (!currentUser || isEditingAvatar) return;
+
+    setAvatarSuccessMessage("");
+    setIsEditingAvatar(true);
+  };
+
+  const handleAvatarChange = (event) => {
+    const selectedFile = event.target.files[0];
+
+    if (!selectedFile) return;
+
+    setAvatarFile(selectedFile);
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => setAvatarPreview(fileReader.result);
+    fileReader.readAsDataURL(selectedFile);
+  };
+
+  const handleSaveAvatar = async () => {
+    if (!avatarFile || isSubmittingAvatar) return;
+
+    setAvatarErrorMessage("");
+    setIsSubmittingAvatar(true);
+
+    try {
+      const updatedUser = await updateAvatar(avatarFile);
+
+      onProfileUpdate(updatedUser);
+      setAvatarSuccessMessage("Cập nhật ảnh đại diện thành công!");
+      setAvatarFile(null);
+      setAvatarPreview("");
+      setIsEditingAvatar(false);
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      setAvatarErrorMessage(
+        typeof detail === "string"
+          ? detail
+          : "Không thể cập nhật ảnh đại diện. Vui lòng thử lại.",
+      );
+    } finally {
+      setIsSubmittingAvatar(false);
+    }
+  };
+
+  const handleCancelAvatar = () => {
+    if (isSubmittingAvatar) return;
+
+    setAvatarFile(null);
+    setAvatarPreview("");
+    setAvatarErrorMessage("");
+    setIsEditingAvatar(false);
+  };
 
   const handleEditProfile = () => {
     if (!currentUser || isEditingProfile) return;
@@ -52,9 +113,8 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
       const validationMessage = Array.isArray(detail)
         ? detail
             .map((validationError) =>
-              validationError.msg?.replace(/^Value error,\s*/, ""),
+              validationError.msg.replace(/^Value error,\s*/, ""),
             )
-            .filter(Boolean)
             .join(" ")
         : "Không thể cập nhật thông tin. Vui lòng thử lại.";
 
@@ -91,31 +151,81 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
             ẢNH ĐẠI DIỆN
           </h1>
 
-          <button
-            type="button"
-            disabled={!currentUser}
-            className={`${editButtonClasses} absolute top-4 right-4`}
-          >
-            <span className="font-bold">SỬA</span>
-          </button>
+          <div className="absolute top-4 right-4 flex gap-3">
+            {isEditingAvatar && (
+              <button
+                type="button"
+                disabled={isSubmittingAvatar}
+                onClick={handleCancelAvatar}
+                className={cancelButtonClasses}
+              >
+                <span className="font-bold">HỦY</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              disabled={
+                !currentUser ||
+                isSubmittingAvatar ||
+                (isEditingAvatar && !avatarFile)
+              }
+              onClick={isEditingAvatar ? handleSaveAvatar : handleEditAvatar}
+              className={editButtonClasses}
+            >
+              {isSubmittingAvatar ? (
+                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
+              ) : (
+                <span className="font-bold">
+                  {isEditingAvatar ? "LƯU" : "SỬA"}
+                </span>
+              )}
+            </button>
+          </div>
 
           <div className="mt-20 aspect-square w-3/4 overflow-hidden rounded-full border-4 border-neutral-950 bg-neutral-100">
-            {currentUser?.avatar && (
+            {(avatarPreview || currentUser?.avatar) && (
               <img
-                src={currentUser.avatar}
+                src={avatarPreview || currentUser.avatar}
                 alt={`${currentUser.full_name}-avatar`}
                 className="h-full w-full object-cover"
               />
             )}
           </div>
 
-          <span className="mt-10 text-3xl leading-tight font-extrabold text-neutral-950 uppercase 2xl:text-4xl">
-            {currentUser?.full_name}
-          </span>
+          {isEditingAvatar && (
+            <input
+              type="file"
+              accept="image/jpeg, image/png, image/webp"
+              disabled={isSubmittingAvatar}
+              onChange={handleAvatarChange}
+              className="mt-5 w-3/4 cursor-pointer text-base text-neutral-700 file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand-primary file:px-4 file:py-2 file:font-bold file:text-white hover:file:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70"
+            />
+          )}
 
-          <span className="mt-2 text-2xl leading-tight text-neutral-950 2xl:text-3xl">
-            {currentUser?.role}
-          </span>
+          {!isEditingAvatar && (
+            <>
+              <span className="mt-5 text-3xl leading-tight font-extrabold text-neutral-950 uppercase 2xl:text-4xl">
+                {currentUser?.full_name}
+              </span>
+
+              <span className="mt-2 text-2xl leading-tight text-neutral-950 2xl:text-3xl">
+                {currentUser?.role}
+              </span>
+            </>
+          )}
+
+          {avatarErrorMessage && (
+            <span className="mt-5 w-full rounded-xl bg-red-100 px-4 py-3 text-center text-base font-medium text-red-700 2xl:text-lg">
+              {avatarErrorMessage}
+            </span>
+          )}
+
+          {avatarSuccessMessage && (
+            <span className="mt-5 w-full rounded-xl bg-green-100 px-4 py-3 text-center text-base font-medium text-green-700 2xl:text-lg">
+              {avatarSuccessMessage}
+            </span>
+          )}
         </form>
 
         <form className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-10 pt-8">

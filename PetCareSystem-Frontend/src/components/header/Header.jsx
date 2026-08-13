@@ -71,9 +71,12 @@ const Header = ({ currentUser, onLogout }) => {
                   </button>
                 </MenuItem>
                 <MenuItem>
-                  <button type="button" className={userMenuItemClasses}>
+                  <NavLink
+                    to="/change-password"
+                    className={`${userMenuItemClasses} no-underline`}
+                  >
                     Thay đổi mật khẩu
-                  </button>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem>
                   <button

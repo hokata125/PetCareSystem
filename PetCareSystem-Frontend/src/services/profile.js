@@ -13,3 +13,12 @@ export const updateAvatar = async (avatarFile) => {
 
   return response.data;
 };
+
+export const changePassword = async (passwordData) => {
+  const response = await httpClient.patch(
+    "/users/profile/password",
+    passwordData,
+  );
+
+  return response.data;
+};

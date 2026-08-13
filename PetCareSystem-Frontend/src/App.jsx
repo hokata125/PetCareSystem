@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router";
 import SiteLayout from "./layouts/SiteLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -56,6 +57,17 @@ const App = () => {
                 currentUser={currentUser}
                 onProfileUpdate={setCurrentUser}
               />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <ChangePasswordPage onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />

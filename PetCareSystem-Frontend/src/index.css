@@ -45,3 +45,7 @@ button,
 input {
   font: inherit;
 }
+
+.hide-native-eye::-ms-reveal {
+  display: none;
+}

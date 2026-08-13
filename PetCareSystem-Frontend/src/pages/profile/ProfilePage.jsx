@@ -40,7 +40,9 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
     fileReader.readAsDataURL(selectedFile);
   };
 
-  const handleSaveAvatar = async () => {
+  const handleSaveAvatar = async (event) => {
+    event.preventDefault();
+
     if (!avatarFile || isSubmittingAvatar) return;
 
     setAvatarErrorMessage("");
@@ -89,7 +91,9 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
     setIsEditingProfile(true);
   };
 
-  const handleSaveProfile = async () => {
+  const handleSaveProfile = async (event) => {
+    event.preventDefault();
+
     setProfileErrorMessage("");
     setIsSubmittingProfile(true);
 
@@ -146,41 +150,50 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
       style={{ backgroundImage: `url(${profileBackground})` }}
     >
       <div className="grid w-full max-w-screen-2xl grid-cols-3 gap-12">
-        <form className="relative flex aspect-3/4 flex-col items-center rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-8">
+        <form
+          onSubmit={handleSaveAvatar}
+          className="relative flex aspect-3/4 flex-col items-center rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-8"
+        >
           <h1 className="absolute top-7 left-8 m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
             ẢNH ĐẠI DIỆN
           </h1>
 
           <div className="absolute top-4 right-4 flex gap-3">
-            {isEditingAvatar && (
+            {!isEditingAvatar && (
               <button
                 type="button"
-                disabled={isSubmittingAvatar}
-                onClick={handleCancelAvatar}
-                className={cancelButtonClasses}
+                disabled={!currentUser}
+                onClick={handleEditAvatar}
+                className={editButtonClasses}
               >
-                <span className="font-bold">HỦY</span>
+                <span className="font-bold">SỬA</span>
               </button>
             )}
 
-            <button
-              type="button"
-              disabled={
-                !currentUser ||
-                isSubmittingAvatar ||
-                (isEditingAvatar && !avatarFile)
-              }
-              onClick={isEditingAvatar ? handleSaveAvatar : handleEditAvatar}
-              className={editButtonClasses}
-            >
-              {isSubmittingAvatar ? (
-                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
-              ) : (
-                <span className="font-bold">
-                  {isEditingAvatar ? "LƯU" : "SỬA"}
-                </span>
-              )}
-            </button>
+            {isEditingAvatar && (
+              <>
+                <button
+                  type="button"
+                  disabled={isSubmittingAvatar}
+                  onClick={handleCancelAvatar}
+                  className={cancelButtonClasses}
+                >
+                  <span className="font-bold">HỦY</span>
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={!currentUser || isSubmittingAvatar || !avatarFile}
+                  className={editButtonClasses}
+                >
+                  {isSubmittingAvatar ? (
+                    <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
+                  ) : (
+                    <span className="font-bold">LƯU</span>
+                  )}
+                </button>
+              </>
+            )}
           </div>
 
           <div className="mt-20 aspect-square w-3/4 overflow-hidden rounded-full border-4 border-neutral-950 bg-neutral-100">
@@ -228,40 +241,51 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
           )}
         </form>
 
-        <form className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-10 pt-8">
+        <form
+          onSubmit={handleSaveProfile}
+          className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-10 pt-8"
+        >
           <div>
             <h1 className="m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
               THÔNG TIN CÁ NHÂN
             </h1>
 
             <div className="absolute top-4 right-4 flex gap-3">
-              {isEditingProfile && (
+              {!isEditingProfile && (
                 <button
                   type="button"
-                  disabled={isSubmittingProfile}
-                  onClick={handleCancelProfile}
-                  className={cancelButtonClasses}
+                  disabled={!currentUser}
+                  onClick={handleEditProfile}
+                  className={editButtonClasses}
                 >
-                  <span className="font-bold">HỦY</span>
+                  <span className="font-bold">SỬA</span>
                 </button>
               )}
 
-              <button
-                type="button"
-                disabled={!currentUser || isSubmittingProfile}
-                onClick={
-                  isEditingProfile ? handleSaveProfile : handleEditProfile
-                }
-                className={editButtonClasses}
-              >
-                {isSubmittingProfile ? (
-                  <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
-                ) : (
-                  <span className="font-bold">
-                    {isEditingProfile ? "LƯU" : "SỬA"}
-                  </span>
-                )}
-              </button>
+              {isEditingProfile && (
+                <>
+                  <button
+                    type="button"
+                    disabled={isSubmittingProfile}
+                    onClick={handleCancelProfile}
+                    className={cancelButtonClasses}
+                  >
+                    <span className="font-bold">HỦY</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={!currentUser || isSubmittingProfile}
+                    className={editButtonClasses}
+                  >
+                    {isSubmittingProfile ? (
+                      <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
+                    ) : (
+                      <span className="font-bold">LƯU</span>
+                    )}
+                  </button>
+                </>
+              )}
             </div>
           </div>
 

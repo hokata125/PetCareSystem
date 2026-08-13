@@ -1,8 +1,11 @@
+import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
 import { registerUser } from "../../services/auth";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -33,6 +36,9 @@ const RegisterPage = () => {
         password,
       });
       setSuccessMessage("Đăng ký tài khoản thành công!");
+
+      await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      navigate("/login", { replace: true });
     } catch (error) {
       const detail = error.response?.data?.detail;
       const validationMessage = Array.isArray(detail)
@@ -187,22 +193,38 @@ const RegisterInput = ({
   disabled,
   className = "",
 }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       <label htmlFor={id} className="text-ui leading-none font-bold text-white">
         {label}
       </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        required
-        className="h-10 w-full rounded-lg border-0 bg-white px-3 text-base text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-70 xl:h-11 xl:text-lg 2xl:h-12 3xl:h-14 3xl:px-4 3xl:text-xl"
-      />
+
+      <div className="relative">
+        <input
+          id={id}
+          name={id}
+          type={type === "password" && isPasswordVisible ? "text" : type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          disabled={disabled}
+          required
+          className={`h-10 w-full rounded-lg border-0 bg-white px-3 text-base text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 xl:h-11 xl:text-lg 2xl:h-12 3xl:h-14 3xl:px-4 3xl:text-xl ${type === "password" ? "hide-native-eye pr-12" : ""}`}
+        />
+
+        {type === "password" && (
+          <button
+            type="button"
+            disabled={disabled}
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            className="absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer border-0 bg-transparent p-0 text-neutral-600 enabled:hover:text-brand-primary disabled:cursor-not-allowed"
+          >
+            {isPasswordVisible ? <EyeClosed size={24} /> : <Eye size={24} />}
+          </button>
+        )}
+      </div>
     </div>
   );
 };
@@ -220,7 +242,7 @@ const RegisterSelect = ({ id, label, value, onChange, disabled }) => {
         onChange={onChange}
         disabled={disabled}
         required
-        className="h-10 w-full cursor-pointer rounded-lg border-0 bg-white px-3 text-base text-neutral-700 outline-none disabled:cursor-not-allowed disabled:opacity-70 xl:h-11 xl:text-lg 2xl:h-12 3xl:h-14 3xl:px-4 3xl:text-xl"
+        className="h-10 w-full cursor-pointer rounded-lg border-0 bg-white px-3 text-base text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-200 xl:h-11 xl:text-lg 2xl:h-12 3xl:h-14 3xl:px-4 3xl:text-xl"
       >
         <option value="" disabled>
           Chọn giới tính

@@ -1,3 +1,4 @@
+import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
@@ -129,25 +130,43 @@ const LoginInput = ({
   onChange,
   disabled,
 }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   return (
-    <div className="flex min-h-24 flex-col justify-center rounded-lg bg-white px-4 py-3 xl:min-h-28 2xl:min-h-32 2xl:px-5 2xl:py-4 3xl:min-h-36">
+    <div
+      className={`flex min-h-24 flex-col justify-center rounded-lg px-4 py-3 xl:min-h-28 2xl:min-h-32 2xl:px-5 2xl:py-4 3xl:min-h-36 ${disabled ? "bg-neutral-200" : "bg-white"}`}
+    >
       <label
         htmlFor={id}
         className="text-ui leading-tight font-extrabold text-brand-primary"
       >
         {label}
       </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        required
-        className="text-ui mt-1.5 w-full border-0 bg-transparent p-0 leading-tight text-neutral-700 outline-none placeholder:text-neutral-600 placeholder:opacity-100 disabled:cursor-not-allowed disabled:opacity-70 2xl:mt-2"
-      />
+
+      <div className="relative">
+        <input
+          id={id}
+          name={id}
+          type={type === "password" && isPasswordVisible ? "text" : type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          disabled={disabled}
+          required
+          className={`text-ui mt-1.5 w-full border-0 bg-transparent p-0 leading-tight text-neutral-700 outline-none placeholder:text-neutral-600 placeholder:opacity-100 disabled:cursor-not-allowed 2xl:mt-2 ${type === "password" ? "hide-native-eye pr-12" : ""}`}
+        />
+
+        {type === "password" && (
+          <button
+            type="button"
+            disabled={disabled}
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            className="absolute top-1/2 right-2 flex -translate-y-1/2 cursor-pointer border-0 bg-transparent p-0 text-neutral-600 enabled:hover:text-brand-primary disabled:cursor-not-allowed"
+          >
+            {isPasswordVisible ? <EyeClosed size={26} /> : <Eye size={26} />}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

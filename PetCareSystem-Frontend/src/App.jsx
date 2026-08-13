@@ -43,9 +43,18 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/login"
-          element={<LoginPage onLoginSuccess={setCurrentUser} />}
+          element={
+            currentUser ? (
+              <Navigate to="/" replace />
+            ) : (
+              <LoginPage onLoginSuccess={setCurrentUser} />
+            )
+          }
         />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/register"
+          element={currentUser ? <Navigate to="/" replace /> : <RegisterPage />}
+        />
         <Route
           path="/profile"
           element={

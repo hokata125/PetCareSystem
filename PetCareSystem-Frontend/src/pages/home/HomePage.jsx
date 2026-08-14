@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router";
 import heroBanner from "../../assets/images/hero-banner.png";
+import ProductCard from "../../components/product-card/ProductCard";
 import { getProducts } from "../../services/products";
 import { getServices } from "../../services/services";
 
@@ -76,12 +78,12 @@ const HomePage = () => {
             CÁC SẢN PHẨM NỔI BẬT
           </h2>
 
-          <button
-            type="button"
-            className="cursor-pointer border-0 bg-transparent text-xl font-extrabold text-brand-primary underline-offset-4 hover:text-brand-secondary-hover hover:underline 2xl:text-2xl"
+          <NavLink
+            to="/products"
+            className="cursor-pointer border-0 bg-transparent text-xl font-extrabold text-brand-primary no-underline underline-offset-4 hover:text-brand-secondary-hover hover:underline 2xl:text-2xl"
           >
             <span className="font-semibold">XEM THÊM &gt;&gt;&gt;</span>
-          </button>
+          </NavLink>
         </div>
 
         <div className="grid grid-cols-4 gap-12 xl:gap-14 2xl:gap-16 3xl:gap-20">
@@ -116,37 +118,6 @@ const ServiceCard = ({ image, name }) => {
       <span className="text-ui leading-none font-extrabold whitespace-nowrap text-brand-primary">
         {name}
       </span>
-    </div>
-  );
-};
-
-const ProductCard = ({ image, name, price }) => {
-  return (
-    <div className="flex h-80 flex-col cursor-pointer rounded-3xl border-4 border-brand-primary bg-white transition-transform duration-200 hover:scale-105 p-4 xl:h-88 2xl:h-96 3xl:h-104">
-      <div className="flex min-h-0 flex-1 items-center justify-center">
-        {image && (
-          <img
-            src={image}
-            alt={name}
-            className="max-h-full w-full object-contain"
-          />
-        )}
-      </div>
-
-      <span className="block w-full truncate text-xl leading-tight font-semibold text-brand-primary 2xl:text-2xl">
-        {name}
-      </span>
-
-      <span className="mb-3 text-xl leading-tight text-brand-primary 2xl:text-2xl">
-        {Number(price).toLocaleString("en-US")} VNĐ
-      </span>
-
-      <button
-        type="button"
-        className="h-12 cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl leading-none text-white hover:bg-brand-primary-hover 2xl:h-14 2xl:text-3xl"
-      >
-        <span className="font-bold">Xem chi tiết</span>
-      </button>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import ProfilePage from "./pages/profile/ProfilePage";
+import ProductListPage from "./pages/product-list/ProductListPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { getCurrentUser } from "./services/auth";
 
@@ -41,6 +42,7 @@ const App = () => {
     <SiteLayout currentUser={currentUser} onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductListPage />} />
         <Route
           path="/login"
           element={

@@ -20,15 +20,13 @@ const LoginPage = ({ onLoginSuccess }) => {
 
     try {
       const loginResponse = await login({ username, password });
-
       localStorage.setItem("accessToken", loginResponse.access_token);
 
       const user = await getCurrentUser();
-      onLoginSuccess(user);
-
       setSuccessMessage("Đăng nhập thành công!");
 
       await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      onLoginSuccess(user);
       navigate("/", { replace: true });
     } catch (error) {
       localStorage.removeItem("accessToken");

@@ -8,25 +8,33 @@ const ProductDetailPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [suggestedProducts, setSuggestedProducts] = useState([]);
+  const [suggestedErrorMessage, setSuggestedErrorMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const loadProductDetail = async () => {
       setProduct(null);
       setSuggestedProducts([]);
+      setSuggestedErrorMessage("");
       setErrorMessage("");
 
       try {
         const productDetailData = await getProductDetail(productId);
         setProduct(productDetailData);
 
-        const productData = await getProducts({ limit: 100 });
-        const randomProducts = productData
-          .filter((item) => item.id !== productDetailData.id)
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 4);
+        try {
+          const productData = await getProducts({ limit: 100 });
+          const randomProducts = productData
+            .filter((item) => item.id !== productDetailData.id)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 4);
 
-        setSuggestedProducts(randomProducts);
+          setSuggestedProducts(randomProducts);
+        } catch {
+          setSuggestedErrorMessage(
+            "Không thể tải danh sách sản phẩm gợi ý. Vui lòng thử lại.",
+          );
+        }
       } catch (error) {
         const detail = error.response?.data?.detail;
         setErrorMessage(
@@ -108,17 +116,23 @@ const ProductDetailPage = () => {
           SẢN PHẨM BẠN CŨNG CÓ THỂ THÍCH
         </h2>
 
-        <div className="mt-8 grid grid-cols-4 gap-8 2xl:gap-10">
-          {suggestedProducts.map((suggestedProduct) => (
-            <ProductCard
-              key={suggestedProduct.id}
-              productId={suggestedProduct.id}
-              image={suggestedProduct.image}
-              name={suggestedProduct.name}
-              price={suggestedProduct.price}
-            />
-          ))}
-        </div>
+        {suggestedErrorMessage ? (
+          <div className="mt-8 text-center text-xl font-semibold text-red-700">
+            {suggestedErrorMessage}
+          </div>
+        ) : (
+          <div className="mt-8 grid grid-cols-4 gap-8 2xl:gap-10">
+            {suggestedProducts.map((suggestedProduct) => (
+              <ProductCard
+                key={suggestedProduct.id}
+                productId={suggestedProduct.id}
+                image={suggestedProduct.image}
+                name={suggestedProduct.name}
+                price={suggestedProduct.price}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

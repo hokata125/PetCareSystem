@@ -7,3 +7,9 @@ export const getProducts = async (params) => {
 
   return response.data;
 };
+
+export const getProductDetail = async (productId) => {
+  const response = await httpClient.get(`/products/${productId}`);
+
+  return response.data;
+};

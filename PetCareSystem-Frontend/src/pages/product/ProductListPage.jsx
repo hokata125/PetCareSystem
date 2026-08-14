@@ -107,6 +107,7 @@ const ProductListPage = () => {
           {products.map((product) => (
             <ProductCard
               key={product.id}
+              productId={product.id}
               image={product.image}
               name={product.name}
               price={product.price}

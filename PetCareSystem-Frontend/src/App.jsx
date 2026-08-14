@@ -6,7 +6,8 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import ProductListPage from "./pages/product-list/ProductListPage";
+import ProductDetailPage from "./pages/product/ProductDetailPage";
+import ProductListPage from "./pages/product/ProductListPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { getCurrentUser } from "./services/auth";
 
@@ -43,6 +44,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductListPage />} />
+        <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route
           path="/login"
           element={

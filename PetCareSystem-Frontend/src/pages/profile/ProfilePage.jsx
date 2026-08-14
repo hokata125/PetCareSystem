@@ -408,9 +408,9 @@ const ProfileSelect = ({ id, label, value, disabled, onChange }) => {
 };
 
 const editButtonClasses =
-  "flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary px-7 text-xl font-bold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:px-9 2xl:text-2xl";
+  "flex h-11 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary px-5 text-lg font-bold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70";
 
 const cancelButtonClasses =
-  "flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-neutral-500 px-7 text-xl font-bold text-white enabled:hover:bg-neutral-600 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:px-9 2xl:text-2xl";
+  "flex h-11 cursor-pointer items-center justify-center rounded-xl border-0 bg-neutral-500 px-5 text-lg font-bold text-white enabled:hover:bg-neutral-600 disabled:cursor-not-allowed disabled:opacity-70";
 
 export default ProfilePage;

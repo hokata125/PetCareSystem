@@ -156,10 +156,7 @@ def seed_products(db: Session) -> None:
             description=f"Mô tả của sản phẩm test {product_number}.",
             price=random_generator.randint(1, 100) * 10000,
             stock_quantity=10000,
-            image=(
-                "https://res.cloudinary.com/vgvqzopy/image/upload/"
-                "v1786283527/Hairball-600x600_jpnu1e.png"
-            ),
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786283527/Hairball-600x600_jpnu1e.png",
             is_active=True,
         )
 
@@ -198,7 +195,7 @@ def seed_abandoned_pets(db: Session) -> None:
             age=random_generator.randint(1, 60),
             weight=random_generator.randint(10, 1000) / 10,
             health_status=test_health_status,
-            image=None,
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786738449/abandoned-cat_yyyjoq.png",
             pet_status=PetStatus.AVAILABLE,
             is_active=True,
         )

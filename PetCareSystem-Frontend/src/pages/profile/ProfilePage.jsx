@@ -1,5 +1,5 @@
 import { useState } from "react";
-import profileBackground from "../../assets/images/profile-bg.jpg";
+import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { updateAvatar, updateProfile } from "../../services/profile";
 
 const ProfilePage = ({ currentUser, onProfileUpdate }) => {
@@ -147,7 +147,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
   return (
     <section
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
-      style={{ backgroundImage: `url(${profileBackground})` }}
+      style={{ backgroundImage: `url(${pawsBackground})` }}
     >
       <div className="grid w-full max-w-screen-2xl grid-cols-3 gap-12">
         <form

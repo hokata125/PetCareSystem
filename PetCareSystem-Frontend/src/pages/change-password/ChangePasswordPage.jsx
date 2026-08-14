@@ -1,7 +1,7 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import profileBackground from "../../assets/images/profile-bg.jpg";
+import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { changePassword } from "../../services/profile";
 
 const ChangePasswordPage = ({ onLogout }) => {
@@ -51,7 +51,7 @@ const ChangePasswordPage = ({ onLogout }) => {
   return (
     <section
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
-      style={{ backgroundImage: `url(${profileBackground})` }}
+      style={{ backgroundImage: `url(${pawsBackground})` }}
     >
       <form
         onSubmit={handleSubmit}

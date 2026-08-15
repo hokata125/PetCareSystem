@@ -45,16 +45,16 @@ const Header = ({ currentUser, onLogout }) => {
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">
           {currentUser ? (
             <Menu>
-              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-primary px-4 font-extrabold text-white outline-none transition-colors duration-200 hover:bg-brand-secondary hover:text-brand-primary data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
+              <MenuButton className="inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-primary px-4 text-base font-extrabold text-white outline-none transition-colors duration-200 hover:bg-brand-secondary hover:text-brand-primary data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 xl:text-lg 3xl:h-16 3xl:w-96 3xl:text-xl">
                 <span className="truncate">
-                  Xin chào, {currentUser.full_name}!
+                  Xin chào, {currentUser.username}!
                 </span>
                 <span>▼</span>
               </MenuButton>
 
               <MenuItems
                 anchor="bottom end"
-                className="z-50 w-(--button-width) overflow-hidden rounded-b-lg bg-brand-primary py-1 font-extrabold text-white shadow-lg outline-none [--anchor-gap:0px]"
+                className="z-50 w-(--button-width) overflow-hidden rounded-b-lg bg-brand-primary py-1 text-base font-extrabold text-white shadow-lg outline-none [--anchor-gap:0px] xl:text-lg 3xl:text-xl"
               >
                 <MenuItem>
                   <NavLink

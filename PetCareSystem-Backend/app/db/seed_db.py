@@ -88,10 +88,7 @@ def seed_services(db: Session) -> None:
             ),
             price=499000,
             service_type=ServiceType.SPA,
-            image=(
-                "https://res.cloudinary.com/vgvqzopy/image/upload/"
-                "v1786390073/pet-spa_b8fcdj.png"
-            ),
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786794896/pet-spa_qqgjus.png",
             is_active=True,
         ),
         Service(
@@ -105,10 +102,7 @@ def seed_services(db: Session) -> None:
             ),
             price=1299000,
             service_type=ServiceType.CLINIC,
-            image=(
-                "https://res.cloudinary.com/vgvqzopy/image/upload/"
-                "v1786390072/pet-clinic_jvenxq.png"
-            ),
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786794896/pet-clinic_nnpgmg.png",
             is_active=True,
         ),
         Service(
@@ -118,10 +112,7 @@ def seed_services(db: Session) -> None:
             ),
             price=120000,
             service_type=ServiceType.BOARDING,
-            image=(
-                "https://res.cloudinary.com/vgvqzopy/image/upload/"
-                "v1786390073/pet-boarding_utfwdn.png"
-            ),
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786794896/pet-boarding_byeul4.png",
             is_active=True,
         ),
         Service(
@@ -135,10 +126,7 @@ def seed_services(db: Session) -> None:
             ),
             price=899000,
             service_type=ServiceType.TRAINING,
-            image=(
-                "https://res.cloudinary.com/vgvqzopy/image/upload/"
-                "v1786390073/pet-training_pge4dz.png"
-            ),
+            image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786794896/pet-training_dokha5.png",
             is_active=True,
         ),
     ]

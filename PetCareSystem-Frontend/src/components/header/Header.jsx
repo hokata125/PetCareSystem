@@ -28,9 +28,12 @@ const Header = ({ currentUser, onLogout }) => {
           >
             SẢN PHẨM
           </NavLink>
-          <span className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline">
+          <NavLink
+            to="/abandoned-pets"
+            className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary no-underline decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline"
+          >
             NHẬN NUÔI
-          </span>
+          </NavLink>
           <span className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline">
             GIỚI THIỆU
           </span>

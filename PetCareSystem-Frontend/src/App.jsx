@@ -5,6 +5,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
+import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetailPage from "./pages/product/ProductDetailPage";
 import ProductListPage from "./pages/product/ProductListPage";
@@ -43,6 +44,7 @@ const App = () => {
     <SiteLayout currentUser={currentUser} onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/abandoned-pets" element={<AbandonedPetListPage />} />
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route

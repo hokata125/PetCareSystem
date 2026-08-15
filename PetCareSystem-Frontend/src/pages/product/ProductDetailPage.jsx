@@ -105,7 +105,7 @@ const ProductDetailPage = () => {
 
             <div className="mt-6 text-2xl leading-relaxed 2xl:text-3xl">
               <p className="m-0 font-semibold">Mô tả sản phẩm:</p>
-              <p className="m-0">
+              <p className="m-0 whitespace-pre-line">
                 {product.description || "Sản phẩm hiện chưa có mô tả"}
               </p>
             </div>

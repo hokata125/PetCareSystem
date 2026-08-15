@@ -157,6 +157,7 @@ const AbandonedPetListPage = () => {
           {pets.map((pet) => (
             <PetCard
               key={pet.id}
+              abandonedPetId={pet.id}
               image={pet.image}
               name={pet.name}
               petType={pet.pet_type}

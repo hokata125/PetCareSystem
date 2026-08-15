@@ -166,10 +166,10 @@ def seed_products(db: Session) -> None:
 
 
 def seed_abandoned_pets(db: Session) -> None:
-    random_generator = random.Random(84)
+    random_generator = random.Random(42)
     abandoned_pets = []
 
-    test_pet_types = [
+    test_pet_type = [
         "Chó",
         "Mèo",
         "Thỏ",
@@ -178,7 +178,6 @@ def seed_abandoned_pets(db: Session) -> None:
         "Rùa",
         "Cá",
         "Nhím",
-        "Bò sát",
         "Gà",
         "Vịt",
     ]
@@ -191,7 +190,7 @@ def seed_abandoned_pets(db: Session) -> None:
     for pet_number in range(1, 51):
         abandoned_pet = AbandonedPet(
             name=f"Thú cưng test {pet_number}",
-            pet_type=random_generator.choice(test_pet_types),
+            pet_type=random_generator.choice(test_pet_type),
             age=random_generator.randint(1, 60),
             weight=random_generator.randint(10, 1000) / 10,
             health_status=test_health_status,

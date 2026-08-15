@@ -97,7 +97,7 @@ const ChangePasswordPage = ({ onLogout }) => {
             {isSubmitting ? (
               <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
             ) : (
-              <span className="font-extrabold">LƯU THÔNG TIN</span>
+              <span className="font-extrabold text-lg">LƯU THAY ĐỔI</span>
             )}
           </button>
 

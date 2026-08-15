@@ -84,9 +84,9 @@ const ProductDetailPage = () => {
 
             <button
               type="button"
-              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl text-white hover:bg-brand-primary-hover 2xl:text-3xl"
+              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-white hover:bg-brand-primary-hover"
             >
-              <span className="font-bold">MUA NGAY</span>
+              <span className="font-bold text-2xl">MUA NGAY</span>
             </button>
           </div>
 
@@ -106,7 +106,7 @@ const ProductDetailPage = () => {
             <div className="mt-6 text-2xl leading-relaxed 2xl:text-3xl">
               <p className="m-0 font-semibold">Mô tả sản phẩm:</p>
               <p className="m-0 whitespace-pre-line">
-                {product.description || "Sản phẩm hiện chưa có mô tả"}
+                {product.description || "Sản phẩm này hiện chưa có mô tả"}
               </p>
             </div>
           </div>

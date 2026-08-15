@@ -60,6 +60,7 @@ const HomePage = () => {
           {services.map((service) => (
             <ServiceCard
               key={service.id}
+              serviceId={service.id}
               image={service.image}
               name={service.name}
             />

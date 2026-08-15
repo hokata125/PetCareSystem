@@ -45,8 +45,8 @@ const Header = ({ currentUser, onLogout }) => {
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">
           {currentUser ? (
             <Menu>
-              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-primary px-4 font-bold text-white outline-none transition-colors duration-200 hover:bg-brand-secondary hover:text-brand-primary data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
-                <span className="truncate font-extrabold">
+              <MenuButton className="text-navigation inline-flex h-12 w-72 cursor-pointer items-center justify-between rounded-lg border-0 bg-brand-primary px-4 font-extrabold text-white outline-none transition-colors duration-200 hover:bg-brand-secondary hover:text-brand-primary data-active:rounded-b-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary xl:h-14 xl:w-80 3xl:h-16 3xl:w-96">
+                <span className="truncate">
                   Xin chào, {currentUser.full_name}!
                 </span>
                 <span>▼</span>

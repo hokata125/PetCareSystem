@@ -156,12 +156,12 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="text-action col-span-3 flex h-12 cursor-pointer items-center justify-center rounded-lg bg-brand-primary leading-none text-white enabled:hover:bg-brand-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70 xl:h-14 2xl:rounded-xl 3xl:h-16"
+              className="text-action col-span-3 flex h-12 cursor-pointer items-center justify-center rounded-lg bg-brand-primary leading-none font-bold text-white enabled:hover:bg-brand-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70 xl:h-14 2xl:rounded-xl 3xl:h-16"
             >
               {isSubmitting ? (
                 <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
               ) : (
-                <span className="font-bold">ĐĂNG KÝ</span>
+                "ĐĂNG KÝ"
               )}
             </button>
 

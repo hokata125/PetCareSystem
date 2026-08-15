@@ -84,9 +84,9 @@ const ProductDetailPage = () => {
 
             <button
               type="button"
-              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-white hover:bg-brand-primary-hover"
+              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary font-bold text-2xl text-white hover:bg-brand-primary-hover 2xl:text-3xl"
             >
-              <span className="font-bold text-2xl">MUA NGAY</span>
+              MUA NGAY
             </button>
           </div>
 

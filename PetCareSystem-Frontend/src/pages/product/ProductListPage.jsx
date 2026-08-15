@@ -122,7 +122,7 @@ const ProductListPage = () => {
             onClick={() => setCurrentPage(currentPage - 1)}
             className="h-14 cursor-pointer rounded-xl border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary enabled:hover:bg-brand-secondary-hover disabled:cursor-not-allowed disabled:opacity-60 2xl:text-2xl"
           >
-            <span className="font-extrabold">&lt; Trang trước</span>
+            &lt; Trang trước
           </button>
 
           <button
@@ -131,7 +131,7 @@ const ProductListPage = () => {
             onClick={() => setCurrentPage(currentPage + 1)}
             className="h-14 cursor-pointer rounded-xl border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary enabled:hover:bg-brand-secondary-hover disabled:cursor-not-allowed disabled:opacity-60 2xl:text-2xl"
           >
-            <span className="font-extrabold">Trang sau &gt;</span>
+            Trang sau &gt;
           </button>
         </div>
       </div>

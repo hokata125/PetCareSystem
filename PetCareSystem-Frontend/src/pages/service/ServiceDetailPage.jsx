@@ -75,9 +75,9 @@ const ServiceDetailPage = () => {
 
         <button
           type="button"
-          className="mt-12 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-white hover:bg-brand-primary-hover"
+          className="mt-12 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl font-bold text-white hover:bg-brand-primary-hover"
         >
-          <span className="font-bold text-2xl">ĐẶT LỊCH DỊCH VỤ</span>
+          ĐẶT LỊCH DỊCH VỤ
         </button>
       </div>
     </section>

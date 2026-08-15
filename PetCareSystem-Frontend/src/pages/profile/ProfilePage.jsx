@@ -166,7 +166,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                 onClick={handleEditAvatar}
                 className={editButtonClasses}
               >
-                <span className="font-bold">SỬA</span>
+                SỬA
               </button>
             )}
 
@@ -178,7 +178,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                   onClick={handleCancelAvatar}
                   className={cancelButtonClasses}
                 >
-                  <span className="font-bold">HỦY</span>
+                  HỦY
                 </button>
 
                 <button
@@ -189,7 +189,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                   {isSubmittingAvatar ? (
                     <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
                   ) : (
-                    <span className="font-bold">LƯU</span>
+                    "LƯU"
                   )}
                 </button>
               </>
@@ -258,7 +258,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                   onClick={handleEditProfile}
                   className={editButtonClasses}
                 >
-                  <span className="font-bold">SỬA</span>
+                  SỬA
                 </button>
               )}
 
@@ -270,7 +270,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                     onClick={handleCancelProfile}
                     className={cancelButtonClasses}
                   >
-                    <span className="font-bold">HỦY</span>
+                    HỦY
                   </button>
 
                   <button
@@ -281,7 +281,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
                     {isSubmittingProfile ? (
                       <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 3xl:size-8" />
                     ) : (
-                      <span className="font-bold">LƯU</span>
+                      "LƯU"
                     )}
                   </button>
                 </>

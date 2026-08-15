@@ -87,9 +87,9 @@ const AbandonedPetDetailPage = () => {
 
             <button
               type="button"
-              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-white hover:bg-brand-primary-hover"
+              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl font-bold text-white hover:bg-brand-primary-hover"
             >
-              <span className="font-bold text-2xl">ĐĂNG KÝ NHẬN NUÔI</span>
+              ĐĂNG KÝ NHẬN NUÔI
             </button>
           </div>
 

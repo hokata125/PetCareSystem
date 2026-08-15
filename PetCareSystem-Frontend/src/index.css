@@ -8,7 +8,7 @@
   --color-brand-secondary: #91d0df;
   --color-brand-secondary-hover: #68b8cb;
 
-  --background-image-service-card-hover: linear-gradient(
+  --background-image-gradient-hover: linear-gradient(
     to right,
     #4c8dbd 0%,
     #91d0df 50%,
@@ -46,11 +46,6 @@ body,
 
 body {
   min-width: 1200px;
-}
-
-button,
-input {
-  font: inherit;
 }
 
 .hide-native-eye::-ms-reveal {

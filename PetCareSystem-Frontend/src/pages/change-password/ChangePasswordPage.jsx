@@ -92,12 +92,12 @@ const ChangePasswordPage = ({ onLogout }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary text-xl font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
+            className="flex h-12 cursor-pointer items-center justify-center rounded-xl border-0 bg-brand-primary text-lg font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14"
           >
             {isSubmitting ? (
               <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
             ) : (
-              <span className="font-extrabold text-lg">LƯU THAY ĐỔI</span>
+              "LƯU THAY ĐỔI"
             )}
           </button>
 

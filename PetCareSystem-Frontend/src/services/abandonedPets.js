@@ -7,3 +7,9 @@ export const getAbandonedPets = async (params) => {
 
   return response.data;
 };
+
+export const getAbandonedPetDetail = async (abandonedPetId) => {
+  const response = await httpClient.get(`/abandoned-pets/${abandonedPetId}`);
+
+  return response.data;
+};

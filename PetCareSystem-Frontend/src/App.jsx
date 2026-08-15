@@ -5,6 +5,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
+import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetailPage from "./pages/product/ProductDetailPage";
@@ -45,6 +46,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/abandoned-pets" element={<AbandonedPetListPage />} />
+        <Route
+          path="/abandoned-pets/:abandonedPetId"
+          element={<AbandonedPetDetailPage />}
+        />
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route

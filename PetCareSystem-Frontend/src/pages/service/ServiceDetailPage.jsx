@@ -3,6 +3,29 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getServiceDetail } from "../../services/services";
 
+const serviceDetailImages = {
+  SPA: [
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812531/pet-spa-detail-1_i235hi.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812530/pet-spa-detail-2_zkxyz9.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812531/pet-spa-detail-3_aj7fua.jpg",
+  ],
+  "KHÁM BỆNH": [
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812565/pet-clinic-detail-1_dpsf1x.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812566/pet-clinic-detail-2_jtovqb.png",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812564/pet-clinic-detail-3_xq7sfn.jpg",
+  ],
+  "TRÔNG HỘ": [
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786813207/pet-boarding-detail-1_r3iijb.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812593/pet-boarding-detail-2_c6xpis.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812593/pet-boarding-detail-3_bmyain.jpg",
+  ],
+  "HUẤN LUYỆN": [
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786810171/pet-training-detail-1_k68cxn.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812617/pet-training-detail-2_bdzrk9.jpg",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812615/pet-training-detail-3_zfkpda.jpg",
+  ],
+};
+
 const ServiceDetailPage = () => {
   const { serviceId } = useParams();
   const [service, setService] = useState(null);
@@ -71,7 +94,16 @@ const ServiceDetailPage = () => {
           </div>
         </div>
 
-        <div className="mt-16 aspect-video w-full"></div>
+        <div className="mt-16 flex flex-col gap-8">
+          {serviceDetailImages[service.service_type].map((imageUrl) => (
+            <img
+              key={imageUrl}
+              src={imageUrl}
+              alt={service.name}
+              className="block h-auto w-full"
+            />
+          ))}
+        </div>
 
         <button
           type="button"

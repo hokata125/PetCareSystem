@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import heroBanner from "../../assets/images/hero-banner.png";
 import ProductCard from "../../components/product-card/ProductCard";
+import ServiceCard from "../../components/service-card/ServiceCard";
 import { getProducts } from "../../services/products";
 import { getServices } from "../../services/services";
 
@@ -105,21 +106,6 @@ const HomePage = () => {
         </div>
       </section>
     </>
-  );
-};
-
-const ServiceCard = ({ image, name }) => {
-  return (
-    <div className="flex h-52 cursor-pointer flex-col items-center justify-center gap-4 rounded-3xl border-4 border-brand-primary bg-white transition-transform duration-200 hover:scale-105 xl:h-56 2xl:h-64 3xl:h-72">
-      <img
-        src={image}
-        alt={name}
-        className="size-28 object-contain xl:size-32 2xl:size-36 3xl:size-40"
-      />
-      <span className="text-ui leading-none font-extrabold whitespace-nowrap text-brand-primary">
-        {name}
-      </span>
-    </div>
   );
 };
 

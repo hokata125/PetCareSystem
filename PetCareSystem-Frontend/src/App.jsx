@@ -10,6 +10,7 @@ import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetailPage from "./pages/product/ProductDetailPage";
 import ProductListPage from "./pages/product/ProductListPage";
+import ServiceListPage from "./pages/service/ServiceListPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { getCurrentUser } from "./services/auth";
 
@@ -50,6 +51,7 @@ const App = () => {
           path="/abandoned-pets/:abandonedPetId"
           element={<AbandonedPetDetailPage />}
         />
+        <Route path="/services" element={<ServiceListPage />} />
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route

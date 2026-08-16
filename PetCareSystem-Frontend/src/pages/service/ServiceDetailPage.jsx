@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 import { getServiceDetail } from "../../services/services";
 
 const serviceDetailImages = {
@@ -105,12 +105,12 @@ const ServiceDetailPage = () => {
           ))}
         </div>
 
-        <button
-          type="button"
-          className="mt-12 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl font-bold text-white hover:bg-brand-primary-hover"
+        <NavLink
+          to={`/services/${service.id}/book`}
+          className="mt-12 flex h-16 w-full cursor-pointer items-center justify-center rounded-lg bg-brand-primary text-2xl font-bold text-white no-underline hover:bg-brand-primary-hover"
         >
           ĐẶT LỊCH DỊCH VỤ
-        </button>
+        </NavLink>
       </div>
     </section>
   );

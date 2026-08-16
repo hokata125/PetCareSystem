@@ -2,13 +2,20 @@ import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
+import { createOrder } from "../../services/orders";
 import { getProductDetail } from "../../services/products";
 
 const OrderCreatePage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [receiverAddress, setReceiverAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [note, setNote] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOrderCreated, setIsOrderCreated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [orderErrorMessage, setOrderErrorMessage] = useState("");
+  const [orderSuccessMessage, setOrderSuccessMessage] = useState("");
 
   useEffect(() => {
     const loadProductDetail = async () => {
@@ -32,6 +39,41 @@ const OrderCreatePage = () => {
     loadProductDetail();
   }, [productId]);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setOrderErrorMessage("");
+    setOrderSuccessMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const orderData = {
+        product_id: product.id,
+        note: note,
+        quantity: quantity,
+        receiver_address: receiverAddress,
+      };
+
+      await createOrder(orderData);
+      setOrderSuccessMessage("Đặt hàng thành công!");
+      setIsOrderCreated(true);
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      const validationMessage = Array.isArray(detail)
+        ? detail
+            .map((validationError) =>
+              validationError.msg.replace(/^Value error,\s*/, ""),
+            )
+            .join(" ")
+        : "Không thể tạo đơn hàng. Vui lòng thử lại.";
+
+      setOrderErrorMessage(
+        typeof detail === "string" ? detail : validationMessage,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (errorMessage) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#f9f9f9] px-16 py-16">
@@ -52,7 +94,10 @@ const OrderCreatePage = () => {
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
       style={{ backgroundImage: `url(${pawsBackground})` }}
     >
-      <form className="w-full max-w-4xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-16 py-14 2xl:max-w-5xl">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-4xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-16 py-14 2xl:max-w-5xl"
+      >
         <h1 className="m-0 text-center text-4xl leading-none font-extrabold text-brand-primary 2xl:text-5xl">
           THÔNG TIN ĐƠN ĐẶT HÀNG
         </h1>
@@ -86,7 +131,10 @@ const OrderCreatePage = () => {
               name="receiver_address"
               type="text"
               placeholder="Nhập địa chỉ nhận hàng..."
-              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 2xl:text-2xl"
+              value={receiverAddress}
+              onChange={(event) => setReceiverAddress(event.target.value)}
+              disabled={isSubmitting || isOrderCreated}
+              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
 
@@ -106,7 +154,8 @@ const OrderCreatePage = () => {
               max={product.stock_quantity}
               value={quantity}
               onChange={(event) => setQuantity(Number(event.target.value))}
-              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none 2xl:text-2xl"
+              disabled={isSubmitting || isOrderCreated}
+              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
         </div>
@@ -123,7 +172,10 @@ const OrderCreatePage = () => {
             id="order_note"
             name="order_note"
             placeholder="Nhập ghi chú của bạn..."
-            className="h-28 w-full resize-none rounded-xl border border-neutral-700 bg-white px-4 py-3 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 2xl:text-2xl"
+            value={note}
+            onChange={(event) => setNote(event.target.value)}
+            disabled={isSubmitting || isOrderCreated}
+            className="h-28 w-full resize-none rounded-xl border border-neutral-700 bg-white px-4 py-3 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
           />
         </div>
 
@@ -133,13 +185,30 @@ const OrderCreatePage = () => {
         </p>
 
         <button
-          type="button"
-          className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white hover:bg-brand-primary-hover 2xl:h-14 2xl:text-2xl"
+          type="submit"
+          disabled={isSubmitting || isOrderCreated}
+          className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
         >
-          XÁC NHẬN ĐẶT HÀNG
+          {isSubmitting ? (
+            <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
+          ) : (
+            "XÁC NHẬN ĐẶT HÀNG"
+          )}
         </button>
 
-        <div className="min-h-20" />
+        <div className="min-h-20 pt-5">
+          {orderErrorMessage && (
+            <div className="rounded-xl bg-red-100 px-4 py-3 text-lg font-medium text-red-700 2xl:text-xl">
+              {orderErrorMessage}
+            </div>
+          )}
+
+          {orderSuccessMessage && (
+            <div className="rounded-xl bg-green-100 px-4 py-3 text-lg font-medium text-green-700 2xl:text-xl">
+              {orderSuccessMessage}
+            </div>
+          )}
+        </div>
       </form>
     </section>
   );

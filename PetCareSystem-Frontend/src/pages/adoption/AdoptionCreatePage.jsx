@@ -13,7 +13,7 @@ const AdoptionCreatePage = () => {
   const [isAdoptionCreated, setIsAdoptionCreated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [adoptionErrorMessage, setAdoptionErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [adoptionSuccessMessage, setAdoptionSuccessMessage] = useState("");
 
   useEffect(() => {
     const loadAbandonedPetDetail = async () => {
@@ -39,7 +39,7 @@ const AdoptionCreatePage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setAdoptionErrorMessage("");
-    setSuccessMessage("");
+    setAdoptionSuccessMessage("");
     setIsSubmitting(true);
 
     try {
@@ -49,7 +49,7 @@ const AdoptionCreatePage = () => {
       };
 
       await createAdoption(adoptionData);
-      setSuccessMessage("Đăng ký nhận nuôi thú cưng thành công!");
+      setAdoptionSuccessMessage("Đăng ký nhận nuôi thú cưng thành công!");
       setIsAdoptionCreated(true);
     } catch (error) {
       const detail = error.response?.data?.detail;
@@ -165,9 +165,9 @@ const AdoptionCreatePage = () => {
             </div>
           )}
 
-          {successMessage && (
+          {adoptionSuccessMessage && (
             <div className="rounded-xl bg-green-100 px-4 py-3 text-lg font-medium text-green-700 2xl:text-xl">
-              {successMessage}
+              {adoptionSuccessMessage}
             </div>
           )}
         </div>

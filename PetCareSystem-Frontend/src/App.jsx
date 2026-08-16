@@ -5,7 +5,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import AdoptionCreatePage from "./pages/adoption/AdoptionCreatePage";
 import BookingCreatePage from "./pages/booking/BookingCreatePage";
-import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
+import ChangePasswordPage from "./pages/profile/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";

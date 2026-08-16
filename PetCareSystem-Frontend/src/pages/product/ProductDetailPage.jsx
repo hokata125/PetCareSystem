@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 import ProductCard from "../../components/product-card/ProductCard";
 import { getProductDetail, getProducts } from "../../services/products";
 
@@ -82,12 +82,12 @@ const ProductDetailPage = () => {
               )}
             </div>
 
-            <button
-              type="button"
-              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary font-bold text-2xl text-white hover:bg-brand-primary-hover 2xl:text-3xl"
+            <NavLink
+              to={`/products/${product.id}/order`}
+              className="mt-8 flex h-16 w-full cursor-pointer items-center justify-center rounded-lg bg-brand-primary text-2xl font-bold text-white no-underline hover:bg-brand-primary-hover 2xl:text-3xl"
             >
               MUA NGAY
-            </button>
+            </NavLink>
           </div>
 
           <div className="col-span-2 pt-2 text-neutral-950">

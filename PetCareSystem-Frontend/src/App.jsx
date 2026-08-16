@@ -8,6 +8,7 @@ import ChangePasswordPage from "./pages/change-password/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
+import OrderCreatePage from "./pages/order/OrderCreatePage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetailPage from "./pages/product/ProductDetailPage";
 import ProductListPage from "./pages/product/ProductListPage";
@@ -68,6 +69,17 @@ const App = () => {
         <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
+        <Route
+          path="/products/:productId/order"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <OrderCreatePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/login"
           element={

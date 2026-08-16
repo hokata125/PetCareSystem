@@ -37,8 +37,8 @@ const ServiceDetailPage = () => {
       setErrorMessage("");
 
       try {
-        const serviceData = await getServiceDetail(serviceId);
-        setService(serviceData);
+        const serviceDetailData = await getServiceDetail(serviceId);
+        setService(serviceDetailData);
       } catch (error) {
         const detail = error.response?.data?.detail;
         setErrorMessage(

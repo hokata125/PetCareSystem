@@ -21,8 +21,8 @@ const AdoptionCreatePage = () => {
       setErrorMessage("");
 
       try {
-        const petData = await getAbandonedPetDetail(abandonedPetId);
-        setPet(petData);
+        const petDetailData = await getAbandonedPetDetail(abandonedPetId);
+        setPet(petDetailData);
       } catch (error) {
         const detail = error.response?.data?.detail;
         setErrorMessage(

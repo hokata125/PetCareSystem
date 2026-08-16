@@ -80,7 +80,7 @@ def seed_services(db: Session) -> None:
         Service(
             name="SPA THÚ CƯNG",
             description=(
-                "DỊCH VỤ LÀM ĐẸP CHO THÚ CƯNG BAO GỒM 5 BƯỚC:\n"
+                "Dịch vụ làm đẹp, thư giãn cho thú cưng gồm 5 bước:\n"
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"
@@ -94,7 +94,7 @@ def seed_services(db: Session) -> None:
         Service(
             name="KHÁM BỆNH THÚ CƯNG",
             description=(
-                "DỊCH VỤ KHÁM TỔNG QUÁT CHO THÚ CƯNG BAO GỒM 20 BƯỚC:\n"
+                "Dịch vụ khám, kiểm tra tổng quát cho thú cưng gồm các bước như:\n"
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"
@@ -108,7 +108,11 @@ def seed_services(db: Session) -> None:
         Service(
             name="TRÔNG HỘ THÚ CƯNG",
             description=(
-                "DỊCH VỤ TRÔNG HỘ VỚI KHÔNG GIAN KHÁCH SẠN DÀNH RIÊNG CHO CÁC BÉ THÚ CƯNG"
+                "Dịch vụ trông hộ thú cưng gồm các tiện ích và hoạt động như:\n"
+                "1. ABC\n"
+                "2. DEF\n"
+                "...\n"
+                "10. XYZ"
             ),
             price=120000,
             service_type=ServiceType.BOARDING,
@@ -118,7 +122,7 @@ def seed_services(db: Session) -> None:
         Service(
             name="HUẤN LUYỆN THÚ CƯNG",
             description=(
-                "DỊCH VỤ HUẤN LUYỆN THÚ CƯNG THÀNH THẠO 10 ĐỘNG TÁC GỒM:\n"
+                "Dịch vụ huấn luyện cho thú cưng thực hiện các tương tác, động tác như:\n"
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"

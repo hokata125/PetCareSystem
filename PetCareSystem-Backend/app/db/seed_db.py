@@ -84,7 +84,8 @@ def seed_services(db: Session) -> None:
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"
-                "5. XYZ"
+                "5. XYZ\n"
+                "\n[Giá của dịch vụ này sẽ thay đổi dựa trên cân nặng của thú cưng sử dụng dịch vụ]"
             ),
             price=499000,
             service_type=ServiceType.SPA,
@@ -98,7 +99,8 @@ def seed_services(db: Session) -> None:
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"
-                "20. XYZ"
+                "20. XYZ\n"
+                "\n[Giá của dịch vụ này sẽ thay đổi dựa trên cân nặng của thú cưng sử dụng dịch vụ]"
             ),
             price=1299000,
             service_type=ServiceType.CLINIC,
@@ -126,7 +128,8 @@ def seed_services(db: Session) -> None:
                 "1. ABC\n"
                 "2. DEF\n"
                 "...\n"
-                "10. XYZ"
+                "10. XYZ\n"
+                "\n[Giá của dịch vụ này sẽ thay đổi dựa trên cân nặng của thú cưng sử dụng dịch vụ]"
             ),
             price=899000,
             service_type=ServiceType.TRAINING,

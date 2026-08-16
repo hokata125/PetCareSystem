@@ -183,8 +183,8 @@ def seed_abandoned_pets(db: Session) -> None:
         abandoned_pet = AbandonedPet(
             name=f"Thú cưng test {pet_number}",
             pet_type=random_generator.choice(test_pet_type),
-            age=random_generator.randint(1, 60),
-            weight=random_generator.randint(10, 1000) / 10,
+            age=random_generator.randint(1, 30),
+            weight=random_generator.randint(10, 250) / 10,
             health_status=test_health_status,
             image="https://res.cloudinary.com/vgvqzopy/image/upload/v1786738449/abandoned-cat_yyyjoq.png",
             pet_status=PetStatus.AVAILABLE,

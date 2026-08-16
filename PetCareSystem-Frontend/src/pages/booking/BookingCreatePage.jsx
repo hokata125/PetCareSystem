@@ -2,6 +2,7 @@ import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
+import { createBooking } from "../../services/bookings";
 import { getServiceDetail } from "../../services/services";
 
 const BookingCreatePage = () => {
@@ -13,7 +14,11 @@ const BookingCreatePage = () => {
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
   const [note, setNote] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isBookingCreated, setIsBookingCreated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [bookingErrorMessage, setBookingErrorMessage] = useState("");
+  const [bookingSuccessMessage, setBookingSuccessMessage] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -80,6 +85,44 @@ const BookingCreatePage = () => {
     );
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setBookingErrorMessage("");
+    setBookingSuccessMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const bookingData = {
+        service_id: service.id,
+        pet_name: petName,
+        pet_type: petType,
+        pet_weight: petWeight,
+        note: note,
+        start_at: startAt,
+        end_at: endAt || null,
+      };
+
+      await createBooking(bookingData);
+      setBookingSuccessMessage("Đặt lịch dịch vụ thành công!");
+      setIsBookingCreated(true);
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      const validationMessage = Array.isArray(detail)
+        ? detail
+            .map((validationError) =>
+              validationError.msg.replace(/^Value error,\s*/, ""),
+            )
+            .join(" ")
+        : "Không thể tạo lịch đặt. Vui lòng thử lại.";
+
+      setBookingErrorMessage(
+        typeof detail === "string" ? detail : validationMessage,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   let totalPrice;
 
   if (isBoardingService) {
@@ -99,7 +142,10 @@ const BookingCreatePage = () => {
       className="flex min-h-screen items-center justify-center bg-cover bg-center px-16 py-20"
       style={{ backgroundImage: `url(${pawsBackground})` }}
     >
-      <form className="w-full max-w-4xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-16 py-14 2xl:max-w-5xl">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-4xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-16 py-14 2xl:max-w-5xl"
+      >
         <h1 className="m-0 text-center text-4xl leading-none font-extrabold text-brand-primary 2xl:text-5xl">
           THÔNG TIN ĐƠN ĐẶT LỊCH
         </h1>
@@ -140,7 +186,8 @@ const BookingCreatePage = () => {
             placeholder="Nhập tên thú cưng của bạn..."
             value={petName}
             onChange={(event) => setPetName(event.target.value)}
-            className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 2xl:text-2xl"
+            disabled={isSubmitting || isBookingCreated}
+            className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
           />
         </div>
 
@@ -160,7 +207,8 @@ const BookingCreatePage = () => {
               placeholder="Nhập loại thú cưng của bạn..."
               value={petType}
               onChange={(event) => setPetType(event.target.value)}
-              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 2xl:text-2xl"
+              disabled={isSubmitting || isBookingCreated}
+              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
 
@@ -180,7 +228,8 @@ const BookingCreatePage = () => {
               max="50"
               value={petWeight}
               onChange={(event) => setPetWeight(Number(event.target.value))}
-              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none 2xl:text-2xl"
+              disabled={isSubmitting || isBookingCreated}
+              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
         </div>
@@ -202,7 +251,8 @@ const BookingCreatePage = () => {
               onChange={handleStartAtChange}
               onKeyDown={(event) => event.preventDefault()}
               onPaste={(event) => event.preventDefault()}
-              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none 2xl:text-2xl"
+              disabled={isSubmitting || isBookingCreated}
+              className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
 
@@ -222,7 +272,7 @@ const BookingCreatePage = () => {
               onChange={(event) => setEndAt(event.target.value)}
               onKeyDown={(event) => event.preventDefault()}
               onPaste={(event) => event.preventDefault()}
-              disabled={!isBoardingService}
+              disabled={isSubmitting || isBookingCreated || !isBoardingService}
               className="h-14 w-full rounded-xl border border-neutral-700 bg-white px-4 text-xl text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
             />
           </div>
@@ -242,7 +292,8 @@ const BookingCreatePage = () => {
             placeholder="Nhập ghi chú của bạn..."
             value={note}
             onChange={(event) => setNote(event.target.value)}
-            className="h-28 w-full resize-none rounded-xl border border-neutral-700 bg-white px-4 py-3 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 2xl:text-2xl"
+            disabled={isSubmitting || isBookingCreated}
+            className="h-28 w-full resize-none rounded-xl border border-neutral-700 bg-white px-4 py-3 text-xl text-neutral-700 outline-none placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:bg-neutral-200 2xl:text-2xl"
           />
         </div>
 
@@ -251,13 +302,30 @@ const BookingCreatePage = () => {
         </p>
 
         <button
-          type="button"
-          className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white hover:bg-brand-primary-hover 2xl:h-14 2xl:text-2xl"
+          type="submit"
+          disabled={isSubmitting || isBookingCreated}
+          className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
         >
-          XÁC NHẬN ĐẶT LỊCH
+          {isSubmitting ? (
+            <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
+          ) : (
+            "XÁC NHẬN ĐẶT LỊCH"
+          )}
         </button>
 
-        <div className="min-h-20 pt-5" />
+        <div className="min-h-20 pt-5">
+          {bookingErrorMessage && (
+            <div className="rounded-xl bg-red-100 px-4 py-3 text-lg font-medium text-red-700 2xl:text-xl">
+              {bookingErrorMessage}
+            </div>
+          )}
+
+          {bookingSuccessMessage && (
+            <div className="rounded-xl bg-green-100 px-4 py-3 text-lg font-medium text-green-700 2xl:text-xl">
+              {bookingSuccessMessage}
+            </div>
+          )}
+        </div>
       </form>
     </section>
   );

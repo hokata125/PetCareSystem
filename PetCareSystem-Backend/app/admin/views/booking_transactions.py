@@ -50,13 +50,30 @@ class BookingTransactionView(ModelView, model=BookingTransaction):
         if new_status == current_status:
             return
 
-        if current_status != TransactionStatus.WAITING_CONFIRM or new_status not in {
-            TransactionStatus.SUCCESS,
-            TransactionStatus.FAILED,
-        }:
+        allowed_transitions = {
+            TransactionStatus.PENDING: [
+                TransactionStatus.EXPIRED,
+            ],
+            TransactionStatus.WAITING_CONFIRM: [
+                TransactionStatus.SUCCESS,
+                TransactionStatus.FAILED,
+            ],
+            TransactionStatus.SUCCESS: [],
+            TransactionStatus.FAILED: [],
+            TransactionStatus.CANCELLED: [],
+            TransactionStatus.EXPIRED: [],
+        }
+
+        if new_status not in allowed_transitions[current_status]:
             raise ValueError(
                 f"Không thể chuyển trạng thái từ '{current_status}' sang '{new_status}'!"
             )
+
+        if (
+            new_status == TransactionStatus.EXPIRED
+            and datetime.now() < model.expires_at
+        ):
+            raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
 
         db = object_session(model)
 
@@ -70,10 +87,16 @@ class BookingTransactionView(ModelView, model=BookingTransaction):
 
         if booking.booking_status != BookingStatus.PENDING:
             raise ValueError(
-                "Chỉ có thể xác nhận giao dịch của lịch đặt đang chờ xác nhận!"
+                "Chỉ có thể xử lý giao dịch của lịch đặt đang chờ xác nhận!"
             )
 
         data["status"] = new_status
+
+        if new_status == TransactionStatus.EXPIRED:
+            booking.booking_status = BookingStatus.CANCELLED
+            booking.cancelled_at = datetime.now()
+            booking.cancelled_by = booking.user_id
+            return
 
         if new_status == TransactionStatus.SUCCESS:
             data["paid_at"] = datetime.now()

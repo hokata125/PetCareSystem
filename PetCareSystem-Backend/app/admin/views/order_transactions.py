@@ -51,13 +51,30 @@ class OrderTransactionView(ModelView, model=OrderTransaction):
         if new_status == current_status:
             return
 
-        if current_status != TransactionStatus.WAITING_CONFIRM or new_status not in {
-            TransactionStatus.SUCCESS,
-            TransactionStatus.FAILED,
-        }:
+        allowed_transitions = {
+            TransactionStatus.PENDING: [
+                TransactionStatus.EXPIRED,
+            ],
+            TransactionStatus.WAITING_CONFIRM: [
+                TransactionStatus.SUCCESS,
+                TransactionStatus.FAILED,
+            ],
+            TransactionStatus.SUCCESS: [],
+            TransactionStatus.FAILED: [],
+            TransactionStatus.CANCELLED: [],
+            TransactionStatus.EXPIRED: [],
+        }
+
+        if new_status not in allowed_transitions[current_status]:
             raise ValueError(
                 f"Không thể chuyển trạng thái từ '{current_status}' sang '{new_status}'!"
             )
+
+        if (
+            new_status == TransactionStatus.EXPIRED
+            and datetime.now() < model.expires_at
+        ):
+            raise ValueError("Giao dịch vẫn còn thời hạn thanh toán!")
 
         db = object_session(model)
 
@@ -71,7 +88,7 @@ class OrderTransactionView(ModelView, model=OrderTransaction):
 
         if order.order_status != OrderStatus.PENDING:
             raise ValueError(
-                "Chỉ có thể xác nhận giao dịch của đơn hàng đang chờ xác nhận!"
+                "Chỉ có thể xử lý giao dịch của đơn hàng đang chờ xác nhận!"
             )
 
         data["status"] = new_status
@@ -87,9 +104,13 @@ class OrderTransactionView(ModelView, model=OrderTransaction):
             product.stock_quantity += order.quantity
 
         order.order_status = OrderStatus.CANCELLED
-        admin_id = request.session.get("admin_id")
         order.cancelled_at = datetime.now()
-        order.cancelled_by = admin_id
+
+        if new_status == TransactionStatus.EXPIRED:
+            order.cancelled_by = order.user_id
+        else:
+            admin_id = request.session.get("admin_id")
+            order.cancelled_by = admin_id
 
     async def on_model_change(
         self,

@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 import PetCard from "../../components/pet-card/PetCard";
 import {
   getAbandonedPetDetail,
@@ -85,12 +85,12 @@ const AbandonedPetDetailPage = () => {
               )}
             </div>
 
-            <button
-              type="button"
-              className="mt-8 h-16 w-full cursor-pointer rounded-lg border-0 bg-brand-primary text-2xl font-bold text-white hover:bg-brand-primary-hover"
+            <NavLink
+              to={`/abandoned-pets/${pet.id}/adopt`}
+              className="mt-8 flex h-16 w-full cursor-pointer items-center justify-center rounded-lg bg-brand-primary text-2xl font-bold text-white no-underline hover:bg-brand-primary-hover"
             >
               ĐĂNG KÝ NHẬN NUÔI
-            </button>
+            </NavLink>
           </div>
 
           <div className="col-span-2 pt-2 text-neutral-950">

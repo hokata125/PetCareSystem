@@ -10,6 +10,7 @@ import HomePage from "./pages/home/HomePage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import OrderCreatePage from "./pages/order/OrderCreatePage";
+import PaymentPage from "./pages/payment/PaymentPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetailPage from "./pages/product/ProductDetailPage";
 import ProductListPage from "./pages/product/ProductListPage";
@@ -79,6 +80,17 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/bookings/:bookingId/payment"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <PaymentPage paymentType="booking" />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route
@@ -89,6 +101,17 @@ const App = () => {
               isCheckingCurrentUser={isCheckingCurrentUser}
             >
               <OrderCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders/:orderId/payment"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <PaymentPage paymentType="order" />
             </ProtectedRoute>
           }
         />

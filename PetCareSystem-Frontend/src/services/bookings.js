@@ -5,3 +5,9 @@ export const createBooking = async (bookingData) => {
 
   return response.data;
 };
+
+export const cancelBooking = async (bookingId) => {
+  const response = await httpClient.patch(`/bookings/${bookingId}/cancel`);
+
+  return response.data;
+};

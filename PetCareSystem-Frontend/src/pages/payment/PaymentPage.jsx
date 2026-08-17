@@ -1,9 +1,13 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
+import { cancelBooking } from "../../services/bookings";
+import { cancelOrder } from "../../services/orders";
 import {
+  confirmBookingPayment,
+  confirmOrderPayment,
   expireBookingPayment,
   expireOrderPayment,
   getBookingPayment,
@@ -12,10 +16,14 @@ import {
 
 const PaymentPage = ({ paymentType = "order" }) => {
   const { orderId, bookingId } = useParams();
+  const navigate = useNavigate();
   const [paymentData, setPaymentData] = useState(null);
   const [remainingSeconds, setRemainingSeconds] = useState(null);
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [paymentErrorMessage, setPaymentErrorMessage] = useState("");
+  const [paymentSuccessMessage, setPaymentSuccessMessage] = useState("");
 
   const isOrderPayment = paymentType === "order";
 
@@ -101,6 +109,71 @@ const PaymentPage = ({ paymentType = "order" }) => {
 
     expirePayment();
   }, [bookingId, isOrderPayment, orderId, paymentData, remainingSeconds]);
+
+  const handleConfirmPayment = async () => {
+    setPaymentErrorMessage("");
+    setPaymentSuccessMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const confirmedTransaction = isOrderPayment
+        ? await confirmOrderPayment(orderId)
+        : await confirmBookingPayment(bookingId);
+
+      setPaymentData({
+        ...paymentData,
+        transaction: confirmedTransaction,
+        qr_url: null,
+      });
+      setPaymentSuccessMessage("Đã gửi yêu cầu xác nhận thanh toán!");
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      setPaymentErrorMessage(
+        typeof detail === "string"
+          ? detail
+          : "Không thể gửi yêu cầu xác nhận thanh toán. Vui lòng thử lại.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancelPayment = async () => {
+    setPaymentErrorMessage("");
+    setPaymentSuccessMessage("");
+    setIsSubmitting(true);
+
+    try {
+      if (isOrderPayment) {
+        await cancelOrder(orderId);
+      } else {
+        await cancelBooking(bookingId);
+      }
+
+      setIsCancelDialogOpen(false);
+      setPaymentData({
+        ...paymentData,
+        transaction: {
+          ...paymentData.transaction,
+          status: "ĐÃ HỦY",
+        },
+        qr_url: null,
+      });
+      setPaymentSuccessMessage(
+        `Đã hủy ${isOrderPayment ? "đơn hàng" : "lịch đặt"} thành công!`,
+      );
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      setIsCancelDialogOpen(false);
+      setPaymentErrorMessage(
+        typeof detail === "string"
+          ? detail
+          : `Không thể hủy ${isOrderPayment ? "đơn hàng" : "lịch đặt"}. Vui lòng thử lại.`,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (errorMessage) {
     return (
@@ -190,22 +263,51 @@ const PaymentPage = ({ paymentType = "order" }) => {
           <>
             <button
               type="button"
-              className="mt-6 h-12 w-full cursor-pointer rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary hover:bg-brand-secondary-hover 2xl:h-14 2xl:text-2xl"
+              onClick={handleConfirmPayment}
+              disabled={isSubmitting}
+              className="mt-6 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary enabled:hover:bg-brand-secondary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
-              TÔI XÁC NHẬN ĐÃ CHUYỂN KHOẢN
+              {isSubmitting ? (
+                <span className="size-6 animate-spin rounded-full border-4 border-brand-primary/40 border-t-brand-primary 2xl:size-7" />
+              ) : (
+                "TÔI XÁC NHẬN ĐÃ CHUYỂN KHOẢN"
+              )}
             </button>
 
             <button
               type="button"
               onClick={() => setIsCancelDialogOpen(true)}
-              className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-red-400 text-xl font-extrabold text-red-950 hover:bg-red-500 2xl:h-14 2xl:text-2xl"
+              disabled={isSubmitting}
+              className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-red-400 text-xl font-extrabold text-red-950 enabled:hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
               {isOrderPayment ? "HỦY ĐẶT HÀNG" : "HỦY ĐẶT LỊCH"}
             </button>
           </>
         )}
 
-        <div className="min-h-20 pt-5" />
+        <div className="min-h-20 pt-5">
+          {paymentErrorMessage && (
+            <div className="rounded-xl bg-red-100 px-4 py-3 text-lg font-medium text-red-700 2xl:text-xl">
+              {paymentErrorMessage}
+            </div>
+          )}
+
+          {paymentSuccessMessage && (
+            <div className="rounded-xl bg-green-100 px-4 py-3 text-lg font-medium text-green-700 2xl:text-xl">
+              {paymentSuccessMessage}
+            </div>
+          )}
+
+          {!isPendingPayment && (
+            <button
+              type="button"
+              onClick={() => navigate("/", { replace: true })}
+              className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary hover:bg-brand-secondary-hover 2xl:h-14 2xl:text-2xl"
+            >
+              TRỞ VỀ TRANG CHỦ
+            </button>
+          )}
+        </div>
       </div>
 
       <Dialog
@@ -230,17 +332,24 @@ const PaymentPage = ({ paymentType = "order" }) => {
 
             <button
               type="button"
-              className="mt-8 h-12 w-full cursor-pointer rounded-lg border-0 bg-red-500 text-xl font-extrabold text-white hover:bg-red-600 2xl:h-14 2xl:text-2xl"
+              onClick={handleCancelPayment}
+              disabled={isSubmitting}
+              className="mt-8 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-red-500 text-xl font-extrabold text-white enabled:hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
-              {isOrderPayment
-                ? "TÔI XÁC NHẬN HỦY ĐƠN HÀNG"
-                : "TÔI XÁC NHẬN HỦY LỊCH ĐẶT"}
+              {isSubmitting ? (
+                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
+              ) : isOrderPayment ? (
+                "TÔI XÁC NHẬN HỦY ĐƠN HÀNG"
+              ) : (
+                "TÔI XÁC NHẬN HỦY LỊCH ĐẶT"
+              )}
             </button>
 
             <button
               type="button"
               onClick={() => setIsCancelDialogOpen(false)}
-              className="mt-4 h-12 w-full cursor-pointer rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary hover:bg-brand-secondary-hover 2xl:h-14 2xl:text-2xl"
+              disabled={isSubmitting}
+              className="mt-4 h-12 w-full cursor-pointer rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary enabled:hover:bg-brand-secondary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
               QUAY LẠI
             </button>

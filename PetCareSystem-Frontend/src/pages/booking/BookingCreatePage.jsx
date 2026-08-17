@@ -1,12 +1,13 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { createBooking } from "../../services/bookings";
 import { getServiceDetail } from "../../services/services";
 
 const BookingCreatePage = () => {
   const { serviceId } = useParams();
+  const navigate = useNavigate();
   const [service, setService] = useState(null);
   const [petName, setPetName] = useState("");
   const [petType, setPetType] = useState("");
@@ -102,9 +103,12 @@ const BookingCreatePage = () => {
         end_at: endAt || null,
       };
 
-      await createBooking(bookingData);
+      const createdBooking = await createBooking(bookingData);
       setBookingSuccessMessage("Đặt lịch dịch vụ thành công!");
       setIsBookingCreated(true);
+
+      await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      navigate(`/bookings/${createdBooking.id}/payment`, { replace: true });
     } catch (error) {
       const detail = error.response?.data?.detail;
       const validationMessage = Array.isArray(detail)

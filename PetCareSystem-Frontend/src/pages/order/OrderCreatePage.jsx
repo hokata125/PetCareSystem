@@ -1,12 +1,13 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { createOrder } from "../../services/orders";
 import { getProductDetail } from "../../services/products";
 
 const OrderCreatePage = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [receiverAddress, setReceiverAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -53,9 +54,12 @@ const OrderCreatePage = () => {
         receiver_address: receiverAddress,
       };
 
-      await createOrder(orderData);
+      const createdOrder = await createOrder(orderData);
       setOrderSuccessMessage("Đặt hàng thành công!");
       setIsOrderCreated(true);
+
+      await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      navigate(`/orders/${createdOrder.id}/payment`, { replace: true });
     } catch (error) {
       const detail = error.response?.data?.detail;
       const validationMessage = Array.isArray(detail)

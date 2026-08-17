@@ -1,12 +1,13 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { getAbandonedPetDetail } from "../../services/abandonedPets";
 import { createAdoption } from "../../services/adoptions";
 
 const AdoptionCreatePage = () => {
   const { abandonedPetId } = useParams();
+  const navigate = useNavigate();
   const [pet, setPet] = useState(null);
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -146,17 +147,27 @@ const AdoptionCreatePage = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting || isAdoptionCreated}
-          className="mt-5 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
-        >
-          {isSubmitting ? (
-            <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
-          ) : (
-            "XÁC NHẬN ĐĂNG KÝ"
-          )}
-        </button>
+        {isAdoptionCreated ? (
+          <button
+            type="button"
+            onClick={() => navigate("/", { replace: true })}
+            className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-brand-secondary text-xl font-extrabold text-brand-primary hover:bg-brand-secondary-hover 2xl:h-14 2xl:text-2xl"
+          >
+            TRỞ VỀ TRANG CHỦ
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="mt-5 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-brand-primary text-xl font-extrabold text-white enabled:hover:bg-brand-primary-hover disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
+          >
+            {isSubmitting ? (
+              <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
+            ) : (
+              "XÁC NHẬN ĐĂNG KÝ"
+            )}
+          </button>
+        )}
 
         <div className="min-h-20 pt-5">
           {adoptionErrorMessage && (

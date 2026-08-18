@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { getMyOrders } from "../../services/orders";
 
@@ -13,6 +14,7 @@ const orderStatusClasses = {
 };
 
 const OrderHistoryPage = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -108,7 +110,8 @@ const OrderHistoryPage = () => {
                     {orders.map((order) => (
                       <tr
                         key={order.id}
-                        className="h-24 border-b border-neutral-950"
+                        onClick={() => navigate(`/orders/${order.id}`)}
+                        className="h-24 cursor-pointer border-b border-neutral-950 hover:bg-blue-100"
                       >
                         <td className="px-4 text-center font-bold">
                           #{order.id}

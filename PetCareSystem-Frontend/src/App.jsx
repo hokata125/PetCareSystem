@@ -12,6 +12,7 @@ import HomePage from "./pages/home/HomePage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import OrderCreatePage from "./pages/order/OrderCreatePage";
+import OrderDetailPage from "./pages/order/OrderDetailPage";
 import OrderHistoryPage from "./pages/order/OrderHistoryPage";
 import PaymentPage from "./pages/payment/PaymentPage";
 import ProfilePage from "./pages/profile/ProfilePage";
@@ -148,6 +149,17 @@ const App = () => {
               isCheckingCurrentUser={isCheckingCurrentUser}
             >
               <OrderHistoryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders/:orderId"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <OrderDetailPage />
             </ProtectedRoute>
           }
         />

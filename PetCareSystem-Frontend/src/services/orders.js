@@ -1,5 +1,13 @@
 import httpClient from "../configs/httpClient";
 
+export const getMyOrders = async (params) => {
+  const response = await httpClient.get("/orders", {
+    params,
+  });
+
+  return response.data;
+};
+
 export const createOrder = async (orderData) => {
   const response = await httpClient.post("/orders", orderData);
 

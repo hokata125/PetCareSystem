@@ -18,8 +18,6 @@ const OrderDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     const loadOrderDetail = async () => {
       setOrder(null);
       setErrorMessage("");

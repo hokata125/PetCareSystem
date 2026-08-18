@@ -18,8 +18,6 @@ const BookingDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     const loadBookingDetail = async () => {
       setBooking(null);
       setErrorMessage("");

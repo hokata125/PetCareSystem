@@ -22,8 +22,6 @@ const AdoptionDetailPage = () => {
   const [adoptionSuccessMessage, setAdoptionSuccessMessage] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     const loadAdoptionDetail = async () => {
       setAdoption(null);
       setErrorMessage("");

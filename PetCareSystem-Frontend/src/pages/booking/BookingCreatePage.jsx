@@ -22,8 +22,6 @@ const BookingCreatePage = () => {
   const [bookingSuccessMessage, setBookingSuccessMessage] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     const loadServiceDetail = async () => {
       setService(null);
       setErrorMessage("");

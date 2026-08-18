@@ -28,8 +28,6 @@ const PaymentPage = ({ paymentType = "order" }) => {
   const isOrderPayment = paymentType === "order";
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     const loadPayment = async () => {
       setPaymentData(null);
       setErrorMessage("");

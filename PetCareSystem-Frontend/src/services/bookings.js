@@ -8,6 +8,12 @@ export const getMyBookings = async (params) => {
   return response.data;
 };
 
+export const getMyBookingDetail = async (bookingId) => {
+  const response = await httpClient.get(`/bookings/${bookingId}`);
+
+  return response.data;
+};
+
 export const createBooking = async (bookingData) => {
   const response = await httpClient.post("/bookings", bookingData);
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { getMyBookings } from "../../services/bookings";
 
@@ -13,6 +14,7 @@ const bookingStatusClasses = {
 };
 
 const BookingHistoryPage = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -119,7 +121,8 @@ const BookingHistoryPage = () => {
                     {bookings.map((booking) => (
                       <tr
                         key={booking.id}
-                        className="h-24 border-b border-neutral-950"
+                        onClick={() => navigate(`/bookings/${booking.id}`)}
+                        className="h-24 cursor-pointer border-b border-neutral-950 hover:bg-blue-100"
                       >
                         <td className="px-2 text-center font-bold">
                           #{booking.id}

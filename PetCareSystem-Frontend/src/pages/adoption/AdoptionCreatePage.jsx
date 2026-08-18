@@ -86,7 +86,7 @@ const AdoptionCreatePage = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-5xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-14 py-12 shadow-xl 2xl:max-w-6xl 2xl:px-16"
+        className="w-full max-w-5xl rounded-3xl border-4 border-brand-primary bg-[#f9f9f9] px-14 py-12 2xl:max-w-6xl 2xl:px-16"
       >
         <h1 className="m-0 text-center text-4xl leading-none font-extrabold text-brand-primary 2xl:text-5xl">
           THÔNG TIN ĐƠN NHẬN NUÔI

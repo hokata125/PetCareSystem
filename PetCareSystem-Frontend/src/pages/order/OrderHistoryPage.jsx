@@ -49,7 +49,7 @@ const OrderHistoryPage = () => {
       className="min-h-screen bg-cover bg-center px-16 py-20"
       style={{ backgroundImage: `url(${pawsBackground})` }}
     >
-      <div className="mx-auto w-full max-w-screen-2xl overflow-hidden rounded-3xl border border-neutral-950 bg-[#f9f9f9] shadow-xl">
+      <div className="mx-auto w-full max-w-screen-2xl overflow-hidden rounded-3xl border border-neutral-950 bg-[#f9f9f9] shadow-2xl">
         <h1 className="m-0 bg-brand-primary px-5 py-6 text-2xl leading-none font-extrabold text-white 2xl:text-3xl">
           LỊCH SỬ ĐẶT HÀNG
         </h1>

@@ -55,7 +55,7 @@ const ChangePasswordPage = ({ onLogout }) => {
     >
       <form
         onSubmit={handleSubmit}
-        className="flex w-full max-w-5xl flex-col rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-12 py-16 2xl:max-w-6xl 2xl:px-16 2xl:py-20"
+        className="flex w-full max-w-5xl flex-col rounded-3xl border border-neutral-950 bg-[#f9f9f9] px-12 py-16 shadow-2xl 2xl:max-w-6xl 2xl:px-16 2xl:py-20"
       >
         <h1 className="m-0 text-center text-6xl leading-none font-extrabold text-brand-primary 2xl:text-7xl">
           ĐỔI MẬT KHẨU

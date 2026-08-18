@@ -278,7 +278,7 @@ const PaymentPage = ({ paymentType = "order" }) => {
               type="button"
               onClick={() => setIsCancelDialogOpen(true)}
               disabled={isSubmitting}
-              className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-red-400 text-xl font-extrabold text-red-950 enabled:hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
+              className="mt-5 h-12 w-full cursor-pointer rounded-lg border-0 bg-red-400 text-xl font-extrabold text-red-800 enabled:hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
               {isOrderPayment ? "HỦY ĐẶT HÀNG" : "HỦY ĐẶT LỊCH"}
             </button>
@@ -334,10 +334,10 @@ const PaymentPage = ({ paymentType = "order" }) => {
               type="button"
               onClick={handleCancelPayment}
               disabled={isSubmitting}
-              className="mt-8 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-red-500 text-xl font-extrabold text-white enabled:hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
+              className="mt-8 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border-0 bg-red-400 text-xl font-extrabold text-red-800 enabled:hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-70 2xl:h-14 2xl:text-2xl"
             >
               {isSubmitting ? (
-                <span className="size-6 animate-spin rounded-full border-4 border-white/40 border-t-white 2xl:size-7" />
+                <span className="size-6 animate-spin rounded-full border-4 border-red-800/40 border-t-red-800 2xl:size-7" />
               ) : isOrderPayment ? (
                 "TÔI XÁC NHẬN HỦY ĐƠN HÀNG"
               ) : (

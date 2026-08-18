@@ -152,7 +152,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
       <div className="grid w-full max-w-screen-2xl grid-cols-3 gap-12">
         <form
           onSubmit={handleSaveAvatar}
-          className="relative flex aspect-3/4 flex-col items-center rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-8"
+          className="relative flex aspect-3/4 flex-col items-center rounded-3xl border border-neutral-950 bg-[#f9f9f9] px-8 shadow-2xl"
         >
           <h1 className="absolute top-7 left-8 m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
             ẢNH ĐẠI DIỆN
@@ -243,7 +243,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
 
         <form
           onSubmit={handleSaveProfile}
-          className="relative col-span-2 rounded-2xl border-4 border-brand-primary bg-[#f9f9f9] px-10 pt-8"
+          className="relative col-span-2 rounded-3xl border border-neutral-950 bg-[#f9f9f9] px-10 pt-8 shadow-2xl"
         >
           <div>
             <h1 className="m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">

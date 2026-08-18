@@ -4,6 +4,7 @@ import SiteLayout from "./layouts/SiteLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import AdoptionCreatePage from "./pages/adoption/AdoptionCreatePage";
+import AdoptionHistoryPage from "./pages/adoption/AdoptionHistoryPage";
 import BookingCreatePage from "./pages/booking/BookingCreatePage";
 import BookingHistoryPage from "./pages/booking/BookingHistoryPage";
 import ChangePasswordPage from "./pages/profile/ChangePasswordPage";
@@ -66,6 +67,17 @@ const App = () => {
               isCheckingCurrentUser={isCheckingCurrentUser}
             >
               <AdoptionCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/adoptions/history"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <AdoptionHistoryPage />
             </ProtectedRoute>
           }
         />

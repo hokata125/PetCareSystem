@@ -81,9 +81,12 @@ const Header = ({ currentUser, onLogout }) => {
                   </NavLink>
                 </MenuItem>
                 <MenuItem>
-                  <button type="button" className={userMenuItemClasses}>
+                  <NavLink
+                    to="/adoptions/history"
+                    className={`${userMenuItemClasses} no-underline`}
+                  >
                     Lịch sử nhận nuôi
-                  </button>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem>
                   <NavLink

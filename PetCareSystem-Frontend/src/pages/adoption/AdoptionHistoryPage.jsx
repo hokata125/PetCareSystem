@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { getMyAdoptions } from "../../services/adoptions";
 
@@ -14,6 +15,7 @@ const adoptionStatusClasses = {
 };
 
 const AdoptionHistoryPage = () => {
+  const navigate = useNavigate();
   const [adoptions, setAdoptions] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -112,7 +114,8 @@ const AdoptionHistoryPage = () => {
                     {adoptions.map((adoption) => (
                       <tr
                         key={adoption.id}
-                        className="h-24 border-b border-neutral-950"
+                        onClick={() => navigate(`/adoptions/${adoption.id}`)}
+                        className="h-24 cursor-pointer border-b border-neutral-950 hover:bg-blue-100"
                       >
                         <td className="px-4 text-center font-bold">
                           #{adoption.id}

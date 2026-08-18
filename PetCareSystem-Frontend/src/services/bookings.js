@@ -1,5 +1,13 @@
 import httpClient from "../configs/httpClient";
 
+export const getMyBookings = async (params) => {
+  const response = await httpClient.get("/bookings", {
+    params,
+  });
+
+  return response.data;
+};
+
 export const createBooking = async (bookingData) => {
   const response = await httpClient.post("/bookings", bookingData);
 

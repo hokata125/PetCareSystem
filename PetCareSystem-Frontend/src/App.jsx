@@ -5,6 +5,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import AdoptionCreatePage from "./pages/adoption/AdoptionCreatePage";
 import BookingCreatePage from "./pages/booking/BookingCreatePage";
+import BookingHistoryPage from "./pages/booking/BookingHistoryPage";
 import ChangePasswordPage from "./pages/profile/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
@@ -89,6 +90,17 @@ const App = () => {
               isCheckingCurrentUser={isCheckingCurrentUser}
             >
               <PaymentPage paymentType="booking" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/history"
+          element={
+            <ProtectedRoute
+              currentUser={currentUser}
+              isCheckingCurrentUser={isCheckingCurrentUser}
+            >
+              <BookingHistoryPage />
             </ProtectedRoute>
           }
         />

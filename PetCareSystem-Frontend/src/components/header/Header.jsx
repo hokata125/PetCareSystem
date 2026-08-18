@@ -65,9 +65,12 @@ const Header = ({ currentUser, onLogout }) => {
                   </NavLink>
                 </MenuItem>
                 <MenuItem>
-                  <button type="button" className={userMenuItemClasses}>
+                  <NavLink
+                    to="/bookings/history"
+                    className={`${userMenuItemClasses} no-underline`}
+                  >
                     Lịch sử đặt lịch
-                  </button>
+                  </NavLink>
                 </MenuItem>
                 <MenuItem>
                   <NavLink

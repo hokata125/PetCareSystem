@@ -154,7 +154,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
           onSubmit={handleSaveAvatar}
           className="relative flex aspect-3/4 flex-col items-center rounded-3xl border border-neutral-950 bg-[#f9f9f9] px-8 shadow-2xl"
         >
-          <h1 className="absolute top-7 left-8 m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
+          <h1 className="absolute top-7 left-8 m-0 text-2xl leading-none font-extrabold text-brand-primary 2xl:text-3xl">
             ẢNH ĐẠI DIỆN
           </h1>
 
@@ -196,7 +196,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
             )}
           </div>
 
-          <div className="mt-20 aspect-square w-3/4 overflow-hidden rounded-full border-4 border-neutral-950 bg-neutral-100">
+          <div className="mt-25 aspect-square w-3/4 overflow-hidden rounded-full border-4 border-neutral-950 bg-neutral-100">
             {(avatarPreview || currentUser?.avatar) && (
               <img
                 src={avatarPreview || currentUser.avatar}
@@ -246,7 +246,7 @@ const ProfilePage = ({ currentUser, onProfileUpdate }) => {
           className="relative col-span-2 rounded-3xl border border-neutral-950 bg-[#f9f9f9] px-10 pt-8 shadow-2xl"
         >
           <div>
-            <h1 className="m-0 text-2xl leading-none font-extrabold text-neutral-950 2xl:text-3xl">
+            <h1 className="m-0 text-2xl leading-none font-extrabold text-brand-primary 2xl:text-3xl">
               THÔNG TIN CÁ NHÂN
             </h1>
 

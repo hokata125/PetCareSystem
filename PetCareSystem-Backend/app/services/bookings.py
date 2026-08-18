@@ -41,7 +41,7 @@ def get_user_bookings(
     return (
         db.query(Booking)
         .filter(Booking.user_id == user_id)
-        .order_by(Booking.start_at.desc(), Booking.id.desc())
+        .order_by(Booking.created_at.desc(), Booking.id.desc())
         .offset(skip)
         .limit(limit)
         .all()

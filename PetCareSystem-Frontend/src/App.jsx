@@ -24,6 +24,11 @@ import ServiceDetailPage from "./pages/service/ServiceDetailPage";
 import ServiceListPage from "./pages/service/ServiceListPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { getCurrentUser, logout } from "./services/auth";
+import {
+  getTawkIdentity,
+  loginTawkUser,
+  logoutTawkUser,
+} from "./services/tawk";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -40,6 +45,7 @@ const App = () => {
         setCurrentUser(user);
       } catch {
         localStorage.removeItem("accessToken");
+        logoutTawkUser();
       } finally {
         setIsCheckingCurrentUser(false);
       }
@@ -48,9 +54,25 @@ const App = () => {
     loadCurrentUser();
   }, []);
 
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const updateTawkUser = async () => {
+      try {
+        const tawkIdentity = await getTawkIdentity();
+        loginTawkUser(tawkIdentity);
+      } catch {
+        logoutTawkUser();
+      }
+    };
+
+    updateTawkUser();
+  }, [currentUser]);
+
   const clearSession = () => {
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
+    logoutTawkUser();
   };
 
   const handleLogout = async () => {

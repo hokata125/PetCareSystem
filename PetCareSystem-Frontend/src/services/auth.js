@@ -14,3 +14,7 @@ export const registerUser = async (registerData) => {
   const response = await httpClient.post("/auth/register", registerData);
   return response.data;
 };
+
+export const logout = async () => {
+  await httpClient.post("/auth/logout");
+};

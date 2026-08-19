@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import pawsBackground from "../../assets/images/paws-bg.jpg";
 import { changePassword } from "../../services/profile";
 
-const ChangePasswordPage = ({ onLogout }) => {
+const ChangePasswordPage = ({ onClearSession }) => {
   const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -30,7 +30,7 @@ const ChangePasswordPage = ({ onLogout }) => {
       setSuccessMessage("Đổi mật khẩu thành công!");
 
       await new Promise((resolve) => window.setTimeout(resolve, 1000));
-      onLogout();
+      onClearSession();
       navigate("/login", { replace: true });
     } catch (error) {
       const detail = error.response?.data?.detail;

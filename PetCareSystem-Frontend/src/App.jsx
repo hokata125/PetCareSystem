@@ -23,7 +23,7 @@ import ProductListPage from "./pages/product/ProductListPage";
 import ServiceDetailPage from "./pages/service/ServiceDetailPage";
 import ServiceListPage from "./pages/service/ServiceListPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import { getCurrentUser } from "./services/auth";
+import { getCurrentUser, logout } from "./services/auth";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -48,9 +48,17 @@ const App = () => {
     loadCurrentUser();
   }, []);
 
-  const handleLogout = () => {
+  const clearSession = () => {
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      clearSession();
+    }
   };
 
   return (
@@ -222,7 +230,7 @@ const App = () => {
               currentUser={currentUser}
               isCheckingCurrentUser={isCheckingCurrentUser}
             >
-              <ChangePasswordPage onLogout={handleLogout} />
+              <ChangePasswordPage onClearSession={clearSession} />
             </ProtectedRoute>
           }
         />

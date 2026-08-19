@@ -9,7 +9,7 @@ Các ràng buộc:
 - Chỉ ADMIN mới có quyền thêm, sửa thông tin dịch vụ/sản phẩm/thú cưng. Khách hàng chỉ có quyền xem danh sách, xem chi tiết và đặt mua.
   ...
 
-### 2. ĐẶT/HỦY LỊCH DỊCH VỤ (SPA, Khám bệnh, Trông hộ, Huấn luyện):
+### 2. ĐẶT/HỦY LỊCH DỊCH VỤ (SPA, KHÁM BỆNH, TRÔNG HỘ, HUẤN LUYỆN):
 
 Các ràng buộc:
 

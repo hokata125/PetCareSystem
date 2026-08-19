@@ -2,7 +2,7 @@
 
 ## Các nghiệp vụ chính:
 
-### 1. Quản lý dịch vụ/sản phẩm/thú cưng:
+### 1. QUẢN LÝ DỊCH VỤ/SẢN PHẨM/THÚ CƯNG BỊ BỎ RƠI:
 
 Các ràng buộc:
 

@@ -31,7 +31,6 @@ def get_my_tawk_identity(
         user_id=str(current_user.id),
         hash=create_tawk_hash(current_user.id),
         name=current_user.full_name,
-        email=current_user.email,
     )
 
 

@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.api.depends import get_current_user
 from app.core.security import create_access_token
 from app.db.session import get_db
+from app.models.models import User
 from app.schemas.tokens import TokenResponse
 from app.schemas.users import UserCreate, UserLogin, UserResponse
-from app.services.users import auth_user, create_user
+from app.services.users import auth_user, create_user, revoke_user_tokens
 
 router = APIRouter()
 
@@ -50,5 +52,16 @@ def login_process(
         )
 
     return TokenResponse(
-        access_token=create_access_token(user.id),
+        access_token=create_access_token(
+            user_id=user.id,
+            token_version=user.token_version,
+        ),
     )
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+def logout_process(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    revoke_user_tokens(db, current_user)

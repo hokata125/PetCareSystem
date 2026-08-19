@@ -5,7 +5,6 @@ from pwdlib import PasswordHash
 
 from app.core.configs import settings
 
-
 password_hasher = PasswordHash.recommended()
 
 
@@ -17,13 +16,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return password_hasher.verify(plain_password, hashed_password)
 
 
-def create_access_token(user_id: int) -> str:
+def create_access_token(user_id: int, token_version: int) -> str:
     expires_at = datetime.now(timezone.utc) + timedelta(
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     payload = {
         "sub": str(user_id),
+        "token_version": token_version,
         "exp": expires_at,
     }
 

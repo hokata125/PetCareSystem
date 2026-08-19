@@ -142,6 +142,7 @@ def change_user_password(
         raise ValueError("Mật khẩu mới phải khác mật khẩu hiện tại!")
 
     user.password = hash_password(password_input_data.new_password)
+    user.token_version += 1
 
     try:
         db.commit()
@@ -150,6 +151,16 @@ def change_user_password(
         raise
 
     return user
+
+
+def revoke_user_tokens(db: Session, user: User) -> None:
+    user.token_version += 1
+
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
 
 
 def update_user_avatar(

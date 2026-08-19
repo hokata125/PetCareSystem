@@ -8,7 +8,6 @@ from app.db.session import get_db
 from app.models.models import User, UserRole
 from app.services.users import get_user_by_id
 
-
 bearer_scheme = HTTPBearer(auto_error=False)
 
 
@@ -27,8 +26,9 @@ def get_current_user(
     try:
         payload = decode_access_token(auth_credentials.credentials)
         subject = payload.get("sub")
+        token_version = payload.get("token_version")
 
-        if subject is None:
+        if subject is None or token_version is None:
             raise credentials_exception
         user_id = int(subject)
 
@@ -38,6 +38,9 @@ def get_current_user(
     user = get_user_by_id(db, user_id)
 
     if user is None:
+        raise credentials_exception
+
+    if token_version != user.token_version:
         raise credentials_exception
 
     if not user.is_active:

@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.api.depends import get_current_user
+from app.core.tawk import create_tawk_hash
 from app.db.session import get_db
 from app.models.models import User
+from app.schemas.tawks import TawkIdentityResponse
 from app.schemas.users import UserChangePassword, UserResponse, UserUpdate
 from app.services.users import (
     change_user_password,
@@ -19,6 +21,18 @@ def get_my_profile(
     current_user: User = Depends(get_current_user),
 ):
     return current_user
+
+
+@router.get("/tawk-identity", response_model=TawkIdentityResponse)
+def get_my_tawk_identity(
+    current_user: User = Depends(get_current_user),
+):
+    return TawkIdentityResponse(
+        user_id=str(current_user.id),
+        hash=create_tawk_hash(current_user.id),
+        name=current_user.full_name,
+        email=current_user.email,
+    )
 
 
 @router.patch("/profile", response_model=UserResponse)

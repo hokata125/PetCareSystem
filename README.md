@@ -229,18 +229,6 @@ Quy ước truy cập:
 
 ---
 
-## Yêu cầu môi trường
-
-Trước khi chạy dự án, máy cần có:
-
-- Git
-- Python và `pip`
-- Node.js và `npm`
-- MySQL
-- Thông tin cấu hình tương ứng với các biến trong hai file `.env.example`
-
----
-
 ## Cài đặt và chạy dự án ở local
 
 ### 1. Clone repository

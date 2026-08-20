@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🐾 OU-Pet Center</h1>
-  <p>Hệ thống quản lý và chăm sóc thú cưng</p>
+  <p>Hệ thống quản lý và chăm sóc thú cưng OU-Pet Center</p>
 </div>
 
 ## Đề tài

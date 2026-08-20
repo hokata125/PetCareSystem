@@ -1,72 +1,318 @@
-# ĐỀ TÀI ĐỒ ÁN: HỆ THỐNG QUẢN LÝ & CHĂM SÓC THÚ CƯNG
+<div align="center">
+  <h1>🐾 OU-Pet Center</h1>
+  <p>Hệ thống quản lý và chăm sóc thú cưng</p>
+</div>
 
-## Các nghiệp vụ chính:
+## Đề tài
 
-### 1. QUẢN LÝ DỊCH VỤ/SẢN PHẨM/THÚ CƯNG BỊ BỎ RƠI:
+**OU-Pet Center** là hệ thống cung cấp các dịch vụ, sản phẩm liên quan đến thú cưng. Khách hàng có thể tìm kiếm sản phẩm, xem dịch vụ, đăng ký nhận nuôi thú cưng bị bỏ rơi, đặt lịch chăm sóc, đặt hàng và thanh toán trực tuyến bằng mã QR.
 
-Các ràng buộc:
+Hệ thống đồng thời cung cấp trang quản trị để quản lý người dùng, sản phẩm, dịch vụ, thú cưng, đơn nhận nuôi, đơn hàng, lịch đặt và giao dịch thanh toán. Tiện ích Tawk.to được tích hợp để khách hàng đã đăng nhập có thể trao đổi trực tiếp với nhân viên.
 
-- Chỉ ADMIN mới có quyền thêm, sửa thông tin dịch vụ/sản phẩm/thú cưng bị bỏ rơi.
-- ...
+---
 
-### 2. ĐẶT/HỦY LỊCH DỊCH VỤ (SPA, KHÁM BỆNH, TRÔNG HỘ, HUẤN LUYỆN):
+## Tổng quan
 
-Các ràng buộc:
+Hệ thống gồm hai vai trò chính:
 
-#### ĐẶT LỊCH DỊCH VỤ:
+| Vai trò           | Mô tả                                                                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Khách hàng**    | Quản lý tài khoản, xem sản phẩm/dịch vụ/thú cưng, tạo và theo dõi đơn hàng, lịch đặt, đơn nhận nuôi, thanh toán QR và chat với nhân viên |
+| **Quản trị viên** | Đăng nhập SQLAdmin để quản lý dữ liệu hệ thống, cập nhật trạng thái nghiệp vụ và xác nhận giao dịch thanh toán                           |
 
-- Người dùng phải đăng nhập mới được đặt lịch.
-- Chỉ được đặt lịch trong giờ làm việc của trung tâm (8:00 – 20:00)
-- Không được đặt lịch trong quá khứ và phải đặt cách thời điểm hiện tại ít nhất 30 phút.
-- Đối với các dịch vụ SPA, KHÁM BỆNH và HUẤN LUYỆN, mỗi mốc thời gian bắt đầu chỉ nhận tối đa 5 lịch đặt cho từng loại dịch vụ. Mỗi dịch vụ có thời gian diễn ra là 2 giờ và phải kết thúc trong cùng 1 ngày, khách hàng chỉ được chọn thời gian bắt đầu. Khách hàng bắt buộc phải nhập tên, loại và cân nặng thú cưng để hệ thống tính tiền theo khoảng cân nặng của thú cưng.
-- Đối với dịch vụ TRÔNG HỘ, trung tâm không giới hạn số lượng lịch đặt. Khách hàng phải chọn thời gian bắt đàu và thời gian kết thúc để hệ thống tính tiền theo số giờ gửi (không bắt buộc phải bắt đầu và kết thúc trong cùng 1 ngày nhưng thời gian bắt đầu & thời gian kết thúc phải nằm trong khung giờ làm việc).
-- ...
+Các điểm nổi bật:
 
-#### HỦY LỊCH DỊCH VỤ:
+- Xác thực bằng JWT và vô hiệu hóa token cũ bằng `token_version` khi đổi mật khẩu hoặc đăng xuất.
+- Tìm kiếm, sắp xếp và phân trang sản phẩm, thú cưng bị bỏ rơi.
+- Đặt lịch cho SPA, khám bệnh, trông hộ và huấn luyện thú cưng.
+- Tạo, theo dõi và hủy đơn hàng, lịch đặt, đơn nhận nuôi.
+- Thanh toán chuyển khoản bằng mã QR SePay với thời hạn 10 phút.
+- Upload và lưu trữ hình ảnh qua Cloudinary.
+- Chat hỗ trợ khách hàng bằng Tawk.to với phiên chat riêng cho từng tài khoản.
+- Quản trị dữ liệu bằng SQLAdmin.
 
-- ...
+---
 
-### 3. ĐẶT/HỦY ĐƠN HÀNG SẢN PHẨM:
+## Tech Stack
 
-Các ràng buộc:
+| Layer                | Công nghệ                                               |
+| -------------------- | ------------------------------------------------------- |
+| **Backend**          | Python, FastAPI, SQLAlchemy, Pydantic, PyMySQL, Uvicorn |
+| **Authentication**   | JWT HS256, Argon2, token version, session cho SQLAdmin  |
+| **Frontend**         | React 19, Vite 8, JavaScript, React Router 8, Axios     |
+| **UI**               | Tailwind CSS 4, Headless UI, Lucide React               |
+| **Database**         | MySQL                                                   |
+| **Cloud Storage**    | Cloudinary                                              |
+| **Payment**          | SePay QR, xác nhận thủ công bởi quản trị viên           |
+| **Customer Support** | Tawk.to                                                 |
+| **Admin**            | SQLAdmin                                                |
 
-#### ĐẶT ĐƠN HÀNG:
+---
 
-- Không cho phép đặt mua nếu sản phẩm đã hết hàng (tồn kho = 0).
-- Khi đơn đặt hàng được tạo và xác nhận thành công, số lượng tồn kho tự động trừ tương ứng.
-- ...
+## Kiến trúc hệ thống
 
-#### HỦY ĐƠN HÀNG:
+### Backend
 
-- ...
+Backend được tổ chức theo các tầng:
 
-### 4. ĐĂNG KÝ/HỦY ĐƠN NHẬN NUÔI THÚ CƯNG BỊ BỎ RƠI:
+```text
+PetCareSystem-Backend/
+├── app/
+│   ├── admin/          # Cấu hình xác thực và giao diện SQLAdmin
+│   ├── api/            # Dependency và các API endpoint
+│   ├── core/           # Cấu hình, JWT, bảo mật và Tawk identity
+│   ├── db/             # Kết nối, khởi tạo và seed database
+│   ├── models/         # SQLAlchemy models
+│   ├── schemas/        # Pydantic request/response schemas
+│   ├── services/       # Xử lý nghiệp vụ
+│   └── main.py         # Khởi tạo ứng dụng FastAPI
+├── .env.example
+└── requirements.txt
+```
 
-Các ràng buộc:
+Luồng xử lý chính:
 
-#### ĐĂNG KÝ ĐƠN NHẬN NUÔI:
+```text
+HTTP Request
+    → FastAPI Endpoint
+    → Pydantic Schema / Dependency xác thực
+    → Service xử lý nghiệp vụ
+    → SQLAlchemy Model
+    → MySQL
+```
 
-- Người dùng phải đăng nhập mới được gửi đơn đăng ký nhận nuôi.
-- Khi 1 khách hàng gửi đơn đăng ký thành công, trạng thái thú cưng sẽ chuyển sang ĐÃ ĐẶT GIỮ. Không được đăng ký nhận nuôi nếu thú cưng đang ở trạng thái ĐÃ ĐẶT GIỮ hoặc ĐÃ CÓ CHỦ.
-- Nếu khách hàng đã đăng ký nhưng không đến cửa hàng nhận thú cưng theo hẹn, Admin có quyền hủy đặt giữ, trạng thái thú cưng trở về ĐANG TÌM CHỦ để các khách hàng khác tiếp tục đăng ký.
-- ...
+### Frontend
 
-#### HỦY ĐƠN NHẬN NUÔI:
+```text
+PetCareSystem-Frontend/
+├── src/
+│   ├── assets/         # Hình ảnh và tài nguyên tĩnh
+│   ├── components/     # Component giao diện dùng lại
+│   ├── configs/        # Axios HTTP client
+│   ├── layouts/        # Layout chung của website
+│   ├── pages/          # Các trang theo từng nghiệp vụ
+│   ├── routes/         # Route yêu cầu đăng nhập
+│   ├── services/       # Hàm gọi API và tích hợp Tawk.to
+│   ├── App.jsx         # Route và state người dùng hiện tại
+│   └── main.jsx        # Điểm khởi tạo React
+├── .env.example
+└── package.json
+```
 
-- ...
+### Xác thực và phân quyền
 
-### 5. CHĂM SÓC KHÁCH HÀNG THÔNG QUA TIỆN ÍCH CHAT TAWK.TO:
+| Phạm vi        | Cơ chế              | Mô tả                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------- |
+| API công khai  | Không yêu cầu token | Đăng ký, đăng nhập, xem sản phẩm, dịch vụ và thú cưng             |
+| API khách hàng | JWT Bearer Token    | Hồ sơ, đơn hàng, lịch đặt, nhận nuôi, thanh toán và Tawk identity |
+| SQLAdmin       | Session             | Chỉ tài khoản có vai trò `ADMIN` được truy cập                    |
 
-Các ràng buộc:
+Frontend lưu access token trong `localStorage` và Axios interceptor tự động gắn token vào header `Authorization`. Backend kiểm tra chữ ký JWT, thời hạn token, trạng thái tài khoản và `token_version` ở mỗi API yêu cầu đăng nhập.
 
-- Khách hàng phải đăng nhập mới có thể gửi tin nhắn & nhận phản từ nhân viên thông qua tiện ích chat Tawk.to ngay trên giao diện website.
-- Nhân viên phải đăng nhập vào nền tảng chat Tawk.to với tài khoản đã được đăng ký mới có thể nhận & phản hồi tin nhắn từ khách hàng.
-- Mỗi khách hàng đều có phiên chat riêng với nhân viên.
-- ...
+---
 
-#### 6. THANH TOÁN TRỰC TUYẾN CHO ĐƠN HÀNG SẢN PHẨM/LỊCH ĐẶT DỊCH VỤ:
+## Tính năng chính
 
-Các ràng buộc:
+### Khách hàng
 
-- Khách hàng phải thanh toán và xác nhận thanh toán trong vòng 10 phút kể từ khi bấm xác nhận đặt hàng/đặt lịch, nếu không thì đơn hàng/lịch đặt và giao dịch thanh toán tương ứng sẽ tự động hủy.
-- ...
+- Đăng ký, đăng nhập và đăng xuất.
+- Xem và cập nhật thông tin cá nhân, avatar, mật khẩu.
+- Xem danh sách và chi tiết sản phẩm; tìm kiếm, sắp xếp, phân trang.
+- Xem danh sách và chi tiết dịch vụ.
+- Xem danh sách và chi tiết thú cưng bị bỏ rơi; tìm kiếm, lọc, sắp xếp, phân trang.
+- Tạo đơn hàng theo sản phẩm và số lượng.
+- Đặt lịch dịch vụ theo thông tin thú cưng và thời gian sử dụng.
+- Gửi đơn đăng ký nhận nuôi thú cưng.
+- Xem lịch sử và chi tiết đơn hàng, lịch đặt, đơn nhận nuôi.
+- Hủy đơn theo các điều kiện nghiệp vụ.
+- Thanh toán đơn hàng và lịch đặt bằng mã QR; gửi yêu cầu xác nhận thanh toán.
+- Chat với nhân viên bằng widget Tawk.to sau khi đăng nhập.
+
+### Quản trị viên
+
+- Đăng nhập trang SQLAdmin bằng tài khoản quản trị.
+- Quản lý người dùng, sản phẩm, dịch vụ và thú cưng bị bỏ rơi.
+- Theo dõi và cập nhật đơn hàng, lịch đặt, đơn nhận nuôi.
+- Xác nhận hoặc từ chối giao dịch thanh toán.
+- Quản lý trạng thái giao dịch và dữ liệu liên quan theo ràng buộc nghiệp vụ.
+
+---
+
+## API Endpoints
+
+Quy ước truy cập:
+
+- **Public**: Không yêu cầu đăng nhập.
+- **JWT**: Yêu cầu header `Authorization: Bearer <access_token>`.
+
+### Authentication
+
+| Method | Endpoint         | Truy cập | Mô tả                                   |
+| ------ | ---------------- | -------- | --------------------------------------- |
+| `POST` | `/auth/register` | Public   | Đăng ký tài khoản khách hàng            |
+| `POST` | `/auth/login`    | Public   | Đăng nhập và nhận JWT access token      |
+| `POST` | `/auth/logout`   | JWT      | Đăng xuất và vô hiệu hóa token hiện tại |
+
+### Users
+
+| Method  | Endpoint                  | Truy cập | Mô tả                                   |
+| ------- | ------------------------- | -------- | --------------------------------------- |
+| `GET`   | `/users/profile`          | JWT      | Lấy hồ sơ người dùng hiện tại           |
+| `GET`   | `/users/tawk-identity`    | JWT      | Lấy danh tính và hash đăng nhập Tawk.to |
+| `PATCH` | `/users/profile`          | JWT      | Cập nhật thông tin cá nhân              |
+| `PATCH` | `/users/profile/password` | JWT      | Đổi mật khẩu và vô hiệu hóa token cũ    |
+| `PATCH` | `/users/profile/avatar`   | JWT      | Cập nhật ảnh đại diện                   |
+
+### Products
+
+| Method | Endpoint                 | Truy cập | Mô tả                                                          |
+| ------ | ------------------------ | -------- | -------------------------------------------------------------- |
+| `GET`  | `/products`              | Public   | Lấy danh sách sản phẩm; hỗ trợ tìm kiếm, sắp xếp và phân trang |
+| `GET`  | `/products/{product_id}` | Public   | Lấy chi tiết sản phẩm                                          |
+
+### Services
+
+| Method | Endpoint                 | Truy cập | Mô tả                                                         |
+| ------ | ------------------------ | -------- | ------------------------------------------------------------- |
+| `GET`  | `/services`              | Public   | Lấy danh sách dịch vụ; hỗ trợ tìm kiếm, sắp xếp và phân trang |
+| `GET`  | `/services/{service_id}` | Public   | Lấy chi tiết dịch vụ                                          |
+
+### Abandoned Pets
+
+| Method | Endpoint                             | Truy cập | Mô tả                                                               |
+| ------ | ------------------------------------ | -------- | ------------------------------------------------------------------- |
+| `GET`  | `/abandoned-pets`                    | Public   | Lấy danh sách thú cưng; hỗ trợ tìm kiếm, lọc, sắp xếp và phân trang |
+| `GET`  | `/abandoned-pets/{abandoned_pet_id}` | Public   | Lấy chi tiết thú cưng                                               |
+
+### Orders
+
+| Method  | Endpoint                    | Truy cập | Mô tả                                        |
+| ------- | --------------------------- | -------- | -------------------------------------------- |
+| `POST`  | `/orders`                   | JWT      | Tạo đơn hàng cho người dùng hiện tại         |
+| `GET`   | `/orders`                   | JWT      | Lấy lịch sử đơn hàng của người dùng hiện tại |
+| `GET`   | `/orders/{order_id}`        | JWT      | Lấy chi tiết một đơn hàng                    |
+| `PATCH` | `/orders/{order_id}/cancel` | JWT      | Hủy đơn hàng                                 |
+
+### Order Payments
+
+| Method  | Endpoint                             | Truy cập | Mô tả                                      |
+| ------- | ------------------------------------ | -------- | ------------------------------------------ |
+| `GET`   | `/orders/{order_id}/payment`         | JWT      | Lấy giao dịch và mã QR thanh toán đơn hàng |
+| `PATCH` | `/orders/{order_id}/payment/confirm` | JWT      | Gửi yêu cầu xác nhận đã chuyển khoản       |
+| `PATCH` | `/orders/{order_id}/payment/expire`  | JWT      | Đánh dấu giao dịch đơn hàng hết hạn        |
+
+### Bookings
+
+| Method  | Endpoint                        | Truy cập | Mô tả                                        |
+| ------- | ------------------------------- | -------- | -------------------------------------------- |
+| `POST`  | `/bookings`                     | JWT      | Tạo lịch đặt dịch vụ                         |
+| `GET`   | `/bookings`                     | JWT      | Lấy lịch sử đặt lịch của người dùng hiện tại |
+| `GET`   | `/bookings/{booking_id}`        | JWT      | Lấy chi tiết một lịch đặt                    |
+| `PATCH` | `/bookings/{booking_id}/cancel` | JWT      | Hủy lịch đặt                                 |
+
+### Booking Payments
+
+| Method  | Endpoint                                 | Truy cập | Mô tả                                      |
+| ------- | ---------------------------------------- | -------- | ------------------------------------------ |
+| `GET`   | `/bookings/{booking_id}/payment`         | JWT      | Lấy giao dịch và mã QR thanh toán lịch đặt |
+| `PATCH` | `/bookings/{booking_id}/payment/confirm` | JWT      | Gửi yêu cầu xác nhận đã chuyển khoản       |
+| `PATCH` | `/bookings/{booking_id}/payment/expire`  | JWT      | Đánh dấu giao dịch lịch đặt hết hạn        |
+
+### Adoptions
+
+| Method  | Endpoint                          | Truy cập | Mô tả                                         |
+| ------- | --------------------------------- | -------- | --------------------------------------------- |
+| `POST`  | `/adoptions`                      | JWT      | Tạo đơn đăng ký nhận nuôi                     |
+| `GET`   | `/adoptions`                      | JWT      | Lấy lịch sử nhận nuôi của người dùng hiện tại |
+| `GET`   | `/adoptions/{adoption_id}`        | JWT      | Lấy chi tiết một đơn nhận nuôi                |
+| `PATCH` | `/adoptions/{adoption_id}/cancel` | JWT      | Hủy đơn nhận nuôi                             |
+
+---
+
+## Yêu cầu môi trường
+
+Trước khi chạy dự án, máy cần có:
+
+- Git
+- Python và `pip`
+- Node.js và `npm`
+- MySQL
+- Thông tin cấu hình tương ứng với các biến trong hai file `.env.example`
+
+---
+
+## Cài đặt và chạy dự án ở local
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/hokata125/PetCareSystem.git
+cd PetCareSystem
+```
+
+### 2. Tạo MySQL database
+
+Đăng nhập MySQL và tạo database:
+
+```sql
+CREATE DATABASE petcaredb
+CHARACTER SET utf8mb4;
+```
+
+Nếu sử dụng tên database khác, hãy cập nhật tên tương ứng trong `DATABASE_URL`.
+
+### 3. Cài đặt backend
+
+```powershell
+cd PetCareSystem-Backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Điền các giá trị cấu hình cần thiết vào file `.env` vừa tạo.
+
+### 4. Khởi tạo dữ liệu mẫu
+
+> **Cảnh báo:** Lệnh seed sẽ xóa toàn bộ bảng và dữ liệu hiện có, sau đó tạo lại database schema và dữ liệu mẫu. Chỉ chạy khi khởi tạo môi trường mới hoặc khi chấp nhận mất dữ liệu hiện tại.
+
+Từ thư mục `PetCareSystem-Backend`, chạy:
+
+```bash
+python -m app.db.seed_db
+```
+
+Dữ liệu mẫu gồm 4 dịch vụ, 50 sản phẩm, 50 thú cưng bị bỏ rơi và các tài khoản dùng để demo:
+
+| Vai trò       | Tên đăng nhập | Mật khẩu   |
+| ------------- | ------------- | ---------- |
+| Quản trị viên | `admin`       | `test1234` |
+| Khách hàng    | `hoangkhang`  | `test1234` |
+
+### 5. Chạy backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Các địa chỉ mặc định:
+
+- Backend: `http://127.0.0.1:8000`
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- SQLAdmin: `http://127.0.0.1:8000/admin`
+
+### 6. Cài đặt và chạy frontend
+
+```powershell
+cd PetCareSystem-Frontend
+npm install
+Copy-Item .env.example .env
+npm run dev
+```
+
+Frontend mặc định chạy tại:
+
+```text
+http://127.0.0.1:5173
+```

@@ -81,8 +81,8 @@ class AbandonedPetView(ModelView, model=AbandonedPet):
             "validators": [
                 NumberRange(
                     min=1,
-                    max=100,
-                    message="Cân nặng thú cưng phải từ 1 - 100kg!",
+                    max=50,
+                    message="Cân nặng thú cưng phải từ 1 - 50kg!",
                 )
             ]
         },

@@ -9,7 +9,7 @@ class AbandonedPetBase(BaseModel):
     name: str = Field(max_length=255)
     pet_type: str = Field(max_length=255)
     age: int = Field(gt=0)
-    weight: float = Field(ge=1, le=100)
+    weight: float = Field(ge=1, le=50)
     health_status: str
     image: str | None = Field(default=None, max_length=255)
     pet_status: PetStatus = PetStatus.AVAILABLE

@@ -150,8 +150,8 @@ def request_booking_payment_confirmation(
         user=user,
     )
 
-    if transaction.status == TransactionStatus.WAITING_CONFIRM:
-        raise ValueError("Giao dịch đã được gửi đến admin để chờ xác nhận!")
+    if transaction.status == TransactionStatus.WAITING_ADMIN_CONFIRM:
+        raise ValueError("Giao dịch đã được gửi đến quản trị viên để chờ xác nhận!")
 
     if transaction.status != TransactionStatus.PENDING:
         raise ValueError("Giao dịch không còn ở trạng thái chờ thanh toán!")
@@ -161,7 +161,7 @@ def request_booking_payment_confirmation(
 
         raise ValueError("Giao dịch đã quá hạn thanh toán!")
 
-    transaction.status = TransactionStatus.WAITING_CONFIRM
+    transaction.status = TransactionStatus.WAITING_ADMIN_CONFIRM
 
     try:
         db.commit()

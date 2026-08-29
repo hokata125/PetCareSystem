@@ -17,7 +17,7 @@ import enum
 
 
 class UserRole(enum.Enum):
-    ADMIN = "ADMIN"
+    ADMIN = "QUẢN TRỊ VIÊN"
     CUSTOMER = "KHÁCH HÀNG"
 
     def __str__(self):
@@ -96,7 +96,7 @@ class AdoptionStatus(enum.Enum):
 
 class TransactionStatus(enum.Enum):
     PENDING = "ĐANG CHỜ THANH TOÁN"
-    WAITING_CONFIRM = "ĐANG CHỜ ADMIN XÁC NHẬN THANH TOÁN"
+    WAITING_ADMIN_CONFIRM = "ĐANG CHỜ QUẢN TRỊ VIÊN XÁC NHẬN THANH TOÁN"
     SUCCESS = "THÀNH CÔNG"
     FAILED = "THẤT BẠI"
     CANCELLED = "ĐÃ HỦY"

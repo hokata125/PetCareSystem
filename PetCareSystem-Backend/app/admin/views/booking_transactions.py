@@ -54,7 +54,7 @@ class BookingTransactionView(ModelView, model=BookingTransaction):
             TransactionStatus.PENDING: [
                 TransactionStatus.EXPIRED,
             ],
-            TransactionStatus.WAITING_CONFIRM: [
+            TransactionStatus.WAITING_ADMIN_CONFIRM: [
                 TransactionStatus.SUCCESS,
                 TransactionStatus.FAILED,
             ],

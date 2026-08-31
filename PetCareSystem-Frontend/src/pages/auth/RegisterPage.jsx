@@ -1,6 +1,6 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import authBackground from "../../assets/images/auth-background.png";
 import { registerUser } from "../../services/auth";
 
@@ -63,9 +63,9 @@ const RegisterPage = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[20.9%] left-1/2 flex h-[58%] w-[57.2%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
+        className="absolute top-[21%] left-1/2 flex h-[62%] w-[57%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
       >
-        <div className="flex h-1/6 items-center justify-center bg-white">
+        <div className="flex h-1/7 items-center justify-center bg-white">
           <h1 className="text-auth-title m-0 leading-none font-extrabold text-brand-primary">
             ĐĂNG KÝ TÀI KHOẢN
           </h1>
@@ -152,6 +152,13 @@ const RegisterPage = () => {
               disabled={isSubmitting}
               className="col-span-3"
             />
+
+            <NavLink
+              to="/login"
+              className="text-ui col-span-3 block cursor-pointer leading-tight font-bold text-white no-underline transition-colors duration-200 hover:text-brand-primary"
+            >
+              Bạn đã có tài khoản? Hãy đăng nhập ngay!
+            </NavLink>
 
             <button
               type="submit"

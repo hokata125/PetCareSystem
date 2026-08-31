@@ -54,7 +54,7 @@ const LoginPage = ({ onLoginSuccess }) => {
     >
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[20.9%] left-1/2 flex h-[58%] w-[57.2%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
+        className="absolute top-[21%] left-1/2 flex h-[50%] w-[57%] -translate-x-1/2 flex-col overflow-hidden rounded-3xl border-4 border-neutral-950 bg-white"
       >
         <div className="flex h-1/6 items-center justify-center bg-white">
           <h1 className="text-auth-title m-0 leading-none font-extrabold text-brand-primary">

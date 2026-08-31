@@ -26,7 +26,9 @@ export const loginTawkUser = (tawkIdentity) => {
       },
       (error) => {
         if (!error) {
-          window.Tawk_API.showWidget();
+          window.Tawk_API.start({
+            showWidget: true,
+          });
         }
       },
     );
@@ -36,6 +38,8 @@ export const loginTawkUser = (tawkIdentity) => {
 export const logoutTawkUser = () => {
   runWhenTawkIsReady(() => {
     window.Tawk_API.hideWidget();
-    window.Tawk_API.logout();
+    window.Tawk_API.logout(() => {
+      window.Tawk_API.shutdown();
+    });
   });
 };

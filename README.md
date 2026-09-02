@@ -11,6 +11,20 @@ Hệ thống đồng thời cung cấp trang quản trị để quản lý ngư�
 
 ---
 
+## Demo trực tuyến
+
+> **Lưu ý:** Lần đầu truy cập có thể phản hồi chậm hơn bình thường do backend trên Azure App Service cần thời gian khởi động lại sau một khoảng thời gian không hoạt động.
+
+- Website dành cho khách hàng: [OU-Pet Center](https://ou-pet-center.vercel.app)
+- Trang quản trị: [OU-Pet Center Admin](https://ou-pet-center-app-dkgnfxc7bddph4c4.malaysiawest-01.azurewebsites.net/admin)
+
+| Vai trò       | Tên đăng nhập | Mật khẩu   |
+| ------------- | ------------- | ---------- |
+| Quản trị viên | `admin`       | `test1234` |
+| Khách hàng    | `hoangkhang`  | `test1234` |
+
+---
+
 ## Tổng quan
 
 Hệ thống gồm hai vai trò chính:
@@ -50,6 +64,24 @@ Các điểm nổi bật:
 ---
 
 ## Kiến trúc hệ thống
+
+### Kiến trúc triển khai
+
+```text
+Khách hàng
+    → React frontend (Vercel)
+    → FastAPI backend (Azure App Service)
+    → Azure Database for MySQL Flexible Server 8.4
+
+Quản trị viên
+    → SQLAdmin tại /admin (Azure App Service)
+    → Azure Database for MySQL Flexible Server 8.4
+
+Dịch vụ tích hợp
+    ├── Cloudinary: lưu trữ hình ảnh
+    ├── SePay: tạo mã QR thanh toán
+    └── Tawk.to: hỗ trợ trò chuyện trực tuyến
+```
 
 ### Backend
 
@@ -263,7 +295,7 @@ Copy-Item .env.example .env
 
 ### 4. Khởi tạo dữ liệu mẫu
 
-> **Cảnh báo:** Lệnh seed sẽ xóa toàn bộ bảng và dữ liệu hiện có, sau đó tạo lại database schema và dữ liệu mẫu. Chỉ chạy khi khởi tạo môi trường mới hoặc khi chấp nhận mất dữ liệu hiện tại.
+> **Lưu ý:** Lệnh seed sẽ xóa toàn bộ bảng và dữ liệu hiện có, sau đó tạo lại database schema và dữ liệu mẫu. Chỉ nên chạy lệnh seed khi khởi tạo môi trường mới.
 
 Từ thư mục `PetCareSystem-Backend`, chạy:
 

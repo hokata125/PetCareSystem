@@ -1,7 +1,7 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import pawsBackground from "../../assets/images/paws-bg.jpg";
+import pawsBackground from "../../assets/images/paws-background.webp";
 import { changePassword } from "../../services/profile";
 
 const ChangePasswordPage = ({ onClearSession }) => {

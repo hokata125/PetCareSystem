@@ -11,7 +11,7 @@ const serviceDetailImages = {
   ],
   "KHÁM BỆNH": [
     "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812565/pet-clinic-detail-1_dpsf1x.jpg",
-    "https://res.cloudinary.com/vgvqzopy/image/upload/v1787063781/pet-clinic-detail-2_wqc6kq.png",
+    "https://res.cloudinary.com/vgvqzopy/image/upload/v1787063781/pet-clinic-detail-2_wqc6kq.jpg",
     "https://res.cloudinary.com/vgvqzopy/image/upload/v1786812564/pet-clinic-detail-3_xq7sfn.jpg",
   ],
   "TRÔNG HỘ": [

@@ -1,7 +1,7 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import pawsBackground from "../../assets/images/paws-bg.jpg";
+import pawsBackground from "../../assets/images/paws-background.webp";
 import { createOrder } from "../../services/orders";
 import { getProductDetail } from "../../services/products";
 

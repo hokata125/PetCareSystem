@@ -1,5 +1,5 @@
 import { useState } from "react";
-import pawsBackground from "../../assets/images/paws-bg.jpg";
+import pawsBackground from "../../assets/images/paws-background.webp";
 import { updateAvatar, updateProfile } from "../../services/profile";
 
 const ProfilePage = ({ currentUser, onProfileUpdate }) => {

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import aboutUsImage from "../../assets/images/about-us.png";
+import aboutUsImage from "../../assets/images/about-us.webp";
 
 const AboutUsPage = () => {
   return (
@@ -11,7 +11,7 @@ const AboutUsPage = () => {
         <div className="flex items-center justify-between gap-8">
           <h1
             id="about-us-title"
-            className="m-0 text-5xl leading-none font-extrabold text-brand-primary 2xl:text-6xl"
+            className="m-0 text-5xl leading-none font-extrabold text-brand-primary"
           >
             VỀ CHÚNG TÔI
           </h1>

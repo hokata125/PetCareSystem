@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import pawsBackground from "../../assets/images/paws-bg.jpg";
+import pawsBackground from "../../assets/images/paws-background.webp";
 import { getMyOrders } from "../../services/orders";
 
 const PAGE_SIZE = 5;

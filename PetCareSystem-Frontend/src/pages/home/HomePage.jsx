@@ -1,9 +1,9 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
-import heroBanner1 from "../../assets/images/hero-banner1.png";
-import heroBanner2 from "../../assets/images/hero-banner2.png";
-import heroBanner3 from "../../assets/images/hero-banner3.png";
+import heroBanner1 from "../../assets/images/hero-banner1.webp";
+import heroBanner2 from "../../assets/images/hero-banner2.webp";
+import heroBanner3 from "../../assets/images/hero-banner3.webp";
 import ProductCard from "../../components/product-card/ProductCard";
 import ServiceCard from "../../components/service-card/ServiceCard";
 import { getProducts } from "../../services/products";

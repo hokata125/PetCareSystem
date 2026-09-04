@@ -1,6 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { NavLink } from "react-router";
-import petCareLogo from "../../assets/images/pet-care-logo.png";
+import petCareLogo from "../../assets/images/pet-care-logo.webp";
 
 const Header = ({ currentUser, onLogout }) => {
   return (

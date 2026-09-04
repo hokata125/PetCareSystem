@@ -1,7 +1,7 @@
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
-import authBackground from "../../assets/images/auth-background.png";
+import authBackground from "../../assets/images/auth-background.webp";
 import { registerUser } from "../../services/auth";
 
 const RegisterPage = () => {

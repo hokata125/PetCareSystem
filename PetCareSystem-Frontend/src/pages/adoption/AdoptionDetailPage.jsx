@@ -1,7 +1,7 @@
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import pawsBackground from "../../assets/images/paws-bg.jpg";
+import pawsBackground from "../../assets/images/paws-background.webp";
 import { cancelAdoption, getMyAdoptionDetail } from "../../services/adoptions";
 
 const adoptionStatusClasses = {

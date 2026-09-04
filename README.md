@@ -37,12 +37,11 @@ Hệ thống gồm hai vai trò chính:
 Các điểm nổi bật:
 
 - Xác thực bằng JWT và vô hiệu hóa token cũ bằng `token_version` khi đổi mật khẩu hoặc đăng xuất.
-- Tìm kiếm, sắp xếp và phân trang sản phẩm, thú cưng bị bỏ rơi.
-- Đặt lịch cho SPA, khám bệnh, trông hộ và huấn luyện thú cưng.
-- Tạo, theo dõi và hủy đơn hàng, lịch đặt, đơn nhận nuôi.
+- Tạo, theo dõi, thanh toán hoặc hủy đơn nhận nuôi, đơn hàng, lịch đặt.
 - Thanh toán chuyển khoản bằng mã QR SePay với thời hạn 10 phút.
+- Cập nhật ảnh đại diện và thông tin hồ sơ người dùng.
 - Upload và lưu trữ hình ảnh qua Cloudinary.
-- Chat hỗ trợ khách hàng bằng Tawk.to với phiên chat riêng cho từng tài khoản.
+- Hỗ trợ tư vấn khách hàng bằng Tawk.to với phiên chat riêng cho từng tài khoản.
 - Quản trị dữ liệu bằng SQLAdmin.
 
 ---

@@ -20,7 +20,7 @@ const AboutUsPage = () => {
             to="/"
             className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#d3d3d3] px-8 py-4 text-xl font-extrabold text-brand-primary no-underline transition-colors duration-200 hover:bg-brand-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary 2xl:px-10 2xl:py-5 2xl:text-2xl"
           >
-            TÌM HIỂU THÊM
+            KHÁM PHÁ THÊM
           </NavLink>
         </div>
 

@@ -64,5 +64,5 @@ app.include_router(
 def read_root():
     return {
         "status": "ok",
-        "message": "Welcome to the Pet Care System! Chào mừng đến với hệ thống chăm sóc thú cưng!",
+        "message": "Chào mừng đến với hệ thống chăm sóc thú cưng OU-Pet Center!",
     }

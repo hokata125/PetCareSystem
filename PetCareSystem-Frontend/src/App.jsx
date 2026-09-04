@@ -11,6 +11,7 @@ import BookingDetailPage from "./pages/booking/BookingDetailPage";
 import BookingHistoryPage from "./pages/booking/BookingHistoryPage";
 import ChangePasswordPage from "./pages/profile/ChangePasswordPage";
 import HomePage from "./pages/home/HomePage";
+import AboutUsPage from "./pages/about-us/AboutUsPage";
 import AbandonedPetDetailPage from "./pages/abandoned-pet/AbandonedPetDetailPage";
 import AbandonedPetListPage from "./pages/abandoned-pet/AbandonedPetListPage";
 import OrderCreatePage from "./pages/order/OrderCreatePage";
@@ -87,6 +88,7 @@ const App = () => {
     <SiteLayout currentUser={currentUser} onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/abandoned-pets" element={<AbandonedPetListPage />} />
         <Route
           path="/abandoned-pets/:abandonedPetId"

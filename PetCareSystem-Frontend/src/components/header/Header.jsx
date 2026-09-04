@@ -5,11 +5,17 @@ import petCareLogo from "../../assets/images/pet-care-logo.png";
 const Header = ({ currentUser, onLogout }) => {
   return (
     <header className="sticky top-0 z-50 flex h-20 items-center bg-white px-10 font-sans shadow-xl xl:h-24 xl:px-12 2xl:h-28 2xl:px-14 3xl:h-36 3xl:px-16">
-      <img
-        src={petCareLogo}
-        alt="OU-Pet Center"
-        className="block h-auto w-52 shrink-0 xl:w-56 2xl:w-64 3xl:w-72"
-      />
+      <NavLink
+        to="/"
+        aria-label="Về trang chủ OU-Pet Center"
+        className="block w-52 shrink-0 no-underline xl:w-56 2xl:w-64 3xl:w-72"
+      >
+        <img
+          src={petCareLogo}
+          alt="OU-Pet Center"
+          className="block h-auto w-full"
+        />
+      </NavLink>
 
       <nav className="ml-12 flex flex-1 items-center xl:ml-14 2xl:ml-16 3xl:ml-20">
         <div className="mr-6 grid flex-1 grid-cols-5 items-center xl:mr-7 2xl:mr-8 3xl:mr-10">
@@ -37,9 +43,12 @@ const Header = ({ currentUser, onLogout }) => {
           >
             NHẬN NUÔI
           </NavLink>
-          <span className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline">
+          <NavLink
+            to="/about-us"
+            className="text-navigation w-full cursor-pointer whitespace-nowrap px-2 py-3 text-center leading-none font-extrabold text-brand-primary no-underline decoration-2 underline-offset-8 transition-colors duration-200 hover:text-brand-secondary-hover hover:underline"
+          >
             GIỚI THIỆU
-          </span>
+          </NavLink>
         </div>
 
         <div className="flex gap-5 xl:gap-6 3xl:gap-7">

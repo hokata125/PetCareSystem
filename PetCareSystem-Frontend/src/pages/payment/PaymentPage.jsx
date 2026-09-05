@@ -59,12 +59,23 @@ const PaymentPage = ({ paymentType = "order" }) => {
       return;
     }
 
-    const expiresAt = new Date(paymentData.transaction.expires_at).getTime();
+    const createdAt = new Date(
+      paymentData.transaction.created_at,
+    ).getTime();
+    const expiresAt = new Date(
+      paymentData.transaction.expires_at,
+    ).getTime();
+    const paymentDurationSeconds = Math.round(
+      (expiresAt - createdAt) / 1000,
+    );
 
     const updateRemainingTime = () => {
+      const rawRemainingSeconds = Math.ceil(
+        (expiresAt - Date.now()) / 1000,
+      );
       const countdownSeconds = Math.max(
         0,
-        Math.ceil((expiresAt - Date.now()) / 1000),
+        Math.min(paymentDurationSeconds, rawRemainingSeconds),
       );
 
       setRemainingSeconds(countdownSeconds);

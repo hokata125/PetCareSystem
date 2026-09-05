@@ -131,6 +131,11 @@ class BookingView(ModelView, model=Booking):
             ]
         },
     }
+    form_widget_args = {
+        "end_at": {
+            "required": False,
+        },
+    }
 
     async def insert_model(
         self,
